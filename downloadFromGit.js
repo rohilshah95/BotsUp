@@ -1,3 +1,6 @@
+var apiai = require('apiai');
+
+var app = apiai("b9a862255a6a487189b4636e07575b8e");
 var Botkit = require('botkit');
 var request = require('request');
 var fs = require("fs");
@@ -47,6 +50,24 @@ controller.spawn({
 //controller.hears('string or regex',['direct_message','direct_mention','mention'],function(bot,message) {
 controller.hears('raw.github', ['mention', 'direct_mention', 'direct_message'], function (bot, message)
 {
+    //apiai
+
+    var request = app.textRequest('Github', {
+        sessionId: 'uddhav'
+    });
+    request.on('response', function (response) {
+        // console.log(response);
+        var reply = response["fulfillment"];
+        console.log("printing reply\n\n\n" + response["fulfillment"] + "\n\n\nend of reply");
+        bot.reply(message, reply);
+    });
+    request.on('error', function (error) {
+        //console.log(error);
+    });
+
+    request.end();
+    // end of apiai code
+
     console.log("printing message after this"); 
     console.log(message);
     console.log("done printing message");
