@@ -1,20 +1,20 @@
-Week 1
+# Week 1
 
-| Deliverable   | Item/Status   |  Issues/Tasks
+| Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
-| Design       | Done(Some changes may come up)        | Update as per changes come up
-| Problem Statement      |Complete          |  --
-| Use Cases     | Complete   |  May need updates
-| Design Sketches    | Complete            |  May need updates
-| Story Board     | Complete      | --
-| Architecture    | Complete        | May need updates
-| Constraints and Guidelines| Complete    | --
+| Design       | Update to use cases required        | [Update](https://trello.com/c/1Y2mgxgs)
+| Problem Statement      | Updated          |  --
+| Use Cases     | Updated   |  Needs more updates
+| Design Sketches    | Updated            |  --
+| Story Board     | Updated      | --
+| Architecture    | Updated        | --
+| Constraints and Guidelines| Updated    | --
 
-Week 2
+# Week 2
 
 ## Iteration 1
 
-###### Use Case 1
+#### Use Case 1
 
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
@@ -25,7 +25,7 @@ Week 2
 | Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow (Happy Case)    | [Testing task](https://trello.com/c/SdpXvI11)
 
-###### Use Case 2
+#### Use Case 2
 
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
@@ -36,7 +36,7 @@ Week 2
 | Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow (Happy Case)    | [Testing task](https://trello.com/c/SdpXvI11)
 
-###### Use Case 3
+#### Use Case 3
 
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
