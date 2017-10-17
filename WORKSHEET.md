@@ -15,8 +15,8 @@ Week2
 | Deliverable   | Item/Status   |  Issues/Tasks
 | ------------- | ------------  |  ------------
 | First Iteration       | Ongoing       | Integrate all the parts
-| Input Parser    | Ongoing        |  NA
-| Output Parser     | Ongoing   |  M--
+| Input Parser    | Ongoing        |  --
+| Output Parser     | Ongoing   |  --
 | Document Parser  | Ongoing            |  --
 | Git Fetcher     | Complete      | --
 | Convert input format  | Complete        | --
