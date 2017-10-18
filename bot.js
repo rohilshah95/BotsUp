@@ -30,7 +30,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
     convo.ask('Do you want to upload the code or share github link?', function(answer, convo) {
       console.log(answer);
       var type = answer.text;
-      console.log(taco_type);
+      console.log(type);
       if(type==="github"){
       	convo.ask('Please provide the link to the raw file.', function(answer1, convo){
       		var gitLink=answer1.text;
