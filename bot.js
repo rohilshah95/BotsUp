@@ -49,14 +49,6 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       		console.log(slug);
 
       		var permalink=answer2.file.permalink;
-      		var options = {
-			  "method": "GET",
-			  "hostname": "files.slack.com",
-			  "path": slug,
-			  "rejectUnauthorized": "true",
-			  "headers": {
-			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  }
 			}
 			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/SE/SlackBot/test.js");
 			
