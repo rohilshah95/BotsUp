@@ -4,6 +4,8 @@ var sendRequest = require('../sonarRequest').sendRequest;
 
 describe('GET issues', function() {
   beforeEach(function() {
+
+    // Sample response
     var issuesResponse ={"issues": [
   {
     "organization": "default-organization",
@@ -61,30 +63,31 @@ describe('GET issues', function() {
   }
 ]};
 
-    // Mock the TMDB configuration request response
+    // Mock the request using Nock
     nock('http://localhost:9000')
       .get('/api/issues/search')
       .reply(200, issuesResponse);
   });
 
 
-
-  it('returns issues', function(done) {
-    // Increase the default timeout for this test
-    // If the test takes longer than this, it will fail
+  // Chai Assertion
+  it('Returns issues', function(done) {
+    // Timeout for Test Case
     this.timeout(10000);
-
-    var string = "";
-
-    sendRequest(string, function(err, issues){
-      console.log("in Test");
+    sendRequest(null, function(err, issues){
+      // Printing Mock Output
+      console.log("Mock Output");
       console.log(issues);
+
+      // Assertions
+
+      // 1. Array of issues
       expect(Array.isArray(issues)).to.equal(true);
-      // Ensure that at least one follower is in the array
+      // 2. Array not empty
       expect(issues).to.have.length.above(1);
-      // Each of the items in the array should be a string
+      // 3. Each issue has a description (string)
       issues.forEach(function(issue) {
-        expect(issue).to.be.a('string');
+        expect(issue.message).to.be.a('string');
       });
       done();
     });
