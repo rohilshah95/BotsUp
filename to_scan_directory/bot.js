@@ -8,7 +8,32 @@ var https = require('https');
 var fs = require('fs');
 var downloader=require('../testingdownload.js');
 console.log(typeof downloader.pDownload);
-var sonar=require('../sonarRequest.js');
+//var sonar=require('../sonarRequest.js');
+var request = require('superagent');
+var username = "admin";
+var password = "admin";
+var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
+// Use server IP instead of localhost if Sonarqube is not deploy on this machine.
+var urlRoot = "http://localhost:9000";
+var issues = [];
+var sendRequest = function(string, callback) {
+  request
+    .get(`${urlRoot}/api/issues/search`)
+    .end(function(err, res) {
+      if (!err) {
+        issues = res.body.issues.map(function(issue) {
+          return issue;
+        });
+        callback(null, issues);
+      } else {
+        callback('Error Occurred!');
+      }
+    });
+};
+
+
+
+
 
 var controller = Botkit.slackbot({
   debug: false
@@ -77,11 +102,10 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			}
 			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/SE/SlackBot/to_scan_directory/test.java");
       son.run();
-			/*sonar.sendRequest("", function(map){
+			sendRequest("", function(map){
         // Uncomment the two lines below and comment third line for actual Sonarqube output
-         //console.log("Actual Output from Sonarqube");
-         //console.log(issues);
-         console.log(sonar.issues);
+         console.log("Actual Output from Sonarqube");
+         console.log(issues);
         //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
       });
       
