@@ -28,7 +28,8 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       console.log(answer);
       var type = answer.text;
       console.log(type);
-      if(type==="github"){
+      console.log(type.includes("code"));
+      if(type.includes("github")){
         convo.ask('Please provide the link to the raw file.', function(answer1, convo){
           var gitLink=answer1.text;
           gitLink = gitLink.substring(1, (gitLink.length - 1));
@@ -45,7 +46,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
           console.log(sonarReq.sendRequest);
         });
       }
-      else if(type.search('code'))
+      else if(type.includes("code") || type.includes("file") || type.includes("upload"))
       {
         convo.ask('Please upload the code file', function(answer2, convo){
           console.log(answer2);
@@ -64,12 +65,20 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
         }
       }
       downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/SE/SlackBot/test.js");
+      convo.next();
+      convo.say("Please Wait, analyzing");
       
         });
       }
-
+      else
+      {
+        convo.next();
+        convo.say("Sorry I dont follow, exiting, try again from the start");
+        return;
+      }
       convo.next(); // continue with conversation
     });
+
   });
 });
 
