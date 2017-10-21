@@ -1,8 +1,6 @@
-
+var sonarReq = require('./sonarRequest.js');
+var downloadGit = require('./downloadFromGit.js');
 var Botkit = require('botkit');
-var Forecast = require('forecast.io');
-var options = {APIKey:process.env.FORECASTTOKEN};
-var forecast = new Forecast(options);
 var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
@@ -33,10 +31,18 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       if(type==="github"){
         convo.ask('Please provide the link to the raw file.', function(answer1, convo){
           var gitLink=answer1.text;
-          gitLink=gitLink.substring(1,(gitLink.length-1));
+          gitLink = gitLink.substring(1, (gitLink.length - 1));
           convo.next();
           convo.say('great');
-          console.log("Github link is: "+gitLink);
+          console.log("Github link is: " + gitLink);
+            //get the type of the file that is being uploaded using the github link
+          //var getFileType1 = new getFileType(gitLink);
+          //var fileType = downloadGit.getFileType(gitLink);
+            //download the file from the github link
+          downloadGit.df;
+            //continue...
+          // reply from the server
+          console.log(sonarReq.sendRequest);
         });
       }
       else if(type.search('code'))

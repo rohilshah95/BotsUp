@@ -5,7 +5,7 @@ var Botkit = require('botkit');
 var request = require('request');
 var fs = require("fs");
 var wget = require('node-wget');
-function downloadFile(url) {
+var df = function downloadFile(url) {
     //console.log("in the dowload file function");
     try
     {
@@ -16,9 +16,10 @@ function downloadFile(url) {
     {
         console.log("error in download file function");
     }
+    //return fileName;
 }
 
-function getFileType(url) {
+var gft = function getFileType(url) {
     var fileType = "";
     //check if the url ends with a token or not
     var substring = "?token";
@@ -41,6 +42,8 @@ var controller = Botkit.slackbot({
   //or a "logLevel" integer from 0 to 7 to adjust logging verbosity
 });
 
+module.exports.df = df;
+/*
 // connect the bot to a stream of messages
 controller.spawn({
   token: process.env.SLACKTOKEN,
@@ -75,7 +78,7 @@ controller.hears('raw.github', ['mention', 'direct_mention', 'direct_message'], 
     var urlLength = url.length;
     url = url.substring(1, urlLength - 1);
     console.log(url);
-    downloadFile(url);
+    //downloadFile(url);
     bot.reply(message, "Processing your code :)");
     var fileType = getFileType(url);
     bot.reply(message, "The filetype you uploaded is: " + fileType);
@@ -84,3 +87,4 @@ controller.hears('raw.github', ['mention', 'direct_mention', 'direct_message'], 
   }
 );
 
+*/
