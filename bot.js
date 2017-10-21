@@ -1,5 +1,6 @@
 var sonarReq = require('./sonarRequest.js');
 var downloadGit = require('./downloadFromGit.js');
+var son=require('./to_scan_directory');
 var Botkit = require('botkit');
 var download=require('download-file');
 var https = require('https');
@@ -79,6 +80,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
             }
           }
           downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/SE/SlackBot/test.js");
+
           convo.next();
           convo.say("Please Wait, analyzing");
           

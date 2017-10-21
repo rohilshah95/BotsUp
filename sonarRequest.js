@@ -22,9 +22,9 @@ var sendRequest = function(string, callback) {
 
 sendRequest("", function(map){
     // Uncomment the two lines below and comment third line for actual Sonarqube output
-		// console.log("Actual Output from Sonarqube");
-		// console.log(issues);
-    console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
+		 console.log("Actual Output from Sonarqube");
+		 console.log(issues);
+    //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
 });
 
 module.exports.sendRequest = sendRequest;
