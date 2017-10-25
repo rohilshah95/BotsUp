@@ -3,29 +3,20 @@ const fs = require('fs');
 const docFile = "D:/CSC510/BOT/parser_files/java_string.html";
 const encoding = 'utf8';
 const $ = cheerio.load(fs.readFileSync(docFile, encoding));
-
-console.log(getMethodDetails("getBytes"));
-
-function getMethodDetails(methodName){
+exports.getMethodDetails = function(methodName){
 	var array = [];
 	var result = $('a[name=method_summary]').next().next().
-					find("code:contains(" + methodName + ")").parent().parent().map(function(){
-		
-						var eachText = $(this).text().trim().split(")");
-						var section = eachText[0].split('\n');
-						var index =1;
-						var method_name="";
-						while (index < section.length ){
-							method_name +=section[index].trim();
-							index ++;
+					find("code:contains(" + methodName + ")").map(function(){
+						var ret_type = $(this).parent().prev().text() 
+						if (ret_type!=null && ret_type.trim().length>0){
+							array.push({
+								"method_name" :$(this).text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim(),
+								"return_type" : $(this).parent().prev().text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim(),
+								"description" :$(this).next().text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
+						 });
 						}
-						array.push({
-							"method_name" : method_name.trim() + ")",
-							"return_type" : section[0].trim(),
-							"description" : eachText[1].split('\n').join().trim()
-							//"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
-						
-					});
+					 	//"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
+
 				});
 	return array;
 	// if array is empty handle exception.

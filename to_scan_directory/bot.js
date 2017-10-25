@@ -11,6 +11,7 @@ var downloader=require('../testingdownload.js');
 console.log(typeof downloader.pDownload);
 //var sonar=require('../sonarRequest.js');
 var request = require('superagent');
+var docParser = require('../parser_files/parse.js')
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
@@ -40,7 +41,8 @@ var controller = Botkit.slackbot({
 
 // connect the bot to a stream of messages
 controller.spawn({
-  token: process.env.SLACKTOKEN,
+	token: "xoxb-255517037796-zRnqsibJJUePZBS7iqNGTwWx",
+	//token: process.env.SLACKTOKEN,
 }).startRTM()
 
 // give the bot something to listen for.
@@ -126,8 +128,13 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	convo.say("Good Bye!");
       	return;
 			}
-			else if(type.includes("define") || type.includes("explain ") || type.includes("information")){
-				 
+			else if(type.includes("define") || type.includes("explain") || type.includes("info")){
+				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing 
+				 console.log("The method is " + method_name);
+				 var res = docParser.getMethodDetails(method_name);
+				 var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description
+				 convo.next();
+				 convo.say(result);
 			}
       else
       {
