@@ -1,9 +1,6 @@
 var son=require('./sonarRunner.js');
 var Botkit = require('botkit');
 //var Forecast = require('forecast.io');
-
-//var options = {APIKey:process.env.FORECASTTOKEN};
-//var forecast = new Forecast(options);
 var downloadGit = require('./downloadFromGit.js');
 //var download=require('download-file');
 var https = require('https');
@@ -79,6 +76,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       		console.log("Github link is: " + gitLink);
       		convo.next();
       		convo.say('great');
+
 
           convo.next();
           convo.say("Issue1: This is an issue");
