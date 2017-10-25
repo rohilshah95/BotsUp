@@ -1,8 +1,9 @@
 var son=require('./sonarRunner.js');
 var Botkit = require('botkit');
-var Forecast = require('forecast.io');
-var options = {APIKey:process.env.FORECASTTOKEN};
-var forecast = new Forecast(options);
+//var Forecast = require('forecast.io');
+//var options = {APIKey:process.env.FORECASTTOKEN};
+//var forecast = new Forecast(options);
+var downloadGit = require('./downloadFromGit.js');
 var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
@@ -53,6 +54,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       var type = answer.text;
       console.log(type);
       console.log(type.includes("code"));
+        //if it is a github file
       if(type.includes("github")){
       	convo.ask('Please provide the link to the raw file.', function(answer1, convo){
       		var gitLink=answer1.text;
@@ -62,12 +64,18 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 		    	convo.say("Good Bye!");
 		      	return;
 		    }
-      		gitLink=gitLink.substring(1,(gitLink.length-1));
+      		gitLink = gitLink.substring(1, (gitLink.length - 1));
+      		console.log(gitLink);
+      	    downloadGit.downloadFile(gitLink);
+      		var fileType = downloadGit.getFileType(gitLink);
+      		console.log("Your file type is: " + fileType);
+      		console.log("Github link is: " + gitLink);
       		convo.next();
       		convo.say('great');
-      		console.log("Github link is: "+gitLink);
+      		
       	});
       }
+          //if it is a code
       else if(type.includes("code") || type.includes("file") || type.includes("upload"))
       {
       	convo.ask('Please upload the code file', function(answer2, convo){
