@@ -1,13 +1,13 @@
 var son=require('./sonarRunner.js');
 var Botkit = require('botkit');
 var downloadGit = require('./downloadFromGit.js');
-//var download=require('download-file');
+var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
-var downloader=require('../testingdownload.js');
-var sonar=require('../sonarRequest.js');
+var downloader=require('./testingdownload.js');
+var sonar=require('./sonarRequest.js');
 var request = require('superagent');
-var docParser = require('../doc_parse.js')
+var docParser = require('./doc_parse.js')
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
@@ -116,11 +116,11 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/test.java");
       //son.run();
 			// sendR	  "path": slug,
-			  "rejectUnauthorized": "true",
-			  "headers": {
-			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  } 
-			}*
+		//	  "rejectUnauthorized": "true",
+		//	  "headers": {
+		//	      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
+		//	  } 
+		//	};
 			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/test.java");
       //son.run();
 			// sendRequest("", function(map){
