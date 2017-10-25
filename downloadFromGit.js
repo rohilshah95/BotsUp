@@ -5,17 +5,34 @@ var Botkit = require('botkit');
 var request = require('request');
 var fs = require("fs");
 var wget = require('node-wget');
+
+//npm install download-file --save
+var download = require('download-file');
+
+
 var downloadFile = function (url) {
     //console.log("in the dowload file function");
+    /*
     try
     {
-        var fileName = wget(url);
-        console.log(fileName);
+        //var fileName = wget({url: url, dest: "./to_scan_directory"});
+        //var fileName = wget(url);
+        //console.log(fileName);
     }
     catch(Exception)
     {
         console.log("error in download file function");
     }
+    */
+    var options = {
+        directory: "./to_scan_directory",
+        filename: "uddhav." + getFileType(url)
+    };
+    download(url, options, function (err) {
+        if (err) throw err
+        console.log("uddhavvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+    });
+    var fileName = "";
     return fileName;
 }
 
@@ -31,7 +48,7 @@ var getFileType = function(url) {
     {
         fileType = url.substring(url.lastIndexOf('.')+1, url.length);
     }
-    //console.log("Your file type is: " + fileType);
+    console.log("Your file type is: " + fileType);
     return fileType;
 }
 var childProcess = require("child_process");

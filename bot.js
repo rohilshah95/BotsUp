@@ -115,7 +115,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			    console.log(issues);
 			    for (var i=0; i<issues.length; i++){
 			    	convo.next();
-			    	convo.say("Issue "+(i+1)": "+issues[i].message);
+			    	convo.say("Issue "+(i+1)+": "+issues[i].message);
 				}
 				
 			});
