@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
-const docFile = "D:/CSC510/BOT/parser_files/java_string.html";
+const docFile = "./javadocs/java_string.html";
 const encoding = 'utf8';
 const $ = cheerio.load(fs.readFileSync(docFile, encoding));
 exports.getMethodDetails = function(methodName){
