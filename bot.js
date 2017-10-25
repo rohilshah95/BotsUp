@@ -67,7 +67,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			    	convo.next();
 			    	convo.say("Issue "+(i+1)+": "+issues[i].message);
 				}
-				
+
 			});
 
 
@@ -82,7 +82,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	convo.ask('Please upload the code file', function(answer2, convo){
       		console.log(answer2);
 
-      		
+
       		if(typeof answer2.file=='undefined')
       		{
       			//var private=answer2.file.url_private_download;
@@ -105,9 +105,9 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			  "rejectUnauthorized": "true",
 			  "headers": {
 			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  } 
+			  }
 			}*/
-			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/test.java");
+			downloader.pDownload(slug,permalink,"./to_scan_directory/test.java");
 			//son.runSR();
 			sonar.sendRequest("", function(map){
 			    console.log("here");
@@ -115,9 +115,9 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			    console.log(issues);
 			    for (var i=0; i<issues.length; i++){
 			    	convo.next();
-			    	convo.say("Issue "+(i+1)": "+issues[i].message);
+			    	convo.say("Issue "+(i+1)+": "+issues[i].message);
 				}
-				
+
 			});
 			//convo.next();
       //son.run();
@@ -127,14 +127,14 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
    //       console.log(issues);
    //      //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
    //    });
-      
+
       //sonar.sendRequest();
       //console.log(issues);*/
 			convo.next();
 			convo.say("Please Wait, analyzing");
 		    //convo.next();
 		    //convo.say("Issue1: This is an issue");
-					
+
       	});
       }
       else if(type.includes("goodbye")|| type.includes("bye"))
@@ -144,7 +144,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	return;
 			}
 			else if(type.includes("define") || type.includes("explain") || type.includes("info")){
-				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing 
+				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing
 				 console.log("The method is " + method_name);
 				 var res = docParser.getMethodDetails(method_name);
 				 if(res==null || res.length==0)
@@ -156,7 +156,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 				 var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description
 				 convo.next();
 				 convo.say(result);
-				 
+
 			}
       else
       {
