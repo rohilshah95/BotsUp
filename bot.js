@@ -6,6 +6,7 @@ var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
 var downloader=require('./testingdownload.js');
+var docParser = require('./parser_files/parse.js');
 console.log(typeof downloader.pDownload);
 
 var controller = Botkit.slackbot({

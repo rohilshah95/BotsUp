@@ -31,10 +31,6 @@ var sendRequest = function(string, callback) {
     });
 };
 
-
-
-
-
 var controller = Botkit.slackbot({
   debug: false
   //include "log: false" to disable logging
@@ -98,7 +94,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			  "rejectUnauthorized": "true",
 			  "headers": {
 			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  }
+			  } 
 			}
 			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/SE/SlackBot/to_scan_directory/test.java");
       son.run();
@@ -121,7 +117,10 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	convo.next();
       	convo.say("Good Bye!");
       	return;
-      }
+			}
+			else if(type.includes("define") || type.includes("explain ") || type.includes("information")){
+				 
+			}
       else
       {
       	convo.next();

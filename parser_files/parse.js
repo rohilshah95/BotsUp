@@ -1,26 +1,10 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
-const docFile = "D:/CSC510/bot/java_string.html";
-var $ 
+const docFile = "D:/CSC510/BOT/parser_files/java_string.html";
+const encoding = 'utf8';
+const $ = cheerio.load(fs.readFileSync(docFile, encoding));
 
-var methodQuery = {
-	method_name : "hashCode"
-}
-
-var classQuery = {
-	method_name : "String"
-}
- var classTest = $('a[name=constructor_summary]').next().next().
-find("code:contains('String')").parent().parent().text();
-
-var methodTest = $('a[name=method_summary]').next().next().
-find("code:contains('hashCode')").parent().parent().text();
-
-fs.readFile(docFile, 'utf8', function(err,contents){
-	 $ = cheerio.load(contents);
-
-console.log(getMethodDetails(methodQuery.method_name));
-});  
+console.log(getMethodDetails("getBytes"));
 
 function getMethodDetails(methodName){
 	var array = [];
@@ -38,7 +22,8 @@ function getMethodDetails(methodName){
 						array.push({
 							"method_name" : method_name.trim() + ")",
 							"return_type" : section[0].trim(),
-							"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
+							"description" : eachText[1].split('\n').join().trim()
+							//"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
 						
 					});
 				});
@@ -60,3 +45,4 @@ function getClassDetails(className){
 	return array;
 	// if array is empty handle exception.
 }
+
