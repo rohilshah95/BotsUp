@@ -1,12 +1,9 @@
 var child_process = require('child_process');
-//Change file pat
-var run= function(){
-	child_process.exec('C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/runSonar.bat', function(error, stdout, stderr) {
+var params="sonar.projectBaseDir=to_scan_directory";
+var runSR = function(){
+  child_process.exec("sonar-scanner -D"+params, function(error, stdout, stderr) {
     console.log(stdout);
-    console.log(error);
-    console.log(stderr);
 });
 }
 
-//run();
-module.exports.run = run;
+module.exports.runSR = runSR;
