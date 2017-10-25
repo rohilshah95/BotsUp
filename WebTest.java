@@ -82,9 +82,9 @@ public class WebTest
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"msg_input\"]/div[1]")));
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
 		field.clear();
-		field.sendKeys("hi");
-		field.sendKeys(Keys.RETURN);
-		Thread.sleep(5000);
+		//field.sendKeys("hi");
+		//field.sendKeys(Keys.RETURN);
+		//Thread.sleep(5000);
 		//field.sendKeys("hi");
 //		
 //		Actions actions = new Actions(driver);
@@ -92,7 +92,7 @@ public class WebTest
 //		actions.moveToElement(field);
 //		actions.click();
 //		actions.sendKeys("hi");
-		
+		/*
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='message_icon'][last()]")));
 		List<WebElement> iconList = driver.findElements(By.xpath("//div[@class='message_icon'][last()]"));
 		int size = iconList.size();
@@ -105,7 +105,7 @@ public class WebTest
 		WebElement lastIcon = iconList.get(size - 1);
 		WebElement content = lastIcon.findElement(By.xpath("../following-sibling::div[@class='message_content']/span"));
 		assertEquals("Do you want to upload the code or share github link?", content.getText());
-		
+		*/
 		
 	}
 	
@@ -139,6 +139,8 @@ public class WebTest
 		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
 		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
+	
+
 		field.clear();
 		field.sendKeys("upload file");
 		field.sendKeys(Keys.RETURN);
@@ -160,62 +162,40 @@ public class WebTest
 		WebElement computer = driver.findElement(By.xpath("//*[@id=\"menu_items\"]/li[3]"));
 		computer.click();
 		Thread.sleep(2000);
-		File file = new File("/Users/siddhantshah1/eclipse-workspace/Algos HW 3/src/CoinChange.java");
-		StringSelection stringSelection= new StringSelection(file.getAbsolutePath());
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
-				Robot robot = new Robot();
+	    //put path to your image in a clipboard
+	    StringSelection ss = new StringSelection("D:\\CSC510\\BOT\\bot.js");
+	    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
+	    //imitate mouse events like ENTER, CTRL+C, CTRL+V
+	    Robot robot = new Robot();
+	    robot.keyPress(KeyEvent.VK_ENTER);
+	    robot.keyRelease(KeyEvent.VK_ENTER);
+	    robot.keyPress(KeyEvent.VK_CONTROL);
+	    robot.keyPress(KeyEvent.VK_V);
+	    robot.keyRelease(KeyEvent.VK_V);
+	    robot.keyRelease(KeyEvent.VK_CONTROL);
+	    robot.keyPress(KeyEvent.VK_ENTER);
+	    robot.keyRelease(KeyEvent.VK_ENTER);
+	    robot.keyRelease(KeyEvent.VK_ENTER);
 
-				// Cmd + Tab is needed since it launches a Java app and the browser looses focus
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
 
-				robot.keyPress(KeyEvent.VK_META);
-
-				robot.keyPress(KeyEvent.VK_TAB);
-
-				robot.keyRelease(KeyEvent.VK_META);
-
-				robot.keyRelease(KeyEvent.VK_TAB);
-
-				robot.delay(500);
-
-				//Open Goto window
-
-				robot.keyPress(KeyEvent.VK_META);
-
-				robot.keyPress(KeyEvent.VK_SHIFT);
-
-				robot.keyPress(KeyEvent.VK_G);
-
-				robot.keyRelease(KeyEvent.VK_META);
-
-				robot.keyRelease(KeyEvent.VK_SHIFT);
-
-				robot.keyRelease(KeyEvent.VK_G);
-
-				//Paste the clipboard value
-
-				robot.keyPress(KeyEvent.VK_META);
-
-				robot.keyPress(KeyEvent.VK_V);
-
-				robot.keyRelease(KeyEvent.VK_META);
-
-				robot.keyRelease(KeyEvent.VK_V);
-
-				//Press Enter key to close the Goto window and Upload window
-
-				robot.keyPress(KeyEvent.VK_ENTER);
-
-				robot.keyRelease(KeyEvent.VK_ENTER);
-
-				robot.delay(500);
-
-				robot.keyPress(KeyEvent.VK_ENTER);
-
-				robot.keyRelease(KeyEvent.VK_ENTER);
-				
-				robot.keyRelease(KeyEvent.VK_ENTER);
-
-				
 				Thread.sleep(5000);
 		//computer.sendKeys("/Users/siddhantshah1/eclipse-workspace/Algos HW 3/src/CoinChange.java");
 		WebElement upload_button =driver.findElement(By.xpath("//*[@id='upload_dialog']/div[3]/div[1]/button[2]"));
@@ -230,11 +210,9 @@ public class WebTest
 		/*  For Windows
 		  //open upload window
     upload.click();
-
     //put path to your image in a clipboard
     StringSelection ss = new StringSelection("C:\\IMG_3827.JPG");
     Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-
     //imitate mouse events like ENTER, CTRL+C, CTRL+V
     Robot robot = new Robot();
     robot.keyPress(KeyEvent.VK_ENTER);
@@ -376,6 +354,148 @@ public class WebTest
 		
 	}
 	
+	@Test
+	public void sendGithubLinkAltPath() throws Exception
+	{
+		// driver.get("https://sourcerershack.slack.com/");
+
+//		// Wait until page loads and we can see a sign in button.
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
+//
+//		// Find email and password fields.
+//		WebElement email = driver.findElement(By.id("email"));
+//		WebElement pw = driver.findElement(By.id("password"));
+//
+//		// Enter our email and password
+//		// If running this from Eclipse, you should specify these variables in the run configurations.
+//		email.sendKeys("sshah14@ncsu.edu");
+//		pw.sendKeys("sourcerers");
+//
+//		// Click
+//		WebElement signin = driver.findElement(By.id("signin_btn"));
+//		signin.click();
+
+		// Wait until we go to general channel.
+		//wait.until(ExpectedConditions.titleContains("general"));
+
+		// Switch to #selenium-bot channel and wait for it to load.
+		//driver.get("https://sourcerershack.slack.com/messages/D7J0WNYGJ");
+		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
+		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
+		field.clear();
+		field.sendKeys("hi");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(3000);
+		field.clear();
+		field.sendKeys("github link");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(3000);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='message_icon'][last()]")));
+		List<WebElement> iconList = driver.findElements(By.xpath("//div[@class='message_icon'][last()]"));
+		int size = iconList.size();
+		System.out.println(size);
+		
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[id][contains()]/div[2]/span/text()")));
+		WebElement lastIcon = iconList.get(size - 1);
+		WebElement content = lastIcon.findElement(By.xpath("../following-sibling::div[@class='message_content']/span"));
+		System.out.println(content.getText());
+		assertEquals("Please provide the link to the raw file.", content.getText());
+		field.clear();
+		field.sendKeys("www.google.com");
+		Thread.sleep(3000);
+
+		field.sendKeys(Keys.RETURN);
+
+		Thread.sleep(3000);
+		field.sendKeys("bye");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(2000);
+		
+	}
+	
+	@Test
+	public void docParser() throws Exception
+	{
+		// driver.get("https://sourcerershack.slack.com/");
+
+//		// Wait until page loads and we can see a sign in button.
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
+//
+//		// Find email and password fields.
+//		WebElement email = driver.findElement(By.id("email"));
+//		WebElement pw = driver.findElement(By.id("password"));
+//
+//		// Enter our email and password
+//		// If running this from Eclipse, you should specify these variables in the run configurations.
+//		email.sendKeys("sshah14@ncsu.edu");
+//		pw.sendKeys("sourcerers");
+//
+//		// Click
+//		WebElement signin = driver.findElement(By.id("signin_btn"));
+//		signin.click();
+
+		// Wait until we go to general channel.
+		//wait.until(ExpectedConditions.titleContains("general"));
+
+		// Switch to #selenium-bot channel and wait for it to load.
+		//driver.get("https://sourcerershack.slack.com/messages/D7J0WNYGJ");
+		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
+		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
+		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
+		field.clear();
+		field.sendKeys("hi");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(3000);
+		field.clear();
+		field.sendKeys("define concat");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(3000);
+		
+
+		Thread.sleep(3000);
+		field.sendKeys("bye");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(2000);
+		
+	}
+	
+	
+	@Test
+	public void docParserAltPath() throws Exception
+	{
+		// driver.get("https://sourcerershack.slack.com/");
+
+//		// Wait until page loads and we can see a sign in button.
+		WebDriverWait wait = new WebDriverWait(driver, 15);
+//		
+		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
+		field.clear();
+		field.sendKeys("hi");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(3000);
+		field.clear();
+		field.sendKeys("define asdf");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(3000);
+		
+
+		Thread.sleep(3000);
+		field.sendKeys("bye");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(2000);
+		field.sendKeys("hi");
+		field.sendKeys(Keys.RETURN);
+
+		Thread.sleep(4000);
+
+
+		
+	}
+	
 	
 //	@Test
 //	public void farewellTest() throws Exception
@@ -409,27 +529,21 @@ public class WebTest
 	public void randomMessage()
 	{
 		driver.get("https://skynet2017.slack.com/");
-
 		// Wait until page loads and we can see a sign in button.
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
-
 		// Find email and password fields.
 		WebElement email = driver.findElement(By.id("email"));
 		WebElement pw = driver.findElement(By.id("password"));
-
 		// Enter our email and password
 		// If running this from Eclipse, you should specify these variables in the run configurations.
 		email.sendKeys("sshah14@ncsu.edu");
 		pw.sendKeys("sourcerers");
-
 		// Click
 		WebElement signin = driver.findElement(By.id("signin_btn"));
 		signin.click();
-
 		// Wait until we go to general channel.
 		wait.until(ExpectedConditions.titleContains("general"));
-
 		// Switch to #selenium-bot channel and wait for it to load.
 		driver.get("https://skynet2017.slack.com/messages/D6VUF6W73");
 		
@@ -439,7 +553,6 @@ public class WebTest
 	public void uploadCode()
 	{
 		driver.get("https://skynet2017.slack.com/");
-
 		// Wait until page loads and we can see a sign in button.
 		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
@@ -453,10 +566,8 @@ public class WebTest
 		// Click
 		WebElement signin = driver.findElement(By.id("signin_btn"));
 		signin.click();
-
 		// Wait until we go to general channel.
 		wait.until(ExpectedConditions.titleContains("general"));
-
 		// Switch to #selenium-bot channel and wait for it to load.
 		driver.get("https://skynet2017.slack.com/messages/D6VUF6W73");
 	}

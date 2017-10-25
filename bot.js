@@ -1,12 +1,12 @@
 var sonarReq = require('./sonarRequest.js');
 var downloadGit = require('./downloadFromGit.js');
-var son=require('./to_scan_directory');
+//var son=require('./to_scan_directory');
 var Botkit = require('botkit');
-var download=require('download-file');
+//var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
 var downloader=require('./testingdownload.js');
-var docParser = require('./parser_files/parse.js');
+//var docParser = require('./parser_files/parse.js');
 console.log(typeof downloader.pDownload);
 
 var controller = Botkit.slackbot({

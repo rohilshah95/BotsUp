@@ -37,6 +37,6 @@ module.exports={
 };
 
 //example
-//pDownload("/files-pri/T7JRF8TCN-F7KP3M34Y/download/test.js","https://sourcerershack.slack.com/files/U7J10M71S/F7KP3M34Y/test.js", "C:/Users/rgsha/Documents/Projects/SE/SlackBot/test.js")
+//pDownload("/files-pri/T7JRF8TCN-F7KP3M34Y/download/test.js","https://files.slack.com/files-pri/T7JRF8TCN-F7P7CVBH6/download/bot.js", "C:/Users/rgsha/Documents/Projects/SE/SlackBot/test.js")
   //.then( ()=> console.log('downloaded file no issues...'))
   //.catch( e => console.error('error while downloading', e));
