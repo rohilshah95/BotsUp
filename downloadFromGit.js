@@ -26,11 +26,10 @@ var downloadFile = function (url) {
     */
     var options = {
         directory: "./to_scan_directory",
-        filename: "uddhav." + getFileType(url)
+        filename: "test." + getFileType(url)
     };
     download(url, options, function (err) {
         if (err) throw err
-        console.log("uddhavvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
     });
     var fileName = "";
     return fileName;
