@@ -1,13 +1,13 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
-const docFile = "./javadocs/java_string.html";
+const docFile = "./parser_files/java_string.html";
 const encoding = 'utf8';
 const $ = cheerio.load(fs.readFileSync(docFile, encoding));
 exports.getMethodDetails = function(methodName){
 	var array = [];
 	var result = $('a[name=method_summary]').next().next().
 					find("code:contains(" + methodName + ")").map(function(){
-						var ret_type = $(this).parent().prev().text() 
+						var ret_type = $(this).parent().prev().text()
 						if (ret_type!=null && ret_type.trim().length>0){
 							array.push({
 								"method_name" :$(this).text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim(),
@@ -36,4 +36,3 @@ function getClassDetails(className){
 	return array;
 	// if array is empty handle exception.
 }
-

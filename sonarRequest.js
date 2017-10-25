@@ -114,6 +114,7 @@ var sendRequest = function(string, callback) {
         issues = res.body.issues.map(function(issue) {
 					return issue;
 				});
+        return issues;
         callback(null, issues);
       } else {
         callback('Error Occurred!');
@@ -135,19 +136,20 @@ var rulesRequest = function(rule, callback) {
     });
 };
 
-rulesRequest("javascript:UnusedVariable", function(map){
-    // Uncomment the two lines below and comment third line for actual Sonarqube output
-		 console.log("Actual Output from Sonarqube blah");
-		 console.log(rulesOutput);
-    //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
-});
-
-sendRequest("", function(map){
-    // Uncomment the two lines below and comment third line for actual Sonarqube output
-		 console.log("Actual Output from Sonarqube");
-		 console.log(issues);
-    //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
-});
+// rulesRequest("javascript:UnusedVariable", function(map){
+//     // Uncomment the two lines below and comment third line for actual Sonarqube output
+// 		 console.log("Actual Output from Sonarqube blah");
+// 		 console.log(rulesOutput);
+//     //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
+// });
+//
+// sendRequest("", function(map){
+//     // Uncomment the two lines below and comment third line for actual Sonarqube output
+// 		 console.log("Actual Output from Sonarqube");
+// 		 console.log(issues);
+//     //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
+// });
 
 module.exports.sendRequest = sendRequest;
-module.exports.sendRequest = rulesRequest;
+// module.exports.rulesRequest = rulesRequest;
+// module.exports.issues = issues;

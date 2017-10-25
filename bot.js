@@ -115,6 +115,14 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			}*/
 			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/test.java");
       //son.run();
+			// sendR	  "path": slug,
+			  "rejectUnauthorized": "true",
+			  "headers": {
+			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
+			  } 
+			}*
+			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/test.java");
+      //son.run();
 			// sendRequest("", function(map){
    //      // Uncomment the two lines below and comment third line for actual Sonarqube output
    //       console.log("Actual Output from Sonarqube");
@@ -164,6 +172,3 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 
   });
 });
-
-
-
