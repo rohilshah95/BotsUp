@@ -114,7 +114,7 @@ var sendRequest = function(string, callback) {
         issues = res.body.issues.map(function(issue) {
 					return issue;
 				});
-        return issues;
+        exports.issues = issues;
         callback(null, issues);
       } else {
         callback('Error Occurred!');
@@ -151,5 +151,4 @@ var rulesRequest = function(rule, callback) {
 // });
 
 module.exports.sendRequest = sendRequest;
-// module.exports.rulesRequest = rulesRequest;
-// module.exports.issues = issues;
+module.exports.rulesRequest = rulesRequest;
