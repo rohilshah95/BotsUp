@@ -1,4 +1,8 @@
-var son=require('./sonarRunner.js');
+var apiai = require('apiai');
+//API AI token 
+var app = process.env.APIAITOKEN;
+
+var son = require('./sonarRunner.js');
 var sonar=require('./sonarRequest.js');
 var Botkit = require('botkit');
 var downloadGit = require('./downloadFromGit.js');
@@ -8,7 +12,7 @@ var fs = require('fs');
 var downloader=require('./testingdownload.js');
 //var sonar=require('./sonarRequest.js');
 var request = require('superagent');
-var docParser = require('./doc_parse.js')
+var docParser = require('./doc_parse.js');
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");

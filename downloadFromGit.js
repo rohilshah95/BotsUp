@@ -1,6 +1,7 @@
 var apiai = require('apiai');
 
-var app = apiai("b9a862255a6a487189b4636e07575b8e");
+var app = process.env.APIAITOKEN;
+
 var Botkit = require('botkit');
 var request = require('request');
 var fs = require("fs");
