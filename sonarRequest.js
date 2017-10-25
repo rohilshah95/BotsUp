@@ -129,6 +129,7 @@ var rulesRequest = function(rule, callback) {
       if (!err) {
         console.log("Hi");
         rulesOutput = res.body.rule;
+        exports.rule = rulesOutput;
         callback(null, rulesOutput);
       } else {
         callback('Error Occurred!');
