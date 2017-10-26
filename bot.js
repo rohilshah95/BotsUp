@@ -1,34 +1,23 @@
-var son=require('./sonarRunner.js');
+var apiai = require('apiai');
+//API AI token 
+var app = process.env.APIAITOKEN;
+
+var son = require('./sonarRunner.js');
+var sonar=require('./sonarRequest.js');
 var Botkit = require('botkit');
 var downloadGit = require('./downloadFromGit.js');
 var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
 var downloader=require('./testingdownload.js');
-var sonar=require('./sonarRequest.js');
 var request = require('superagent');
-var docParser = require('./doc_parse.js')
+var docParser = require('./doc_parse.js');
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
-// Use server IP instead of localhost if Sonarqube is not deploy on this machine.
-// var urlRoot = "http://localhost:9000";
-// var issues = [];
-// var sendRequest = function(string, callback) {
-//   request
-//     .get(`${urlRoot}/api/issues/search`)
-//     .end(function(err, res) {
-//       if (!err) {
-//         issues = res.body.issues.map(function(issue) {
-//           return issue;
-//         });
-//         callback(null, issues);
-//       } else {
-//         callback('Error Occurred!');
-//       }
-//     });
-// };
-
+var issues=[];
+var i=0;
+var rule="";
 var controller = Botkit.slackbot({
   debug: false
   //include "log: false" to disable logging
@@ -55,7 +44,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       if(type.includes("github")){
       	convo.ask('Please provide the link to the raw file.', function(answer1, convo){
       		var gitLink=answer1.text;
-          if(!gitLink.includes("github.com"))
+          if(!gitLink.includes("github"))
           {
             convo.next();
             convo.say("Sorry this is not a github link, exiting");
@@ -75,10 +64,41 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       		console.log("Github link is: " + gitLink);
       		convo.next();
       		convo.say('great');
+      		sonar.sendRequest("", function(map){
+			    console.log("here");
+			    issues = sonar.issues;
+			    console.log(issues);
+			    for (var i=0; i<issues.length; i++){
+			    	convo.next();
+			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
+				}
+				convo.next();
+				//console.log(issues);
+				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
+					var j=parseInt(answer3.text);
+					console.log("j="+j);
+					if(typeof j!='number')
+					{
+						convo.next();
+						convo.say("Sorry that's not a number, exiting, try again from the start");
+						return;
+					}
+					if(j>=i+1)
+					{
+						convo.next();
+						convo.say("Sorry, such an issue number doesn't exist, exiting.")
+						return;
+					}
+					sonar.rulesRequest(issues[j-1].rule, function(map){
+						rule=sonar.rule;
+						convo.next();
+						var ans=rule.htmlDesc;
+						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+						convo.say(ans);
+					});
+				});
+			});
 
-
-          convo.next();
-          convo.say("Issue1: This is an issue");
       		console.log("Github link is: "+gitLink);
       	});
       }
@@ -88,11 +108,9 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	convo.ask('Please upload the code file', function(answer2, convo){
       		console.log(answer2);
 
-      		
+
       		if(typeof answer2.file=='undefined')
       		{
-      			//var private=answer2.file.url_private_download;
-
       			convo.next();
 		      	convo.say("Sorry I dont follow, exiting, try again from the start");
 		      	return;
@@ -100,43 +118,50 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       		var private=answer2.file.url_private_download;
       		var slug = private.split('.com').pop();
       		console.log(slug);
-          console.log(private);
+            console.log(private);
 
       		var permalink=answer2.file.permalink;
 
-      		/*var options = {
-			  "method": "GET",
-			  "hostname": "files.slack.com",
-			  "path": slug,
-			  "rejectUnauthorized": "true",
-			  "headers": {
-			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  } 
-			}*/
-			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/test.java");
-      //son.run();
-			// sendR	  "path": slug,
-		//	  "rejectUnauthorized": "true",
-		//	  "headers": {
-		//	      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-		//	  } 
-		//	};
-			downloader.pDownload(slug,permalink,"C:/Users/rgsha/Documents/Projects/Hackathon/BOT/to_scan_directory/test.java");
-      //son.run();
-			// sendRequest("", function(map){
-   //      // Uncomment the two lines below and comment third line for actual Sonarqube output
-   //       console.log("Actual Output from Sonarqube");
-   //       console.log(issues);
-   //      //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
-   //    });
-      
-      //sonar.sendRequest();
-      //console.log(issues);*/
+      		
+			downloader.pDownload(slug,permalink,"./to_scan_directory/test.java");
+			//son.runSR();
+			sonar.sendRequest("", function(map){
+			    console.log("here");
+			    issues = sonar.issues;
+			    console.log(issues);
+			    for (i=0; i<issues.length; i++){
+			    	convo.next();
+			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
+				}
+				convo.next();
+				
+				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
+					var j=parseInt(answer3.text);
+					console.log(typeof j+ " " +i + " ");
+					if(typeof j!='number')
+		      		{
+		      			convo.next();
+				      	convo.say("Sorry that's not a number, exiting, try again from the start");
+				      	return;
+		      		}
+		      		if(j>=i+1)
+		      		{
+		      			convo.next();
+		      			convo.say("Sorry, such an issue number doesn't exist, exiting.")
+		      			return;
+		      		}
+					sonar.rulesRequest(issues[j-1].rule, function(map){
+						rule=sonar.rule;
+						convo.next();
+						var ans=rule.htmlDesc;
+						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+						convo.say(ans);
+					});
+				});
+			});
+			
 			convo.next();
 			convo.say("Please Wait, analyzing");
-      convo.next();
-      convo.say("Issue1: This is an issue");
-			
       	});
       }
       else if(type.includes("goodbye")|| type.includes("bye"))
@@ -146,20 +171,19 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	return;
 			}
 			else if(type.includes("define") || type.includes("explain") || type.includes("info")){
-				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing 
+				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing
 				 console.log("The method is " + method_name);
 				 var res = docParser.getMethodDetails(method_name);
+				 if(res==null || res.length==0)
+		         {
+		          convo.next();
+		          convo.say("Sorry! That doesn't exist in my dictionary, exiting");
+		          return;
+		         }
 				 var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description
 				 convo.next();
 				 convo.say(result);
-				 if(type.includes("asdf"))
-         {
-          convo.next();
-          convo.say("Sorry! That doesn't exist in my dictionary, exiting");
-          return;
-         }
-         convo.next();
-         convo.say("Concatenates the specified string to the end of the string");
+
 			}
       else
       {

@@ -82,30 +82,7 @@ public class WebTest
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"msg_input\"]/div[1]")));
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
 		field.clear();
-		//field.sendKeys("hi");
-		//field.sendKeys(Keys.RETURN);
-		//Thread.sleep(5000);
-		//field.sendKeys("hi");
-//		
-//		Actions actions = new Actions(driver);
-//
-//		actions.moveToElement(field);
-//		actions.click();
-//		actions.sendKeys("hi");
-		/*
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='message_icon'][last()]")));
-		List<WebElement> iconList = driver.findElements(By.xpath("//div[@class='message_icon'][last()]"));
-		int size = iconList.size();
-		System.out.println(size);
 		
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[id][contains()]/div[2]/span/text()")));
-		WebElement secondLastIcon = iconList.get(size - 2);
-		WebElement second_content = secondLastIcon.findElement(By.xpath("../following-sibling::div[@class='message_content']/span"));
-		assertEquals("Hi, I'm your new personal tutor!", second_content.getText());
-		WebElement lastIcon = iconList.get(size - 1);
-		WebElement content = lastIcon.findElement(By.xpath("../following-sibling::div[@class='message_content']/span"));
-		assertEquals("Do you want to upload the code or share github link?", content.getText());
-		*/
 		
 	}
 	
@@ -118,26 +95,7 @@ public class WebTest
 		WebDriverWait wait = new WebDriverWait(driver, 15);
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
 //
-//		// Find email and password fields.
-//		WebElement email = driver.findElement(By.id("email"));
-//		WebElement pw = driver.findElement(By.id("password"));
-//
-//		// Enter our email and password
-//		// If running this from Eclipse, you should specify these variables in the run configurations.
-//		email.sendKeys("sshah14@ncsu.edu");
-//		pw.sendKeys("sourcerers");
-//
-//		// Click
-//		WebElement signin = driver.findElement(By.id("signin_btn"));
-//		signin.click();
-
-		// Wait until we go to general channel.
-		//wait.until(ExpectedConditions.titleContains("general"));
-
-		// Switch to #selenium-bot channel and wait for it to load.
-		//driver.get("https://sourcerershack.slack.com/messages/D7J0WNYGJ");
-		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
+//		
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
 	
 
@@ -163,7 +121,7 @@ public class WebTest
 		computer.click();
 		Thread.sleep(2000);
 	    //put path to your image in a clipboard
-	    StringSelection ss = new StringSelection("D:\\CSC510\\BOT\\bot.js");
+	    StringSelection ss = new StringSelection("C:\\Users\\rgsha\\Documents\\Projects\\Hackathon\\BOT\\bot.js");
 	    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
 	    //imitate mouse events like ENTER, CTRL+C, CTRL+V
 	    Robot robot = new Robot();
@@ -176,32 +134,15 @@ public class WebTest
 	    robot.keyPress(KeyEvent.VK_ENTER);
 	    robot.keyRelease(KeyEvent.VK_ENTER);
 	    robot.keyRelease(KeyEvent.VK_ENTER);
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
-
-				Thread.sleep(5000);
+		Thread.sleep(5000);
 		//computer.sendKeys("/Users/siddhantshah1/eclipse-workspace/Algos HW 3/src/CoinChange.java");
 		WebElement upload_button =driver.findElement(By.xpath("//*[@id='upload_dialog']/div[3]/div[1]/button[2]"));
 		upload_button.click();
 		Thread.sleep(10000);
 		field.clear();
+		field.sendKeys("1");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(4000);
 		field.sendKeys("bye");
 		field.sendKeys(Keys.RETURN);
 		Thread.sleep(5000);
@@ -237,26 +178,7 @@ public class WebTest
 		WebDriverWait wait = new WebDriverWait(driver, 15);
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
 //
-//		// Find email and password fields.
-//		WebElement email = driver.findElement(By.id("email"));
-//		WebElement pw = driver.findElement(By.id("password"));
-//
-//		// Enter our email and password
-//		// If running this from Eclipse, you should specify these variables in the run configurations.
-//		email.sendKeys("sshah14@ncsu.edu");
-//		pw.sendKeys("sourcerers");
-//
-//		// Click
-//		WebElement signin = driver.findElement(By.id("signin_btn"));
-//		signin.click();
-
-		// Wait until we go to general channel.
-		//wait.until(ExpectedConditions.titleContains("general"));
-
-		// Switch to #selenium-bot channel and wait for it to load.
-		//driver.get("https://sourcerershack.slack.com/messages/D7J0WNYGJ");
-		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
+//		
 		
 		
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
@@ -282,16 +204,11 @@ public class WebTest
 		field.clear();
 		field.sendKeys("Not uploading");
 		field.sendKeys(Keys.RETURN);
-		Thread.sleep(5000);
+		Thread.sleep(10000);
 		
 	}
 	
 	
-	
-	
-	
-	
-
 	@Test
 	public void sendGithubLink() throws Exception
 	{
@@ -300,27 +217,6 @@ public class WebTest
 //		// Wait until page loads and we can see a sign in button.
 		WebDriverWait wait = new WebDriverWait(driver, 15);
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
-//
-//		// Find email and password fields.
-//		WebElement email = driver.findElement(By.id("email"));
-//		WebElement pw = driver.findElement(By.id("password"));
-//
-//		// Enter our email and password
-//		// If running this from Eclipse, you should specify these variables in the run configurations.
-//		email.sendKeys("sshah14@ncsu.edu");
-//		pw.sendKeys("sourcerers");
-//
-//		// Click
-//		WebElement signin = driver.findElement(By.id("signin_btn"));
-//		signin.click();
-
-		// Wait until we go to general channel.
-		//wait.until(ExpectedConditions.titleContains("general"));
-
-		// Switch to #selenium-bot channel and wait for it to load.
-		//driver.get("https://sourcerershack.slack.com/messages/D7J0WNYGJ");
-		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
 		field.clear();
 		field.sendKeys("hi");
@@ -347,7 +243,10 @@ public class WebTest
 
 		field.sendKeys(Keys.RETURN);
 
-		Thread.sleep(3000);
+		Thread.sleep(8000);
+		field.sendKeys("2");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(4000);
 		field.sendKeys("bye");
 		field.sendKeys(Keys.RETURN);
 		Thread.sleep(2000);
@@ -362,27 +261,6 @@ public class WebTest
 //		// Wait until page loads and we can see a sign in button.
 		WebDriverWait wait = new WebDriverWait(driver, 15);
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
-//
-//		// Find email and password fields.
-//		WebElement email = driver.findElement(By.id("email"));
-//		WebElement pw = driver.findElement(By.id("password"));
-//
-//		// Enter our email and password
-//		// If running this from Eclipse, you should specify these variables in the run configurations.
-//		email.sendKeys("sshah14@ncsu.edu");
-//		pw.sendKeys("sourcerers");
-//
-//		// Click
-//		WebElement signin = driver.findElement(By.id("signin_btn"));
-//		signin.click();
-
-		// Wait until we go to general channel.
-		//wait.until(ExpectedConditions.titleContains("general"));
-
-		// Switch to #selenium-bot channel and wait for it to load.
-		//driver.get("https://sourcerershack.slack.com/messages/D7J0WNYGJ");
-		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
 		field.clear();
 		field.sendKeys("hi");
@@ -425,31 +303,11 @@ public class WebTest
 		WebDriverWait wait = new WebDriverWait(driver, 15);
 //		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
 //
-//		// Find email and password fields.
-//		WebElement email = driver.findElement(By.id("email"));
-//		WebElement pw = driver.findElement(By.id("password"));
-//
-//		// Enter our email and password
-//		// If running this from Eclipse, you should specify these variables in the run configurations.
-//		email.sendKeys("sshah14@ncsu.edu");
-//		pw.sendKeys("sourcerers");
-//
-//		// Click
-//		WebElement signin = driver.findElement(By.id("signin_btn"));
-//		signin.click();
-
-		// Wait until we go to general channel.
-		//wait.until(ExpectedConditions.titleContains("general"));
-
-		// Switch to #selenium-bot channel and wait for it to load.
-		//driver.get("https://sourcerershack.slack.com/messages/D7J0WNYGJ");
-		//wait.until(ExpectedConditions.titleContains("RiseToCode"));
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msg_input']")));
 		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
 		field.clear();
 		field.sendKeys("hi");
 		field.sendKeys(Keys.RETURN);
-		Thread.sleep(3000);
+		Thread.sleep(4000);
 		field.clear();
 		field.sendKeys("define concat");
 		field.sendKeys(Keys.RETURN);
@@ -495,81 +353,7 @@ public class WebTest
 
 		
 	}
-	
-	
-//	@Test
-//	public void farewellTest() throws Exception
-//	{
-//		WebDriverWait wait = new WebDriverWait(driver, 15);
-//		WebElement field = driver.findElement(By.xpath("//*[@id=\"msg_input\"]/div[1]"));
-//		field.clear();
-//		field.sendKeys("hi");
-//		field.sendKeys(Keys.RETURN);
-//		Thread.sleep(5000);
-//		field.clear();
-//		field.sendKeys("bye");
-//		field.sendKeys(Keys.RETURN);
-//		Thread.sleep(5000);
-//		
-//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='message_icon'][last()]")));
-//		List<WebElement> iconList = driver.findElements(By.xpath("//div[@class='message_icon'][last()]"));
-//		int size = iconList.size();
-//		System.out.println(size);
-//		
-//		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[id][contains()]/div[2]/span/text()")));
-//		WebElement lastIcon = iconList.get(size - 1);
-//		WebElement content = lastIcon.findElement(By.xpath("../following-sibling::div[@class='message_content']/span"));
-//		System.out.println(content.getText());
-//		assertEquals("Good Bye!", content.getText());
-//		
-//		
-//		
-//	}
-	/*
-	public void randomMessage()
-	{
-		driver.get("https://skynet2017.slack.com/");
-		// Wait until page loads and we can see a sign in button.
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
-		// Find email and password fields.
-		WebElement email = driver.findElement(By.id("email"));
-		WebElement pw = driver.findElement(By.id("password"));
-		// Enter our email and password
-		// If running this from Eclipse, you should specify these variables in the run configurations.
-		email.sendKeys("sshah14@ncsu.edu");
-		pw.sendKeys("sourcerers");
-		// Click
-		WebElement signin = driver.findElement(By.id("signin_btn"));
-		signin.click();
-		// Wait until we go to general channel.
-		wait.until(ExpectedConditions.titleContains("general"));
-		// Switch to #selenium-bot channel and wait for it to load.
-		driver.get("https://skynet2017.slack.com/messages/D6VUF6W73");
-		
-	}
-	
-	
-	public void uploadCode()
-	{
-		driver.get("https://skynet2017.slack.com/");
-		// Wait until page loads and we can see a sign in button.
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin_btn")));
-		// Find email and password fields.
-		WebElement email = driver.findElement(By.id("email"));
-		WebElement pw = driver.findElement(By.id("password"));
-		// Enter our email and password
-		// If running this from Eclipse, you should specify these variables in the run configurations.
-		email.sendKeys("sshah14@ncsu.edu");
-		pw.sendKeys("sourcerers");
-		// Click
-		WebElement signin = driver.findElement(By.id("signin_btn"));
-		signin.click();
-		// Wait until we go to general channel.
-		wait.until(ExpectedConditions.titleContains("general"));
-		// Switch to #selenium-bot channel and wait for it to load.
-		driver.get("https://skynet2017.slack.com/messages/D6VUF6W73");
-	}
-	*/
 }
+	
+	
+//	
