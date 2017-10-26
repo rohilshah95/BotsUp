@@ -10,6 +10,8 @@ var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
 var downloader=require('./testingdownload.js');
+//var request = require('request');
+var apiaicall = require('./apiai.js');
 var request = require('superagent');
 var docParser = require('./doc_parse.js');
 var username = "admin";
@@ -40,6 +42,24 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       var type = answer.text;
       console.log(type);
       console.log(type.includes("code"));
+	    
+	          /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// yet to be integrated to get all responses from apiai
+      var speech;
+      var apiAiResponse = {};
+      apiaicall.callAI(type, function (body) {
+          console.log(body);
+          apiAiResponse = body;
+          console.log(apiAiResponse);
+          if (apiAiResponse == body) {
+              speech = apiaicall.getAiReply(apiAiResponse);
+          }
+          console.log("\n\nprinting speech from apiai");
+          console.log(speech);
+          convo.next();
+          convo.say(speech);  //this is working
+      });
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	    
         //if it is a github file
       if(type.includes("github")){
       	convo.ask('Please provide the link to the raw file.', function(answer1, convo){
