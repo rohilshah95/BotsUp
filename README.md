@@ -6,7 +6,7 @@ Rohil Shah: rshah8
 Rahul Coutinho: rcoutin  
 Siddhant Shah: sshah14  
 Uddhav Bhosle: ubhosle  
-Vijay Hebbar: vhebbar  
+Vijay Hebbar: vhhebbar  
 
 Deliverables:  [Worksheet](https://github.ncsu.edu/rcoutin/BOT/blob/master/WORKSHEET.md), [Screencast](https://youtu.be/7BIn8PoxE1c), [Seleniem Tests](https://github.ncsu.edu/rcoutin/BOT/blob/master/WebTest.java)  
 
