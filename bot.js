@@ -78,6 +78,20 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
 					var j=parseInt(answer3.text);
 					console.log("j="+j);
+					if(typeof j!='number')
+					{
+						//var private=answer2.file.url_private_download;
+
+						convo.next();
+						convo.say("Sorry that's not a number, exiting, try again from the start");
+						return;
+					}
+					if(j>=i+1)
+					{
+						convo.next();
+						convo.say("Sorry, such an issue number doesn't exist, exiting.")
+						return;
+					}
 					sonar.rulesRequest(issues[j-1].rule, function(map){
 					//     // Uncomment the two lines below and comment third line for actual Sonarqube output
 					// 		 console.log("Actual Output from Sonarqube blah");
