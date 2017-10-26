@@ -163,7 +163,7 @@ public class WebTest
 		computer.click();
 		Thread.sleep(2000);
 	    //put path to your image in a clipboard
-	    StringSelection ss = new StringSelection("D:\\CSC510\\BOT\\bot.js");
+	    StringSelection ss = new StringSelection("C:\\Users\\rgsha\\Documents\\Projects\\Hackathon\\BOT\\bot.js");
 	    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
 	    //imitate mouse events like ENTER, CTRL+C, CTRL+V
 	    Robot robot = new Robot();
@@ -202,6 +202,9 @@ public class WebTest
 		upload_button.click();
 		Thread.sleep(10000);
 		field.clear();
+		field.sendKeys("1");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(4000);
 		field.sendKeys("bye");
 		field.sendKeys(Keys.RETURN);
 		Thread.sleep(5000);
@@ -347,7 +350,10 @@ public class WebTest
 
 		field.sendKeys(Keys.RETURN);
 
-		Thread.sleep(3000);
+		Thread.sleep(8000);
+		field.sendKeys("1");
+		field.sendKeys(Keys.RETURN);
+		Thread.sleep(4000);
 		field.sendKeys("bye");
 		field.sendKeys(Keys.RETURN);
 		Thread.sleep(2000);
@@ -449,7 +455,7 @@ public class WebTest
 		field.clear();
 		field.sendKeys("hi");
 		field.sendKeys(Keys.RETURN);
-		Thread.sleep(3000);
+		Thread.sleep(4000);
 		field.clear();
 		field.sendKeys("define concat");
 		field.sendKeys(Keys.RETURN);
