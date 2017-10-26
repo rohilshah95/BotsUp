@@ -1,4 +1,8 @@
-var son=require('./sonarRunner.js');
+var apiai = require('apiai');
+//API AI token 
+var app = process.env.APIAITOKEN;
+
+var son = require('./sonarRunner.js');
 var sonar=require('./sonarRequest.js');
 var Botkit = require('botkit');
 var downloadGit = require('./downloadFromGit.js');
@@ -8,7 +12,7 @@ var fs = require('fs');
 var downloader=require('./testingdownload.js');
 //var sonar=require('./sonarRequest.js');
 var request = require('superagent');
-var docParser = require('./doc_parse.js')
+var docParser = require('./doc_parse.js');
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
@@ -99,7 +103,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	convo.ask('Please upload the code file', function(answer2, convo){
       		console.log(answer2);
 
-      		
+
       		if(typeof answer2.file=='undefined')
       		{
       			//var private=answer2.file.url_private_download;
@@ -122,7 +126,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			  "rejectUnauthorized": "true",
 			  "headers": {
 			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  } 
+			  }
 			}*/
 			downloader.pDownload(slug,permalink,"./to_scan_directory/test.java");
 			//son.runSR();
@@ -173,14 +177,14 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
    //       console.log(issues);
    //      //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
    //    });
-      
+
       //sonar.sendRequest();
       //console.log(issues);*/
 			convo.next();
 			convo.say("Please Wait, analyzing");
 		    //convo.next();
 		    //convo.say("Issue1: This is an issue");
-					
+
       	});
       }
       else if(type.includes("goodbye")|| type.includes("bye"))
@@ -190,7 +194,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       	return;
 			}
 			else if(type.includes("define") || type.includes("explain") || type.includes("info")){
-				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing 
+				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing
 				 console.log("The method is " + method_name);
 				 var res = docParser.getMethodDetails(method_name);
 				 if(res==null || res.length==0)
@@ -202,7 +206,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 				 var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description
 				 convo.next();
 				 convo.say(result);
-				 
+
 			}
       else
       {
