@@ -10,7 +10,6 @@ var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
 var downloader=require('./testingdownload.js');
-//var sonar=require('./sonarRequest.js');
 var request = require('superagent');
 var docParser = require('./doc_parse.js');
 var username = "admin";
@@ -80,8 +79,6 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 					console.log("j="+j);
 					if(typeof j!='number')
 					{
-						//var private=answer2.file.url_private_download;
-
 						convo.next();
 						convo.say("Sorry that's not a number, exiting, try again from the start");
 						return;
@@ -93,21 +90,15 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 						return;
 					}
 					sonar.rulesRequest(issues[j-1].rule, function(map){
-					//     // Uncomment the two lines below and comment third line for actual Sonarqube output
-					// 		 console.log("Actual Output from Sonarqube blah");
 						rule=sonar.rule;
 						convo.next();
 						var ans=rule.htmlDesc;
 						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
 						convo.say(ans);
-					//     //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
 					});
 				});
 			});
 
-
-          //convo.next();
-          //convo.say("Issue1: This is an issue");
       		console.log("Github link is: "+gitLink);
       	});
       }
@@ -120,8 +111,6 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 
       		if(typeof answer2.file=='undefined')
       		{
-      			//var private=answer2.file.url_private_download;
-
       			convo.next();
 		      	convo.say("Sorry I dont follow, exiting, try again from the start");
 		      	return;
@@ -133,15 +122,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 
       		var permalink=answer2.file.permalink;
 
-      		/*var options = {
-			  "method": "GET",
-			  "hostname": "files.slack.com",
-			  "path": slug,
-			  "rejectUnauthorized": "true",
-			  "headers": {
-			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  }
-			}*/
+      		
 			downloader.pDownload(slug,permalink,"./to_scan_directory/test.java");
 			//son.runSR();
 			sonar.sendRequest("", function(map){
@@ -153,14 +134,12 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
 				}
 				convo.next();
-				//convo.say("For more information on these issues, reply back with the issue number.");
+				
 				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
 					var j=parseInt(answer3.text);
 					console.log(typeof j+ " " +i + " ");
 					if(typeof j!='number')
 		      		{
-		      			//var private=answer2.file.url_private_download;
-
 		      			convo.next();
 				      	convo.say("Sorry that's not a number, exiting, try again from the start");
 				      	return;
@@ -172,33 +151,17 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 		      			return;
 		      		}
 					sonar.rulesRequest(issues[j-1].rule, function(map){
-					//     // Uncomment the two lines below and comment third line for actual Sonarqube output
-					// 		 console.log("Actual Output from Sonarqube blah");
 						rule=sonar.rule;
 						convo.next();
 						var ans=rule.htmlDesc;
 						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
 						convo.say(ans);
-					//     //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
 					});
 				});
 			});
-			//convo.next();
-      //son.run();
-			// sendRequest("", function(map){
-   //      // Uncomment the two lines below and comment third line for actual Sonarqube output
-   //       console.log("Actual Output from Sonarqube");
-   //       console.log(issues);
-   //      //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
-   //    });
-
-      //sonar.sendRequest();
-      //console.log(issues);*/
+			
 			convo.next();
 			convo.say("Please Wait, analyzing");
-		    //convo.next();
-		    //convo.say("Issue1: This is an issue");
-
       	});
       }
       else if(type.includes("goodbye")|| type.includes("bye"))
