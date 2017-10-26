@@ -4,7 +4,7 @@
 | ------------- | ------------  |  ------------
 | Design       | Update to use cases required        | [Update](https://trello.com/c/1Y2mgxgs)
 | Problem Statement      | Updated          |  --
-| Use Cases     | Updated   |  Needs more updates
+| Use Cases     | Updated   |  --
 | Design Sketches    | Updated            |  --
 | Story Board     | Updated      | --
 | Architecture    | Updated        | --
