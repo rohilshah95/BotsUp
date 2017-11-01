@@ -10,14 +10,14 @@ var issues = [];
 var rulesOutput=null;
 // Mock the request using Nock
 // Returns issues array
-nock('http://localhost:9000')
-  .get('/api/issues/search')
-  .reply(200, mockData.issues);
-
-// Returns rule
-nock('http://localhost:9000')
-  .get('/api/rules/show?key=javascript:UnusedVariable')
-  .reply(200, mockData.rule);
+// nock('http://localhost:9000')
+//   .get('/api/issues/search')
+//   .reply(200, mockData.issues);
+//
+// // Returns rule
+// nock('http://localhost:9000')
+//   .get('/api/rules/show?key=javascript:UnusedVariable')
+//   .reply(200, mockData.rule);
 
 
 var sendRequest = function(string, callback) {

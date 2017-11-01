@@ -86,9 +86,10 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       		convo.say('great');
       		sonar.sendRequest("", function(map){
 			    console.log("here");
-			    issues = sonar.issues;
+			    issues = sonar.issues.issues;
 			    console.log(issues);
-			    for (var i=0; i<issues.length; i++){
+          loopCount= issues.length>10?10:issues.length;
+			    for (var i=0; i<loopCount; i++){
 			    	convo.next();
 			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
 				}
@@ -110,7 +111,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 						return;
 					}
 					sonar.rulesRequest(issues[j-1].rule, function(map){
-						rule=sonar.rule;
+						rule=sonar.rule.rule;
 						convo.next();
 						var ans=rule.htmlDesc;
 						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
@@ -158,7 +159,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 
 				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
 					var j=parseInt(answer3.text);
-					console.log(typeof j+ " " +i + " ");
+					console.log(typeof j+ " " +j + " ");
 					if(typeof j!='number')
 		      		{
 		      			convo.next();
@@ -172,11 +173,11 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 		      			return;
 		      		}
 					sonar.rulesRequest(issues[j-1].rule, function(map){
-						rule=sonar.rule;
+						rule=sonar.rule.rule;
 						convo.next();
-						// var ans=rule.htmlDesc;
-						// ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
-						convo.say(rule.htmlDesc);
+						var ans=rule.htmlDesc;
+						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+						convo.say(ans);
 					});
 				});
 			});
