@@ -1,5 +1,5 @@
 var apiai = require('apiai');
-//API AI token 
+//API AI token
 var app = process.env.APIAITOKEN;
 
 var son = require('./sonarRunner.js');
@@ -42,7 +42,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       var type = answer.text;
       console.log(type);
       console.log(type.includes("code"));
-	    
+
 	          /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// yet to be integrated to get all responses from apiai
       var speech;
       var apiAiResponse = {};
@@ -59,7 +59,7 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
           convo.say(speech);  //this is working
       });
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	    
+
         //if it is a github file
       if(type.includes("github")){
       	convo.ask('Please provide the link to the raw file.', function(answer1, convo){
@@ -142,19 +142,20 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 
       		var permalink=answer2.file.permalink;
 
-      		
+
 			downloader.pDownload(slug,permalink,"./to_scan_directory/test.java");
 			//son.runSR();
 			sonar.sendRequest("", function(map){
 			    console.log("here");
-			    issues = sonar.issues;
+			    issues = sonar.issues.issues;
 			    console.log(issues);
-			    for (i=0; i<issues.length; i++){
+          loopCount= issues.length>10?10:issues.length;
+			    for (i=0; i<loopCount; i++){
 			    	convo.next();
 			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
 				}
 				convo.next();
-				
+
 				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
 					var j=parseInt(answer3.text);
 					console.log(typeof j+ " " +i + " ");
@@ -173,13 +174,13 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 					sonar.rulesRequest(issues[j-1].rule, function(map){
 						rule=sonar.rule;
 						convo.next();
-						var ans=rule.htmlDesc;
-						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
-						convo.say(ans);
+						// var ans=rule.htmlDesc;
+						// ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+						convo.say(rule.htmlDesc);
 					});
 				});
 			});
-			
+
 			convo.next();
 			convo.say("Please Wait, analyzing");
       	});
