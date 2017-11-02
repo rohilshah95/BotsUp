@@ -29,7 +29,6 @@
     "remFnOverloaded": false,
     "type": "CODE_SMELL"
   },
-
   "issues": [
     {
       "organization": "default-organization",
@@ -60,30 +59,170 @@
     },
     {
       "organization": "default-organization",
-      "key": "AV8mBOrvNzdILZC6QEb_",
-      "rule": "javascript:UnusedVariable",
-      "severity": "MINOR",
-      "component": "my:project1:bot.js",
-      "project": "my:project1",
-      "line": 58,
-      "textRange": {
-        "startLine": 58,
-        "endLine": 58,
-        "startOffset": 5,
-        "endOffset": 6
-      },
+      "key": "AV9VDP_D4o9uzWf2h_MD",
+      "rule": "javascript:S930",
+      "severity": "CRITICAL",
+      "component": "my:project:bot.js",
+      "project": "my:project",
+      "textRange": [],
       "flows": [],
-      "status": "OPEN",
-      "message": "Remove the declaration of the unused 'b' variable.",
-      "effort": "5min",
-      "debt": "5min",
+      "resolution": "FIXED",
+      "status": "CLOSED",
+      "message": "'callback' declared at line 109 expects 1 argument, but 2 were provided.",
+      "effort": "10min",
+      "debt": "10min",
       "author": "rshah8@ncsu.edu",
-      "tags": [
-        "unused"
-      ],
-      "creationDate": "2017-10-13T20:59:53-0400",
-      "updateDate": "2017-10-16T12:29:26-0400",
-      "type": "CODE_SMELL"
+      "tags": [],
+      "creationDate": "2017-10-25T15:40:28-0400",
+      "updateDate": "2017-10-25T16:00:38-0400",
+      "closeDate": "2017-10-25T16:00:38-0400",
+      "type": "BUG"
     }
-  ]
+  ],
+  "greeting": {
+    "id": "19bc290b-cf4e-4f2b-984d-c25e13dfbb42",
+    "timestamp": "2017-10-25T22:54:31.382Z",
+    "lang": "en",
+    "result": {
+      "source": "agent",
+      "resolvedQuery": "hello",
+      "action": "",
+      "actionIncomplete": false,
+      "parameters": {},
+      "contexts": [],
+      "metadata": {
+        "intentId": "a7d2fc98-f28e-4a5e-9b3e-385985828f7b",
+        "webhookUsed": "false",
+        "webhookForSlotFillingUsed": "false",
+        "intentName": "Greeting"
+      },
+      "fulfillment": {
+        "speech": "Hello I'm a code training bot!",
+        "messages": [
+          {
+            "type": 0,
+            "id": "4a9f08e6-d6cf-47b3-8cb7-2652b1b95ad9",
+            "speech": "Hello I'm a code training bot!"
+          }
+        ]
+      },
+      "score": 1
+    },
+    "status": {
+      "code": 200,
+      "errorType": "success"
+    },
+    "sessionId": "ac6a77cb-9b56-4e56-84b6-f59312c1b4ae"
+  },
+  "methodDef": {
+    "id": "99c7103c-325e-4e0a-bf3f-eacf73736ba9",
+    "timestamp": "2017-10-25T22:04:23.033Z",
+    "lang": "en",
+    "result": {
+      "source": "agent",
+      "resolvedQuery": "describe toString",
+      "action": "",
+      "actionIncomplete": false,
+      "parameters": {
+        "method-name": "toString"
+      },
+      "contexts": [],
+      "metadata": {
+        "intentId": "3e8ac71e-8f45-4180-adf6-d12c073fc60b",
+        "webhookUsed": "false",
+        "webhookForSlotFillingUsed": "false",
+        "intentName": "MethodDef"
+      },
+      "fulfillment": {
+        "speech": "",
+        "messages": [
+          {
+            "type": 0,
+            "id": "adb6b207-5a16-4afc-84ba-0c45da4d955b",
+            "speech": ""
+          }
+        ]
+      },
+      "score": 1
+    },
+    "status": {
+      "code": 200,
+      "errorType": "success"
+    },
+    "sessionId": "ac6a77cb-9b56-4e56-84b6-f59312c1b4ae"
+  },
+  "analyze": {
+    "id": "1ee19d76-80fe-450f-8cad-71ddd1bb516e",
+    "timestamp": "2017-10-26T03:19:24.216Z",
+    "lang": "en",
+    "result": {
+      "source": "agent",
+      "resolvedQuery": "please analyze a file",
+      "action": "",
+      "actionIncomplete": false,
+      "parameters": {
+        "url": ""
+      },
+      "contexts": [],
+      "metadata": {
+        "intentId": "c266a35c-a1a9-4546-8709-7d6e03ccda49",
+        "webhookUsed": "false",
+        "webhookForSlotFillingUsed": "false",
+        "intentName": "Analysis"
+      },
+      "fulfillment": {
+        "speech": "Do you want to analyze a local file or code from GIT?",
+        "messages": [
+          {
+            "type": 0,
+            "id": "8bbc1135-dd0c-432d-86f8-b28bb594966d",
+            "speech": "Do you want to analyze a local file or code from GIT?"
+          }
+        ]
+      },
+      "score": 0.699999988079071
+    },
+    "status": {
+      "code": 200,
+      "errorType": "success"
+    },
+    "sessionId": "ac6a77cb-9b56-4e56-84b6-f59312c1b4ae"
+  },
+  "analyzeGit": {
+    "id": "21972f64-b84e-44d3-96a0-0e00daccc2c1",
+    "timestamp": "2017-10-26T03:20:42.371Z",
+    "lang": "en",
+    "result": {
+      "source": "agent",
+      "resolvedQuery": "analyze www.github.com",
+      "action": "",
+      "actionIncomplete": false,
+      "parameters": {
+        "url": "www.github.com"
+      },
+      "contexts": [],
+      "metadata": {
+        "intentId": "c266a35c-a1a9-4546-8709-7d6e03ccda49",
+        "webhookUsed": "false",
+        "webhookForSlotFillingUsed": "false",
+        "intentName": "Analysis"
+      },
+      "fulfillment": {
+        "speech": "Okay. analyzing the code from www.github.com",
+        "messages": [
+          {
+            "type": 0,
+            "id": "8bbc1135-dd0c-432d-86f8-b28bb594966d",
+            "speech": "Okay. analyzing the code from www.github.com"
+          }
+        ]
+      },
+      "score": 1
+    },
+    "status": {
+      "code": 200,
+      "errorType": "success"
+    },
+    "sessionId": "ac6a77cb-9b56-4e56-84b6-f59312c1b4ae"
+  }
 }

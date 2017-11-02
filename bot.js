@@ -1,5 +1,5 @@
 var apiai = require('apiai');
-//API AI token 
+//API AI token
 var app = process.env.APIAITOKEN;
 
 var son = require('./sonarRunner.js');
@@ -10,13 +10,16 @@ var download=require('download-file');
 var https = require('https');
 var fs = require('fs');
 var downloader=require('./testingdownload.js');
-//var sonar=require('./sonarRequest.js');
+//var request = require('request');
+var apiaicall = require('./apiai.js');
 var request = require('superagent');
 var docParser = require('./doc_parse.js');
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
 var issues=[];
+var i=0;
+var rule="";
 var controller = Botkit.slackbot({
   debug: false
   //include "log: false" to disable logging
@@ -39,6 +42,24 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       var type = answer.text;
       console.log(type);
       console.log(type.includes("code"));
+
+	          /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// yet to be integrated to get all responses from apiai
+      var speech;
+      var apiAiResponse = {};
+      apiaicall.callAI(type, function (body) {
+          console.log(body);
+          apiAiResponse = body;
+          console.log(apiAiResponse);
+          if (apiAiResponse == body) {
+              speech = apiaicall.getAiReply(apiAiResponse);
+          }
+          console.log("\n\nprinting speech from apiai");
+          console.log(speech);
+          convo.next();
+          convo.say(speech);  //this is working
+      });
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         //if it is a github file
       if(type.includes("github")){
       	convo.ask('Please provide the link to the raw file.', function(answer1, convo){
@@ -65,18 +86,40 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
       		convo.say('great');
       		sonar.sendRequest("", function(map){
 			    console.log("here");
-			    issues = sonar.issues;
+			    issues = sonar.issues.issues;
 			    console.log(issues);
-			    for (var i=0; i<issues.length; i++){
+          loopCount= issues.length>10?10:issues.length;
+			    for (var i=0; i<loopCount; i++){
 			    	convo.next();
-			    	convo.say("Issue "+(i+1)+": "+issues[i].message);
+			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
 				}
-
+				convo.next();
+				//console.log(issues);
+				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
+					var j=parseInt(answer3.text);
+					console.log("j="+j);
+					if(typeof j!='number')
+					{
+						convo.next();
+						convo.say("Sorry that's not a number, exiting, try again from the start");
+						return;
+					}
+					if(j>=i+1)
+					{
+						convo.next();
+						convo.say("Sorry, such an issue number doesn't exist, exiting.")
+						return;
+					}
+					sonar.rulesRequest(issues[j-1].rule, function(map){
+						rule=sonar.rule.rule;
+						convo.next();
+						var ans=rule.htmlDesc;
+						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+						convo.say(ans);
+					});
+				});
 			});
 
-
-          //convo.next();
-          //convo.say("Issue1: This is an issue");
       		console.log("Github link is: "+gitLink);
       	});
       }
@@ -89,8 +132,6 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 
       		if(typeof answer2.file=='undefined')
       		{
-      			//var private=answer2.file.url_private_download;
-
       			convo.next();
 		      	convo.say("Sorry I dont follow, exiting, try again from the start");
 		      	return;
@@ -102,43 +143,47 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
 
       		var permalink=answer2.file.permalink;
 
-      		/*var options = {
-			  "method": "GET",
-			  "hostname": "files.slack.com",
-			  "path": slug,
-			  "rejectUnauthorized": "true",
-			  "headers": {
-			      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
-			  }
-			}*/
+
 			downloader.pDownload(slug,permalink,"./to_scan_directory/test.java");
 			//son.runSR();
 			sonar.sendRequest("", function(map){
 			    console.log("here");
-			    issues = sonar.issues;
+			    issues = sonar.issues.issues;
 			    console.log(issues);
-			    for (var i=0; i<issues.length; i++){
+          loopCount= issues.length>10?10:issues.length;
+			    for (i=0; i<loopCount; i++){
 			    	convo.next();
-			    	convo.say("Issue "+(i+1)+": "+issues[i].message);
+			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
 				}
+				convo.next();
 
+				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
+					var j=parseInt(answer3.text);
+					console.log(typeof j+ " " +j + " ");
+					if(typeof j!='number')
+		      		{
+		      			convo.next();
+				      	convo.say("Sorry that's not a number, exiting, try again from the start");
+				      	return;
+		      		}
+		      		if(j>=i+1)
+		      		{
+		      			convo.next();
+		      			convo.say("Sorry, such an issue number doesn't exist, exiting.")
+		      			return;
+		      		}
+					sonar.rulesRequest(issues[j-1].rule, function(map){
+						rule=sonar.rule.rule;
+						convo.next();
+						var ans=rule.htmlDesc;
+						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+						convo.say(ans);
+					});
+				});
 			});
-			//convo.next();
-      //son.run();
-			// sendRequest("", function(map){
-   //      // Uncomment the two lines below and comment third line for actual Sonarqube output
-   //       console.log("Actual Output from Sonarqube");
-   //       console.log(issues);
-   //      //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
-   //    });
 
-      //sonar.sendRequest();
-      //console.log(issues);*/
 			convo.next();
 			convo.say("Please Wait, analyzing");
-		    //convo.next();
-		    //convo.say("Issue1: This is an issue");
-
       	});
       }
       else if(type.includes("goodbye")|| type.includes("bye"))

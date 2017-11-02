@@ -9,16 +9,15 @@ var urlRoot = "http://localhost:9000";
 var issues = [];
 var rulesOutput=null;
 // Mock the request using Nock
-
 // Returns issues array
-nock('http://localhost:9000')
-  .get('/api/issues/search')
-  .reply(200, mockData.issues);
-
-// Returns rule
-nock('http://localhost:9000')
-  .get('/api/rules/show?key=javascript:UnusedVariable')
-  .reply(200, mockData.rule);
+// nock('http://localhost:9000')
+//   .get('/api/issues/search')
+//   .reply(200, mockData.issues);
+//
+// // Returns rule
+// nock('http://localhost:9000')
+//   .get('/api/rules/show?key=javascript:UnusedVariable')
+//   .reply(200, mockData.rule);
 
 
 var sendRequest = function(string, callback) {
@@ -48,20 +47,6 @@ var rulesRequest = function(rule, callback) {
       }
     });
 };
-
-// rulesRequest("javascript:UnusedVariable", function(map){
-//     // Uncomment the two lines below and comment third line for actual Sonarqube output
-// 		 console.log("Actual Output from Sonarqube blah");
-// 		 console.log(rulesOutput);
-//     //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
-// });
-//
-// sendRequest("", function(map){
-//     // Uncomment the two lines below and comment third line for actual Sonarqube output
-// 		 console.log("Actual Output from Sonarqube");
-// 		 console.log(issues);
-//     //console.log("Script works. Run 'npm test' to Mock Sonarqube Output");
-// });
 
 module.exports.sendRequest = sendRequest;
 module.exports.rulesRequest = rulesRequest;
