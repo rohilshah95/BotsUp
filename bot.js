@@ -33,7 +33,7 @@ controller.spawn({
 
 // give the bot something to listen for.
 
-controller.hears('hi','direct_mention,direct_message', function(bot, message) {
+controller.hears('','direct_mention,direct_message', function(bot, message) {
 
   bot.startConversation(message, function(err, convo) {
     convo.say('Hi, I\'m your new personal tutor!');
@@ -55,8 +55,8 @@ controller.hears('hi','direct_mention,direct_message', function(bot, message) {
           }
           console.log("\n\nprinting speech from apiai");
           console.log(speech);
-          convo.next();
-          convo.say(speech);  //this is working
+          //convo.next();
+          //convo.say(speech);  //this is working
       });
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

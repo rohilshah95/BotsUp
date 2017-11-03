@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 var request = require('request');
 
@@ -39,7 +38,6 @@ var callAI = function(say, callback) {
 }
 module.exports.getAiReply = getAiReply;
 module.exports.callAI = callAI;
-=======
 
 var request = require('request');
 
@@ -80,4 +78,4 @@ var callAI = function(say, callback) {
 }
 module.exports.getAiReply = getAiReply;
 module.exports.callAI = callAI;
->>>>>>> dd2876fe7c0e29c0c5cb39376cc32fc5cfa41297
+// dd2876fe7c0e29c0c5cb39376cc32fc5cfa41297
