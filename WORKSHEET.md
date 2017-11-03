@@ -1,12 +1,12 @@
-## Iteration 2 - Service Milestone
+# Iteration 2 - Service Milestone
 
 #### Use Case 1
 
 | Deliverable   | Item/Status   |  Issues/Tasks
 | ------------- | ------------  |  ------------
 | **Use Case**      | **Submit a file to the chat bot for analysis and get results**           | [**Story**](https://trello.com/c/Wj98wJAI)
-| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [Request Creation](https://trello.com/c/eW4YRgTj)
-| Service      | Sonarqube service call integration in bot          |  [Output Parser](https://trello.com/c/UHEcMlRu)
+| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
+| Service      | Sonarqube service call integration in bot          |  [SQ Integration](https://trello.com/c/1ihoo0cW)
 | Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)
 
@@ -15,8 +15,8 @@
 | Deliverable   | Item/Status   |  Issues/Tasks
 | ------------- | ------------  |  ------------
 | **Use Case**      | **Submit a repository link to the chat bot for analysis and get results**           | [**Story**](https://trello.com/c/Wj98wJAI)
-| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [Request Creation](https://trello.com/c/eW4YRgTj)
-| Service      | Sonarqube service call integration in bot          |  [Output Parser](https://trello.com/c/UHEcMlRu)
+| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
+| Service      | Sonarqube service call integration in bot          |  [SQ Integration](https://trello.com/c/1ihoo0cW)
 | Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)
 
@@ -25,8 +25,8 @@
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
 | **Use Case**      | **Query a method or class definition from laguague documentation**           | [**Story**](https://trello.com/c/MB3iZTAW)
-| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [Request Creation](https://trello.com/c/eW4YRgTj)
-| Service      | Add support for Python, Javascript |  [Input Parser](https://trello.com/c/H8rhqRmx)
+| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
+| Service      | Add support for Python, Javascript |  [Documentation Parser](https://trello.com/c/wYzh34Ib)
 | Alternate Flow      | Method/Class definition not found             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)
 
