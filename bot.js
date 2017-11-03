@@ -14,6 +14,7 @@ var downloader=require('./testingdownload.js');
 var apiaicall = require('./apiai.js');
 var request = require('superagent');
 var docParser = require('./doc_parse.js');
+var docParserPython = require('./doc_parse_python.js');
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
@@ -43,7 +44,8 @@ controller.hears('','direct_mention,direct_message', function(bot, message) {
       console.log(type);
       console.log(type.includes("code"));
 
-	          /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// yet to be integrated to get all responses from apiai
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// yet to be integrated to get all responses from apiai
+        /*
       var speech;
       var apiAiResponse = {};
       apiaicall.callAI(type, function (body) {
@@ -58,6 +60,7 @@ controller.hears('','direct_mention,direct_message', function(bot, message) {
           //convo.next();
           //convo.say(speech);  //this is working
       });
+      */
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //if it is a github file
@@ -191,7 +194,24 @@ controller.hears('','direct_mention,direct_message', function(bot, message) {
       	convo.next();
       	convo.say("Good Bye!");
       	return;
-			}
+      }
+      else if((type.includes("define") || type.includes("explain") || type.includes("info")) && type.includes("python"))
+      {
+          var method_name = type.split(" ")[1]; //getting the method name from the string -- testing
+          console.log("The method is " + method_name + "\n\nin python documentation checker \n\n");
+          var res = docParserPython.getMethodDetails(method_name);
+          if (res == null || res.length == 0) {
+              convo.next();
+              convo.say("Sorry! That doesn't exist in my dictionary, exiting");
+              return;
+          }
+          var result = res[0].description;
+          convo.next();
+          convo.say(result);
+          //var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
+          console.log("\nresult: \n" + result + "\n\n");
+
+      }
 			else if(type.includes("define") || type.includes("explain") || type.includes("info")){
 				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing
 				 console.log("The method is " + method_name);
