@@ -30,6 +30,13 @@
 | Alternate Flow      | Method/Class definition not found             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)
 
+#### Backlog
+
+* Enhancements - Runner takes too much time to analyse - #3
+* Enhancements - Need new folders for each project for analysis - #4
+* Issue - Improper responses from bot - #1
+* Issue - Bot crashes after tip merge - #2
+
 
 
 # Iteration 1 - Bot Milestone - Week 2
