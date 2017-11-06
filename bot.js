@@ -11,26 +11,21 @@ controller.on('file_share,direct_message', replyCallback);
 
 var sessionId = "";
 function replyCallback(bot, message) {
-  console.log(message);
   sessionId = message.user + getTimeString();
-  console.log(sessionId);
   if (message.subtype === 'file_share') {
-    console.log(message);
     var localUrl = message.file.url_private;;
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
-
-    tryDownloading(localUrl).then(sonarProcessCallback).then(function () {
-      bot.reply("Ok here are the issues");
+    tryDownloading(localUrl).then(sonarProcessCallback).then(function (issues) {
+      bot.reply(message, issues );
     });
   }
-
   //when API.AI reponds, then, let the bot reply with an appropriate message
   getAIRes(message.text).then(function (response) {
-    bot.reply(message, prepareReply(response))
+    bot.reply(message, prepareReply(message, response))
   })
 }
 
-function prepareReply(response) {
+function prepareReply(message, response) {
   var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
   var intent = response.result.metadata.intentName; // this resolves the intent name from the response
   var params = response.result.parameters; // this gets the parameters from the response
@@ -53,7 +48,8 @@ function prepareReply(response) {
 
     }
     else if (params.url) {
-      tryDownloading(params.url.substring(1, params.url.length - 1)).then(sonarProcessCallback).then(function () {
+      tryDownloading(params.url.substring(1, params.url.length - 1)).then(sonarProcessCallback).then(function (issues) {
+       console.log("WOWOOW" + issues.length);
         bot.reply("Ok here are the issues");
       });
     }
@@ -69,7 +65,6 @@ function tryDownloading(url) {
     filename: "test.txt"
   };
   const downloadPromise = new Promise(function (resolve, reject) {
-    console.log("downloading " + url);
     download(url, options, function (err) {
       console.log(err);
       reject(err);
@@ -97,17 +92,16 @@ function getAIRes(query) {
 }
 
 function sonarProcessCallback() {
-
+  console.log("Inside Sonar Process Callback")
   const responseFromSQ = new Promise(
     function (resolve, reject) {
       // analyze using SQ here
       //callSonarcube here iwth the file path!
       sonar.sendRequest(null, function (map) {
-
         resolve(formatIssues(sonar.issues.issues));
       })
     });
-
+  console.log("Exiting Sonar Process Callback")
   return responseFromSQ;
 }
 
@@ -117,8 +111,8 @@ function getTimeString() {
 
 function formatIssues(issues) {
   var allIssues = "";
-  for (var i = 0; i < issues.length; i++) {
-    allIssues = allIssues + "_Issue " + i + "_: *" + issues[i].message + "*\n";
+  for (var i = 0; i < (issues.length>10?10:issues.length); i++) {
+    allIssues = allIssues + "_Issue " + (i+1) + "_: *" + issues[i].message + "*\n";
   }
   return allIssues;
 }
