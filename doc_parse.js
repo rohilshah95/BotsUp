@@ -7,6 +7,7 @@ exports.getMethodDetails = function(methodName){
 	var array = [];
 	var result = $('a[name=method_summary]').next().next().
 					find("code:contains(" + methodName + ")").map(function(){
+						console.log("Parsing");
 						var ret_type = $(this).parent().prev().text()
 						if (ret_type!=null && ret_type.trim().length>0){
 							array.push({

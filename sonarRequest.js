@@ -1,11 +1,12 @@
 var request = require('superagent');
 var nock = require('nock');
-var mockData = require("./mockData.json")
+//var mockData = require("./mockData.json")
 var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
 // Use server IP instead of localhost if Sonarqube is not deploy on this machine.
-var urlRoot = "http://localhost:9000";
+//var urlRoot = "http://localhost:9000";
+var urlRoot = "192.168.0.106:9000";
 var issues = [];
 var rulesOutput=null;
 // Mock the request using Nock
@@ -18,7 +19,6 @@ var rulesOutput=null;
 // nock('http://localhost:9000')
 //   .get('/api/rules/show?key=javascript:UnusedVariable')
 //   .reply(200, mockData.rule);
-
 
 var sendRequest = function(string, callback) {
   request

@@ -1,240 +1,118 @@
+var botkit = require('botkit');
+var sonar = require("./sonarRequest.js")
 var apiai = require('apiai');
-//API AI token
-var app = process.env.APIAITOKEN;
-
-var son = require('./sonarRunner.js');
-var sonar=require('./sonarRequest.js');
-var Botkit = require('botkit');
-var downloadGit = require('./downloadFromGit.js');
-var download=require('download-file');
-var https = require('https');
-var fs = require('fs');
-var downloader=require('./testingdownload.js');
-//var request = require('request');
-var apiaicall = require('./apiai.js');
-var request = require('superagent');
 var docParser = require('./doc_parse.js');
+var download = require('download-file');
 var docParserPython = require('./doc_parse_python.js');
-var username = "admin";
-var password = "admin";
-var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
-var issues=[];
-var i=0;
-var rule="";
-var controller = Botkit.slackbot({
-  debug: false
-  //include "log: false" to disable logging
-  //or a "logLevel" integer from 0 to 7 to adjust logging verbosity
-});
 
-// connect the bot to a stream of messages
-controller.spawn({
-	token: process.env.SLACKTOKEN,
-}).startRTM()
+var ai = apiai(process.env.APIAITOKEN);
+var controller = botkit.slackbot({  debug: false });
+controller.spawn({   token: process.env.GHOSTOKEN, }).startRTM();
+controller.on('file_share,direct_message',replyCallback);
 
-// give the bot something to listen for.
+var sessionId = "";
+function replyCallback(bot, message){
+  console.log(message);
+sessionId = message.user + new Date().getFullYear() + new Date().getMonth() + new Date().getDay() + new Date().getTime();
+console.log(sessionId);
+ if (message.subtype ==='file_share'){
+   console.log(message);
+  var localUrl = message.file.url_private;;
+  //localUrl= 'https://raw.githubusercontent.com/CJ8664/html5ever/master/COPYRIGHT';
+ tryDownloading(localUrl).then(sonarProcessCallback);
+  }
+  //when a file is uploaded, then, let solarqube analyze it. Need to chain Promises here.
 
-controller.hears('','direct_mention,direct_message', function(bot, message) {
+  //when API.AI reponds, then, let the bot reply with an appropriate message
+  getAIRes(message.text).then(function(response){
+    bot.reply(message,prepareReply(response))
+  })  
+}
 
-  bot.startConversation(message, function(err, convo) {
-    convo.say('Hi, I\'m your new personal tutor!');
-    convo.ask('Do you want to upload the code or share github link? Or Just type define along with the function you want the definition of (eg. define substring)', function(answer, convo) {
-      console.log(answer);
-      var type = answer.text;
-      console.log(type);
-      console.log(type.includes("code"));
+function prepareReply(response){
+  var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
+  var intent = response.result.metadata.intentName; // this resolves the intent name from the response
+  var params = response.result.parameters; // this gets the parameters from the response
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////// yet to be integrated to get all responses from apiai
-        /*
-      var speech;
-      var apiAiResponse = {};
-      apiaicall.callAI(type, function (body) {
-          console.log(body);
-          apiAiResponse = body;
-          console.log(apiAiResponse);
-          if (apiAiResponse == body) {
-              speech = apiaicall.getAiReply(apiAiResponse);
-          }
-          console.log("\n\nprinting speech from apiai");
-          console.log(speech);
-          //convo.next();
-          //convo.say(speech);  //this is working
+  if (intent === 'Greeting'){
+  return reply;
+  }
+  else if (intent ==='MethodDef'){
+    if(params.methodName){
+      var res =  docParser.getMethodDetails(params.methodName);
+      var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
+      if(res==null || res.length==0)
+      {
+       return "Sorry! I could not find any information related to this";
+      }
+      return result;
+    }
+  }
+  else if (intent ==='GenericAnalysis') {
+    return reply; 
+  }
+  else if (intent === 'AnalysisChoice'){
+    if(params.code_origin){
+
+    }
+    else if (params.url){
+      tryDownloading(params.url.substring(1,params.url.length -1)).then(sonarProcessCallback);    
+    }
+  }
+  else {
+    return reply;
+  }
+}
+
+function tryDownloading(url){
+    var options = {
+        directory: "./test",
+        filename: "test.txt"
+    };
+    const downloadPromise = new Promise(function(resolve,reject){
+      console.log("downloading " + url);
+      download(url,options,  function (err) {
+        console.log(err);
+        resolve(err);
       });
-      */
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    })
+    return downloadPromise;
+}
 
-        //if it is a github file
-      if(type.includes("github")){
-      	convo.ask('Please provide the link to the raw file.', function(answer1, convo){
-      		var gitLink=answer1.text;
-          if(!gitLink.includes("github"))
-          {
-            convo.next();
-            convo.say("Sorry this is not a github link, exiting");
-            return;
-          }
-      		if(gitLink.includes("goodbye")|| gitLink.includes("bye"))
-		    {
-		    	convo.next();
-		    	convo.say("Good Bye!");
-		      	return;
-		    }
-      		gitLink = gitLink.substring(1, (gitLink.length - 1));
-      		console.log(gitLink);
-      	    downloadGit.downloadFile(gitLink);
-      		var fileType = downloadGit.getFileType(gitLink);
-      		console.log("Your file type is: " + fileType);
-      		console.log("Github link is: " + gitLink);
-      		convo.next();
-      		convo.say('great');
-      		sonar.sendRequest("", function(map){
-			    console.log("here");
-			    issues = sonar.issues.issues;
-			    console.log(issues);
-          loopCount= issues.length>10?10:issues.length;
-			    for (var i=0; i<loopCount; i++){
-			    	convo.next();
-			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
-				}
-				convo.next();
-				//console.log(issues);
-				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
-					var j=parseInt(answer3.text);
-					console.log("j="+j);
-					if(typeof j!='number')
-					{
-						convo.next();
-						convo.say("Sorry that's not a number, exiting, try again from the start");
-						return;
-					}
-					if(j>=i+1)
-					{
-						convo.next();
-						convo.say("Sorry, such an issue number doesn't exist, exiting.")
-						return;
-					}
-					sonar.rulesRequest(issues[j-1].rule, function(map){
-						rule=sonar.rule.rule;
-						convo.next();
-						var ans=rule.htmlDesc;
-						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
-						convo.say(ans);
-					});
-				});
-			});
-
-      		console.log("Github link is: "+gitLink);
-      	});
-      }
-          //if it is a code
-      else if(type.includes("code") || type.includes("file") || type.includes("upload"))
-      {
-      	convo.ask('Please upload the code file', function(answer2, convo){
-      		console.log(answer2);
-
-
-      		if(typeof answer2.file=='undefined')
-      		{
-      			convo.next();
-		      	convo.say("Sorry I dont follow, exiting, try again from the start");
-		      	return;
-      		}
-      		var private=answer2.file.url_private_download;
-      		var slug = private.split('.com').pop();
-      		console.log(slug);
-            console.log(private);
-
-      		var permalink=answer2.file.permalink;
-
-
-			downloader.pDownload(slug,permalink,"./to_scan_directory/test.java");
-			//son.runSR();
-			sonar.sendRequest("", function(map){
-			    console.log("here");
-			    issues = sonar.issues.issues;
-			    console.log(issues);
-          loopCount= issues.length>10?10:issues.length;
-			    for (i=0; i<loopCount; i++){
-			    	convo.next();
-			    	convo.say("_Issue "+(i+1)+"_: *"+issues[i].message+"*");
-				}
-				convo.next();
-
-				convo.ask("For more information on these issues, reply back with the issue number.", function(answer3, convo){
-					var j=parseInt(answer3.text);
-					console.log(typeof j+ " " +j + " ");
-					if(typeof j!='number')
-		      		{
-		      			convo.next();
-				      	convo.say("Sorry that's not a number, exiting, try again from the start");
-				      	return;
-		      		}
-		      		if(j>=i+1)
-		      		{
-		      			convo.next();
-		      			convo.say("Sorry, such an issue number doesn't exist, exiting.")
-		      			return;
-		      		}
-					sonar.rulesRequest(issues[j-1].rule, function(map){
-						rule=sonar.rule.rule;
-						convo.next();
-						var ans=rule.htmlDesc;
-						ans=ans.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
-						convo.say(ans);
-					});
-				});
-			});
-
-			convo.next();
-			convo.say("Please Wait, analyzing");
-      	});
-      }
-      else if(type.includes("goodbye")|| type.includes("bye"))
-      {
-      	convo.next();
-      	convo.say("Good Bye!");
-      	return;
-      }
-      else if((type.includes("define") || type.includes("explain") || type.includes("info")) && type.includes("python"))
-      {
-          var method_name = type.split(" ")[1]; //getting the method name from the string -- testing
-          console.log("The method is " + method_name + "\n\nin python documentation checker \n\n");
-          var res = docParserPython.getMethodDetails(method_name);
-          if (res == null || res.length == 0) {
-              convo.next();
-              convo.say("Sorry! That doesn't exist in my dictionary, exiting");
-              return;
-          }
-          var result = res[0].description;
-          convo.next();
-          convo.say(result);
-          //var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
-          console.log("\nresult: \n" + result + "\n\n");
-
-      }
-			else if(type.includes("define") || type.includes("explain") || type.includes("info")){
-				 var method_name = type.split(" ")[1]; //getting the method name from the string -- testing
-				 console.log("The method is " + method_name);
-				 var res = docParser.getMethodDetails(method_name);
-				 if(res==null || res.length==0)
-		         {
-		          convo.next();
-		          convo.say("Sorry! That doesn't exist in my dictionary, exiting");
-		          return;
-		         }
-				 var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description
-				 convo.next();
-				 convo.say(result);
-
-			}
-      else
-      {
-      	convo.next();
-      	convo.say("Sorry I dont follow, exiting, try again from the start");
-      	return;
-      }
-      convo.next(); // continue with conversation
+function getAIRes(query){
+  var request = ai.textRequest(query, {
+    sessionId: 'vjjj'
+   });
+  const responseFromAI = new Promise(
+    function(resolve,reject){
+    request.on('error',function(error){
+      reject(error);
     });
-
+    request.on('response',function(response){
+      resolve(response);
+    });
   });
-});
+  request.end();
+return responseFromAI;
+}
+
+function sonarProcessCallback(){
+
+  // analyze using SQ here
+    //callSonarcube here iwth the file path!
+       console.log(sonar.sendRequest);
+        sonar.sendRequest(null, function(map){ 
+         var issues = sonar.issues.issues;
+          var allIssues="";
+          for(var i=0;i<issues.length;i++){
+            allIssues = allIssues +  "_Issue " + i + "_: *" +  issues[i].message + "*\n";
+          }
+          console.log(allIssues);
+          return allIssues;
+        })
+}
+
+function getTimeString(){
+  return new Date().getFullYear + new Date().getMonth;
+
+}
