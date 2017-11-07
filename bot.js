@@ -21,6 +21,11 @@ function replyCallback(bot, message) {
       bot.reply(message, issues );
     });
   }
+
+// block for analyzing code snippets 
+  // if message.sbutype = snippet?
+    // then use the promise callbacks to process 
+
   //when API.AI reponds, then, let the bot reply with an appropriate message
   getAIRes(message.text).then(function (response) {
     bot.reply(message, prepareReply(message, response))
@@ -107,6 +112,11 @@ function getSonarIssues() {
     });
   console.log("Exiting Sonar Process Callback")
   return responseFromSQ;
+}
+// this method performs analysis using SQ and returns a Promise of the result. 
+function analyze(){
+    //sonarrunner. 
+    //call run SonarRunner.SR
 }
 
 function formatIssues(issues) {
