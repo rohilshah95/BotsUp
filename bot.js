@@ -13,7 +13,7 @@ var sessionId = "";
 function replyCallback(bot, message) {
   sessionId = message.user + getTimeString();
   if (message.subtype === 'file_share') {
-    var localUrl = message.file.url_private;;
+    var localUrl = message.file.url_private;
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
     download(localUrl).then(getSonarIssues).then(function (issues) {
       bot.reply(message, issues );
@@ -81,8 +81,9 @@ function download(url) {
 
 function getAIRes(query) {
   var request = ai.textRequest(query, {
-    sessionId: 'vjjj'
+    sessionId: 'rohilshah'
   });
+  console.log(request);
   const responseFromAI = new Promise(
     function (resolve, reject) {
       request.on('error', function (error) {
@@ -91,7 +92,7 @@ function getAIRes(query) {
       request.on('response', function (response) {
         resolve(response);
       });
-    });
+    }).catch(() => {});
   request.end();
   return responseFromAI;
 }

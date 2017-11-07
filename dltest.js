@@ -1,17 +1,18 @@
 var https = require('https');
 var fs = require('fs');
 
-var options = {
+var pDownload= function (url, dest){
+  var slug = url.split('.com').pop();
+  console.log(slug);
+  var options = {
   "method": "GET",
   "hostname": "files.slack.com",
-  "path": "/files-pri/T7UC4HMQE-F7VG3KWMT/download/results.xlsx",
+  "path": slug,
   "rejectUnauthorized": "false",
   "headers": {
-      "Authorization": "Bearer xoxp-266412599830-264876024624-264878848720-1b5c99f3a717478de45c6149466afb9e"
+      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
+    }
   }
-}
-
-function pDownload(url, dest){
   var file = fs.createWriteStream(dest);
   return new Promise((resolve, reject) => {
     var responseSent = false; // flag to make sure that response is sent only once.
@@ -33,7 +34,8 @@ function pDownload(url, dest){
   });
 }
 
+module.exports.pDownload=pDownload;
 //example
-pDownload('https://files.slack.com/files-pri/T7UC4HMQE-F7VG3KWMT/download/results.xlsx', './test/res.new')
+pDownload('https://files.slack.com/files-pri/T7JRF8TCN-F7WDP24LV/analysis.r', './test/res.new')
   .then( ()=> console.log('downloaded file no issues...'))
   .catch( e => console.error('error while downloading', e));
