@@ -6,7 +6,7 @@ var docParser = require('./doc_parse.js');
 var docParserPython = require('./doc_parse_python.js');
 var controller = botkit.slackbot({ debug: false });
 
-controller.spawn({ token: process.env.GHOSTOKEN, }).startRTM();
+controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
 controller.on('file_share,direct_message', replyCallback);
 
 var sessionId = "";
@@ -76,8 +76,9 @@ function tryDownloading(url) {
 
 function getAIRes(query) {
   var request = ai.textRequest(query, {
-    sessionId: 'vjjj'
+    sessionId: 'rohilshah'
   });
+  console.log(request);
   const responseFromAI = new Promise(
     function (resolve, reject) {
       request.on('error', function (error) {
@@ -86,7 +87,7 @@ function getAIRes(query) {
       request.on('response', function (response) {
         resolve(response);
       });
-    });
+    }).catch(() => {});
   request.end();
   return responseFromAI;
 }
