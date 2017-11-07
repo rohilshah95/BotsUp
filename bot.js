@@ -1,7 +1,7 @@
 var sonar = require("./sonarRequest.js")
 var ai = require('apiai')(process.env.APIAITOKEN);
 var botkit = require('botkit');
-var download = require('download-file');
+var downloader = require('download-file');
 var docParser = require('./doc_parse.js');
 var docParserPython = require('./doc_parse_python.js');
 var controller = botkit.slackbot({ debug: false });
@@ -15,7 +15,7 @@ function replyCallback(bot, message) {
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;;
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
-    tryDownloading(localUrl).then(sonarProcessCallback).then(function (issues) {
+    download(localUrl).then(getSonarIssues).then(function (issues) {
       bot.reply(message, issues );
     });
   }
@@ -48,7 +48,7 @@ function prepareReply(message, response) {
 
     }
     else if (params.url) {
-      tryDownloading(params.url.substring(1, params.url.length - 1)).then(sonarProcessCallback).then(function (issues) {
+      download(params.url.substring(1, params.url.length - 1)).then(getSonarIssues).then(function (issues) {
        console.log("WOWOOW" + issues.length);
         bot.reply("Ok here are the issues");
       });
@@ -59,13 +59,13 @@ function prepareReply(message, response) {
   }
 }
 
-function tryDownloading(url) {
+function download(url) {
   var options = {
     directory: "./test",
     filename: "test.txt"
   };
   const downloadPromise = new Promise(function (resolve, reject) {
-    download(url, options, function (err) {
+    downloader(url, options, function (err) {
       console.log(err);
       reject(err);
     });
@@ -92,7 +92,7 @@ function getAIRes(query) {
   return responseFromAI;
 }
 
-function sonarProcessCallback() {
+function getSonarIssues() {
   console.log("Inside Sonar Process Callback")
   const responseFromSQ = new Promise(
     function (resolve, reject) {
@@ -104,10 +104,6 @@ function sonarProcessCallback() {
     });
   console.log("Exiting Sonar Process Callback")
   return responseFromSQ;
-}
-
-function getTimeString() {
-  return new Date().getFullYear + new Date().getMonth;
 }
 
 function formatIssues(issues) {
