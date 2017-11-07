@@ -5,8 +5,7 @@ var username = "admin";
 var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
 // Use server IP instead of localhost if Sonarqube is not deploy on this machine.
-//var urlRoot = "http://localhost:9000";
-var urlRoot = "192.168.0.106:9000";
+var urlRoot = "http://localhost:9000";
 var issues = [];
 var rulesOutput=null;
 // Mock the request using Nock

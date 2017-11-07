@@ -1,19 +1,20 @@
-var sonar = require("./sonarRequest.js")
 var ai = require('apiai')(process.env.APIAITOKEN);
+var sonar = require("./sonarRequest.js")
 var botkit = require('botkit');
-var downloader = require('download-file');
 var docParser = require('./doc_parse.js');
+var downloader = require('download-file');
 var docParserPython = require('./doc_parse_python.js');
 var controller = botkit.slackbot({ debug: false });
 var testdl=require('./dltest.js');
 
 controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
-controller.on('file_share,direct_message', replyCallback);
-
+controller.on('file_share,direct_message,direct_mention', replyCallback);
 var sessionId = "";
+
 function replyCallback(bot, message) {
   sessionId = message.user + getTimeString();
   if (message.subtype === 'file_share') {
+    console.log(message);
     var localUrl = message.file.url_private;
     console.log(typeof localUrl);
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
@@ -31,7 +32,6 @@ function replyCallback(bot, message) {
     bot.reply(message, prepareReply(message, response))
   })
 }
-
 function prepareReply(message, response) {
   var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
   var intent = response.result.metadata.intentName; // this resolves the intent name from the response
@@ -83,10 +83,9 @@ function download(url) {
 
 function getAIRes(query) {
   var request = ai.textRequest(query, {
-    sessionId: 'rohilshah'
+    sessionId: getTimeString()
   });
-  //console.log(request);
-  console.log(process.env.APIAITOKEN);
+  
   const responseFromAI = new Promise(
     function (resolve, reject) {
       request.on('error', function (error) {
@@ -116,7 +115,7 @@ function getSonarIssues() {
 // this method performs analysis using SQ and returns a Promise of the result. 
 function analyze(){
     //sonarrunner. 
-    //call run SonarRunner.SR
+    //call run runSR
 }
 
 function formatIssues(issues) {

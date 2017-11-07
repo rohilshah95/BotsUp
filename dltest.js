@@ -10,7 +10,7 @@ var pDownload= function (url, dest){
   "path": slug,
   "rejectUnauthorized": "false",
   "headers": {
-      "Authorization": "Bearer xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38"
+      "Authorization": "Bearer " + process.env.SLACKBEARERTOKEN
     }
   }
   var file = fs.createWriteStream(dest);
@@ -36,6 +36,6 @@ var pDownload= function (url, dest){
 
 module.exports.pDownload=pDownload;
 //example
-// pDownload('https://files.slack.com/files-pri/T7JRF8TCN-F7WDP24LV/analysis.r', './test/res.new')
-//   .then( ()=> console.log('downloaded file no issues...'))
-//   .catch( e => console.error('error while downloading', e));
+pDownload('https://files-origin.slack.com/files-pri/T7JRF8TCN-F7VMZJK1N/dltest.js', './test/res.new')
+  .then( ()=> console.log('downloaded file no issues...'))
+  .catch( e => console.error('error while downloading', e));
