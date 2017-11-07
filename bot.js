@@ -40,6 +40,7 @@ function prepareReply(message, response) {
   // if (intent === 'Greeting' || intent ==='GenericAnalysis'){
   // return reply;
   // }
+  console.log("Intent: "+intent);
   if (intent === 'MethodDef') {
     if (params.methodName) {
       var res = docParser.getMethodDetails(params.methodName);
@@ -51,10 +52,12 @@ function prepareReply(message, response) {
     }
   }
   else if (intent === 'AnalysisChoice') {
+    
     if (params.code_origin) {
 
     }
     else if (params.url) {
+      console.log("Found a URL");
       download(params.url.substring(1, params.url.length - 1)).then(getSonarIssues).then(function (issues) {
        console.log("WOWOOW" + issues.length);
         bot.reply("Ok here are the issues");
@@ -68,9 +71,10 @@ function prepareReply(message, response) {
 
 function download(url) {
   var options = {
-    directory: "./test",
-    filename: "test.txt"
+    directory: "./to_scan_directory/"+sessionId,
+    filename: "test.java"
   };
+  console.log("The options are " + options);
   const downloadPromise = new Promise(function (resolve, reject) {
     downloader(url, options, function (err) {
       console.log(err);
@@ -83,7 +87,7 @@ function download(url) {
 
 function getAIRes(query) {
   var request = ai.textRequest(query, {
-    sessionId: getTimeString()
+    sessionId: 'user'
   });
   
   const responseFromAI = new Promise(
@@ -106,7 +110,8 @@ function getSonarIssues() {
       // analyze using SQ here
       //callSonarcube here iwth the file path!
       sonar.sendRequest(null, function (map) {
-        resolve(formatIssues(sonar.issues.issues));
+        //resolve(formatIssues(sonar.issues.issues));
+        resolve();
       })
     });
   console.log("Exiting Sonar Process Callback")
@@ -114,8 +119,7 @@ function getSonarIssues() {
 }
 // this method performs analysis using SQ and returns a Promise of the result. 
 function analyze(){
-    //sonarrunner. 
-    //call run runSR
+  
 }
 
 function formatIssues(issues) {
