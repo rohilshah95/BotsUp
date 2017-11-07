@@ -5,6 +5,7 @@ var downloader = require('download-file');
 var docParser = require('./doc_parse.js');
 var docParserPython = require('./doc_parse_python.js');
 var controller = botkit.slackbot({ debug: false });
+var testdl=require('./dltest.js');
 
 controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
 controller.on('file_share,direct_message', replyCallback);
@@ -14,8 +15,9 @@ function replyCallback(bot, message) {
   sessionId = message.user + getTimeString();
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
+    console.log(typeof localUrl);
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
-    download(localUrl).then(getSonarIssues).then(function (issues) {
+    testdl.pDownload(localUrl,'./test/res.new').then(getSonarIssues).then(function (issues) {
       bot.reply(message, issues );
     });
   }
@@ -78,7 +80,8 @@ function getAIRes(query) {
   var request = ai.textRequest(query, {
     sessionId: 'rohilshah'
   });
-  console.log(request);
+  //console.log(request);
+  console.log(process.env.APIAITOKEN);
   const responseFromAI = new Promise(
     function (resolve, reject) {
       request.on('error', function (error) {

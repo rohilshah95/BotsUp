@@ -36,6 +36,6 @@ var pDownload= function (url, dest){
 
 module.exports.pDownload=pDownload;
 //example
-pDownload('https://files.slack.com/files-pri/T7JRF8TCN-F7WDP24LV/analysis.r', './test/res.new')
-  .then( ()=> console.log('downloaded file no issues...'))
-  .catch( e => console.error('error while downloading', e));
+// pDownload('https://files.slack.com/files-pri/T7JRF8TCN-F7WDP24LV/analysis.r', './test/res.new')
+//   .then( ()=> console.log('downloaded file no issues...'))
+//   .catch( e => console.error('error while downloading', e));
