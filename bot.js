@@ -141,3 +141,4 @@ function getIssueCount(issues) {
 
 function formatRule(ruleStr){
   return ruleStr.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+}
