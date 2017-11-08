@@ -80,8 +80,7 @@ function download(url) {
 }
 
 function getAIRes(query) {
-  var request = ai.textRequest(query, {
-  console.log(process.env.APIAITOKEN);
+  var request = ai.textRequest(query,{
     sessionId: session.user_id
   });
   const responseFromAI = new Promise(
