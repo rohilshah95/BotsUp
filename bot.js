@@ -21,7 +21,7 @@ function replyCallback(bot, message) {
   //console.log(message);
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
-    dest='.analysis/' + sessionID; 
+    var dest='.analysis/' + sessionID; 
     mkdirp(dest, function(err) { 
 
     testdl.pDownload(localUrl, (dest+"/"+path.basename(localUrl))).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
