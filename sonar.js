@@ -17,14 +17,12 @@ function makeParams(sessionID) {
 var analyse = function (sessionID) {
   return new Promise(function (resolve, reject) {
     child_process.exec("sonar-scanner " + makeParams(sessionID), function (error, stdout, stderr) {
-      sleep.sleep(10); //sleeping for 10 seconds to check if webserver responds
-      console.log(stdout);
-      console.log(stderr);
-      if(!error || !stderr){
-        resolve(sessionID);
+      sleep.sleep(3); //sleeping for 10 seconds to check if webserver responds
+      resolve(sessionID);
+      if(!error && !stderr){
       }
       else {
-        reject(stderr);
+      //  reject(stderr);
       }
     });
   });

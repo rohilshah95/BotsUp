@@ -8,12 +8,14 @@ var controller = botkit.slackbot({ debug: false });
 var testdl = require('./dltest.js');
 var path = require('path');
 controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
+var session;
 
 controller.on('file_share,direct_message,direct_mention', replyCallback);
 var sessionID = "";
 
 function replyCallback(bot, message) {
-  sessionID = message.user + getTimeString();
+  session = {"user_id":message.user,"session_id": message.user + getTimeString()}
+  sessionID = session.session_id;
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
@@ -40,9 +42,12 @@ function replyCallback(bot, message) {
       }
     }
     else if (intent === 'AnalysisChoice') {
+      bot.reply(message,reply);
       if (params.url) {
         download(params.url).then(function(sess){return sonar.analyse(sess)}).then(function(sess){return sonar.getIssues(sess)}).then(function (body) {
-          bot.reply(message, formatIssues(body.issues));
+         
+          var issueList = formatIssues(body.issues);
+          bot.reply(message, issueList? issueList:"No issues found");
         });
       }
     }
@@ -68,7 +73,7 @@ function download(url) {
 
 function getAIRes(query) {
   var request = ai.textRequest(query, {
-    sessionId: 'user'
+    sessionId: session.user_id
   });
 
   const responseFromAI = new Promise(

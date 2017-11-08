@@ -6,3 +6,4 @@ to_scan_directory/
 to_scan_directory/test.java
 .analysis/
 package-lock.json
+.vs/
