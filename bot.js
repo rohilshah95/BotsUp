@@ -20,11 +20,11 @@ function replyCallback(bot, message) {
     var localUrl = message.file.url_private;
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
 
-    testdl.pDownload(localUrl, './analysis/' + sessionID).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
+    testdl.pDownload(localUrl, './analysis/' + sessionID + "/" + path.basename(localUrl)).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
       bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
-       if(getIssueCount(body.issues) > 0){
-         bot.reply(message, formatIssues(body.issues));
-       }
+      if (getIssueCount(body.issues) > 0) {
+        bot.reply(message, formatIssues(body.issues));
+      }
     });
   }
   // block for analyzing code snippets 
@@ -39,8 +39,7 @@ function replyCallback(bot, message) {
       if (params.methodName) {
         var res = docParser.getMethodDetails(params.methodName);
         var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
-        console.log(res);
-        console.log(result);
+       
         if (res == null || res.length == 0) {
           result = "Sorry! I could not find any information related to this";
         }
@@ -51,15 +50,16 @@ function replyCallback(bot, message) {
       bot.reply(message, reply);
       if (params.url) {
         download(params.url).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
-          bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
-           if(getIssueCount(body.issues) > 0){
-             bot.reply(message, formatIssues(body.issues));
-           }
+         // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
+          //if (getIssueCount(body.issues) > 0) {
+            console.log(body.issues);
+            bot.reply(message, formatIssues(body.issues));
+          //}
         });
       }
     }
-    else if (intent ==='AnalysisFeedback'){
-
+    else if (intent === 'AnalysisFeedback') {
+        
     }
     else {
       bot.reply(message, reply)
@@ -82,7 +82,7 @@ function download(url) {
 }
 
 function getAIRes(query) {
-  var request = ai.textRequest(query,{
+  var request = ai.textRequest(query, {
     sessionId: session.user_id
   });
   const responseFromAI = new Promise(
@@ -117,7 +117,7 @@ function cleanString(text) {
 function getIssueCount(issues) {
   console.log(issues.length);
   var count = 0
-  if (!issues || issues.length>0) {
+  if (!issues || issues.length > 0) {
     count = issues.length;
   }
   return count;
