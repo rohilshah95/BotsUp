@@ -19,19 +19,18 @@ var sessionID = "";
 function replyCallback(bot, message) {
   session = { "user_id": message.user, "session_id": message.user + getTimeString() }
   sessionID = session.session_id;
-  //console.log(message);
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
-    var dest='.analysis/' + sessionID;
-    mkdirp(dest, function(err) {
+    var dest = '.analysis/' + sessionID;
+    mkdirp(dest, function (err) {
 
-    testdl.pDownload(localUrl, (dest+"/"+path.basename(localUrl))).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
-      // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
-          //if (getIssueCount(body.issues) > 0) {
-            console.log(body.issues);
-            bot.reply(message, formatIssues(body.issues));
-          //}
-    });
+      testdl.pDownload(localUrl, (dest + "/" + path.basename(localUrl))).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
+        // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
+        //if (getIssueCount(body.issues) > 0) {
+        console.log(body.issues);
+        bot.reply(message, formatIssues(body.issues));
+        //}
+      });
 
     });
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
@@ -57,25 +56,26 @@ function replyCallback(bot, message) {
       }
     }
     else if (intent === 'AnalysisChoice') {
+      userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
       if (params.url) {
         //clear the map entry for current user key
         download(params.url).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
-         // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
+          // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
           //if (getIssueCount(body.issues) > 0) {
-            userRuleMap.set(session.user_id, body.issues); //storing 
-            console.log(body.issues);
-            bot.reply(message, formatIssues(body.issues));
+          userRuleMap.set(session.user_id, body.issues); //storing 
+          console.log(body.issues);
+          bot.reply(message, formatIssues(body.issues));
           //}
         });
       }
     }
-    else if (intent === 'AnalysisFeedback') { // & the map contains user data
-      var ruleName = userRuleMap.get(session.user_id)[(params.number==""?params.ordinal:params.number)-1].rule;
-      sonar.getRules(ruleName).then(function(body){
-        bot.reply(message, formatRule(body.rule.htmlDesc) );
+    else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
+      var ruleName = userRuleMap.get(session.user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
+      sonar.getRules(ruleName).then(function (body) {
+        bot.reply(message, formatRule(body.rule.htmlDesc));
       })
-     
+
     }
     else {
       bot.reply(message, reply)
@@ -117,7 +117,7 @@ function getAIRes(query) {
 function formatIssues(issues) {
   var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
-    allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line?" on line number "+issues[i].line:"")+"_: *" + issues[i].message + "*\n";
+    allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + "_: *" + issues[i].message + "*\n";
   }
   return allIssues;
 }
@@ -139,6 +139,6 @@ function getIssueCount(issues) {
   return count;
 }
 
-function formatRule(ruleStr){
+function formatRule(ruleStr) {
   return ruleStr.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
 }
