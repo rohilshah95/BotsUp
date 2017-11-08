@@ -18,6 +18,8 @@ var analyse = function (sessionID) {
   return new Promise(function (resolve, reject) {
     child_process.exec("sonar-scanner " + makeParams(sessionID), function (error, stdout, stderr) {
       sleep.sleep(10); //sleeping for 10 seconds to check if webserver responds
+      console.log(stdout);
+      console.log(stderr);
       if(!error || !stderr){
         resolve(sessionID);
       }
@@ -29,15 +31,12 @@ var analyse = function (sessionID) {
 }
 
 var getIssues = function(sessionID) {
-  //var sessionID = "U7SRS0QJC1510116920246";
   return new Promise(function(resolve,reject){
     request
     .get(`${urlRoot}/api/issues/search?componentKeys=${sessionID}`)
     .end(function(err, res) {
       if (!err) {
         resolve(res.body);
-        // issues = res.body
-        // exports.issues = issues;
       } else {
         reject(err);
       }
