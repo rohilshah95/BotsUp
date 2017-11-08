@@ -4,7 +4,9 @@ const docFile = "./javadocs/java_string.html";
 const encoding = 'utf8';
 const $ = cheerio.load(fs.readFileSync(docFile, encoding));
 exports.getMethodDetails = function(methodName){
-	var array = [];
+	var array = [];	
+	console.log("\nInside doc parser " + methodName + "\n")
+
 	var result = $('a[name=method_summary]').next().next().
 					find("code:contains(" + methodName + ")").map(function(){
 						console.log("Parsing");
