@@ -30,7 +30,7 @@
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
 | **Use Case**      | **Submit a repository link to the chat bot for analysis and get results**           | [**Story**](https://trello.com/c/5m8WI2WU)
-| Subflow      | Retrieve source files from repo URL and send to external API            |  [Input Parser](https://trello.com/c/H8rhqRmx), [Git Integration](https://trello.com/c/4ghjOzwg), [Request Creation](https://trello.com/c/eW4YRgTj)
+| Subflow      | Retrieve source files from repo URL and send to external API            |  [Input Parser](https://trello.com/c/H8rhqRmx), [Git Integration](https://trello.com/c/4ghjOzwg), [Request Creation](https://trello.com/c/eW4YRgTj), [Accept Source Files](https://trello.com/c/h8OmwRiO)
 | Subflow      | Bot returns suggestions provided by the API          |  [Output Parser](https://trello.com/c/UHEcMlRu)
 | Subflow      | User requests details of suggestions          |  [Issue Details](https://trello.com/c/MDK8sbpS)
 | Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
