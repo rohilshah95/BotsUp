@@ -19,8 +19,12 @@ function replyCallback(bot, message) {
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
-    testdl.pDownload(localUrl, './test/res.new').then(getSonarIssues).then(function (issues) {
-      bot.reply(message, issues);
+
+    testdl.pDownload(localUrl, './test/res.new').then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
+      bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
+       if(getIssueCount(body.issues) > 0){
+         bot.reply(message, formatIssues(body.issues));
+       }
     });
   }
   // block for analyzing code snippets 
@@ -51,6 +55,9 @@ function replyCallback(bot, message) {
            }
         });
       }
+    }
+    else if (intent ==='AnalysisFeedback'){
+
     }
     else {
       bot.reply(message, reply)
