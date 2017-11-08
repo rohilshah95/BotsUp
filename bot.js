@@ -21,8 +21,8 @@ function replyCallback(bot, message) {
   //console.log(message);
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
-    dest='.analysis/' + sessionID; 
-    mkdirp(dest, function(err) { 
+    var dest='.analysis/' + sessionID;
+    mkdirp(dest, function(err) {
 
     testdl.pDownload(localUrl, (dest+"/"+path.basename(localUrl))).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
       // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
@@ -34,7 +34,7 @@ function replyCallback(bot, message) {
 
     });
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
-    
+
   }
   // block for analyzing code snippets
   // if message.sbutype = snippet?
@@ -110,7 +110,7 @@ function getAIRes(query) {
 function formatIssues(issues) {
   var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
-    allIssues = allIssues + "_Issue " + (i + 1) + " on line number"+issues[i].line+"_: *" + issues[i].message + "*\n";
+    allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line?" on line number "+issues[i].line:"")+"_: *" + issues[i].message + "*\n";
   }
   return allIssues;
 }
