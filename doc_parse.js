@@ -1,26 +1,27 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
-const docFile = "./javadocs/java_string.html";
 const encoding = 'utf8';
-const $ = cheerio.load(fs.readFileSync(docFile, encoding));
-exports.getMethodDetails = function(methodName){
-	var array = [];	
-	console.log("\nInside doc parser " + methodName + "\n")
 
-	var result = $('a[name=method_summary]').next().next().
-					find("code:contains(" + methodName + ")").map(function(){
-						console.log("Parsing");
-						var ret_type = $(this).parent().prev().text()
-						if (ret_type!=null && ret_type.trim().length>0){
-							array.push({
-								"method_name" :$(this).text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim(),
-								"return_type" : $(this).parent().prev().text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim(),
-								"description" :$(this).next().text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
-						 });
-						}
-					 	//"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
+exports.getMethodDetails = function (methodName) {
+    var array = [];
+    for (i = 1; i <= 5; i++) {
+        const docFile = "./javadocs/" + i +".html";
+        const $ = cheerio.load(fs.readFileSync(docFile, encoding));
+        var result = $('a[name=method_summary]').next().next().
+                        find("code:contains(" + methodName + ")").map(function () {
+                            console.log("Parsing");
+                            var ret_type = $(this).parent().prev().text()
+                            if (ret_type != null && ret_type.trim().length > 0) {
+                                array.push({
+                                    "method_name": $(this).text().replace(/\n|\r/g, '').replace(/\s+/g, " ").trim(),
+                                     "return_type": $(this).parent().prev().text().replace(/\n|\r/g, '').replace(/\s+/g, " ").trim(),
+                                    "description": $(this).next().text().replace(/\n|\r/g, '').replace(/\s+/g, " ").trim()
+                                });
+                            }
+                            //"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
+                        });
+    }
 
-				});
 	return array;
 	// if array is empty handle exception.
 
