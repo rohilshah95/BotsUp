@@ -4,4 +4,11 @@ package.json
 package-lock.json
 to_scan_directory/
 to_scan_directory/test.java
+<<<<<<< HEAD
 test/res.new
+=======
+.analysis/
+package-lock.json
+.vs/
+package-lock.json
+>>>>>>> 18928019f5c417a637ba9af4b9b5eb3c1841abb4

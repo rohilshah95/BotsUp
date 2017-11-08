@@ -1,1 +1,0 @@
-sonar-scanner -Dsonar.projectBaseDir=to_scan_directory
