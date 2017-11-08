@@ -74,17 +74,9 @@ function download(url) {
 
 function getAIRes(query) {
   var request = ai.textRequest(query, {
-<<<<<<< HEAD
-    sessionId: 'rohil'
-  });
-
-  //console.log(request);
   console.log(process.env.APIAITOKEN);
-=======
     sessionId: session.user_id
   });
-
->>>>>>> 18928019f5c417a637ba9af4b9b5eb3c1841abb4
   const responseFromAI = new Promise(
     function (resolve, reject) {
       request.on('error', function (error) {
