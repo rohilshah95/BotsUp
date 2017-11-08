@@ -21,10 +21,11 @@ function replyCallback(bot, message) {
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
 
     testdl.pDownload(localUrl, './analysis/' + sessionID + "/" + path.basename(localUrl)).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
-      bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
-      if (getIssueCount(body.issues) > 0) {
-        bot.reply(message, formatIssues(body.issues));
-      }
+      // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
+          //if (getIssueCount(body.issues) > 0) {
+            console.log(body.issues);
+            bot.reply(message, formatIssues(body.issues));
+          //}
     });
   }
   // block for analyzing code snippets 
