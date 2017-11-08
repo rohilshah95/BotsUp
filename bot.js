@@ -14,7 +14,7 @@ controller.on('file_share,direct_message,direct_mention', replyCallback);
 var sessionID = "";
 
 function replyCallback(bot, message) {
-  session = {"user_id":message.user,"session_id": message.user + getTimeString()}
+  session = { "user_id": message.user, "session_id": message.user + getTimeString() }
   sessionID = session.session_id;
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
@@ -42,16 +42,17 @@ function replyCallback(bot, message) {
       }
     }
     else if (intent === 'AnalysisChoice') {
-      bot.reply(message,reply);
+      bot.reply(message, reply);
       if (params.url) {
-        download(params.url).then(function(sess){return sonar.analyse(sess)}).then(function(sess){return sonar.getIssues(sess)}).then(function (body) {
-         
-          var issueList = formatIssues(body.issues);
-          bot.reply(message, issueList? issueList:"No issues found");
+        download(params.url).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
+          bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
+           if(getIssueCount(body.issues) > 0){
+             bot.reply(message, formatIssues(body.issues));
+           }
         });
       }
     }
-    else{
+    else {
       bot.reply(message, reply)
     }
   })
@@ -88,7 +89,7 @@ function getAIRes(query) {
   request.end();
   return responseFromAI;
 }
- 
+
 function formatIssues(issues) {
   var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
@@ -103,4 +104,13 @@ function getTimeString() {
 
 function cleanString(text) {
   return text.replace('<', '').replace('>', '');
+}
+
+function getIssueCount(issues) {
+  console.log(issues.length);
+  var count = 0
+  if (!issues || issues.length>0) {
+    count = issues.length;
+  }
+  return count;
 }
