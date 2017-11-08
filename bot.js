@@ -29,9 +29,9 @@ function replyCallback(bot, message) {
           //}
     });
   }
-  // block for analyzing code snippets 
+  // block for analyzing code snippets
   // if message.sbutype = snippet?
-  // then use the promise callbacks to process 
+  // then use the promise callbacks to process
   getAIRes(cleanString(message.text)).then(function (response) {
     var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
     var intent = response.result.metadata.intentName; // this resolves the intent name from the response
@@ -41,7 +41,7 @@ function replyCallback(bot, message) {
       if (params.methodName) {
         var res = docParser.getMethodDetails(params.methodName);
         var result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
-       
+
         if (res == null || res.length == 0) {
           result = "Sorry! I could not find any information related to this";
         }
@@ -61,7 +61,7 @@ function replyCallback(bot, message) {
       }
     }
     else if (intent === 'AnalysisFeedback') {
-        
+
     }
     else {
       bot.reply(message, reply)
@@ -103,7 +103,7 @@ function getAIRes(query) {
 function formatIssues(issues) {
   var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
-    allIssues = allIssues + "_Issue " + (i + 1) + "_: *" + issues[i].message + "*\n";
+    allIssues = allIssues + "_Issue " + (i + 1) + " on line number"+issues[i].line+"_: *" + issues[i].message + "*\n";
   }
   return allIssues;
 }

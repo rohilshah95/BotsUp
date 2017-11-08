@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
 const encoding = 'utf8';
-<<<<<<< HEAD
+
 exports.getMethodDetails = function (methodName) {
     var array = [];
     for (i = 1; i <= 5; i++) {
@@ -21,27 +21,7 @@ exports.getMethodDetails = function (methodName) {
                             //"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
                         });
     }
-=======
-const $ = cheerio.load(fs.readFileSync(docFile, encoding));
-exports.getMethodDetails = function(methodName){
-	var array = [];	
-	console.log("\nInside doc parser " + methodName + "\n")
 
-	var result = $('a[name=method_summary]').next().next().
-					find("code:contains(" + methodName + ")").map(function(){
-						console.log("Parsing");
-						var ret_type = $(this).parent().prev().text()
-						if (ret_type!=null && ret_type.trim().length>0){
-							array.push({
-								"method_name" :$(this).text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim(),
-								"return_type" : $(this).parent().prev().text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim(),
-								"description" :$(this).next().text().replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
-						 });
-						}
-					 	//"description" : eachText[1].replace(/\n|\r/g,'').replace(/\s+/g, " ").trim()
-
-				});
->>>>>>> d31cd097033facff599c5c4b9e2eb68be4824e9a
 	return array;
 	// if array is empty handle exception.
 
