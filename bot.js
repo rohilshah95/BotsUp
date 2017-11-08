@@ -19,16 +19,11 @@ var sessionID = "";
 function replyCallback(bot, message) {
   session = { "user_id": message.user, "session_id": message.user + getTimeString() }
   sessionID = session.session_id;
-  //console.log(message);
+  console.log(message);
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
-<<<<<<< HEAD
-    var dest='.analysis/' + sessionID; 
-    mkdirp(dest, function(err) { 
-=======
     var dest='.analysis/' + sessionID;
     mkdirp(dest, function(err) {
->>>>>>> 3c8942a69ab97d024ad6c5d888bb3553538e879e
 
     testdl.pDownload(localUrl, (dest+"/"+path.basename(localUrl))).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
       // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
