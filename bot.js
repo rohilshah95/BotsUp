@@ -8,6 +8,7 @@ var controller = botkit.slackbot({ debug: false });
 var testdl = require('./dltest.js');
 var path = require('path');
 var mkdirp = require('mkdirp');
+var userRuleMap = new Map();
 
 controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
 var session;
@@ -43,7 +44,7 @@ function replyCallback(bot, message) {
     var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
     var intent = response.result.metadata.intentName; // this resolves the intent name from the response
     var params = response.result.parameters; // this gets the parameters from the response
-
+    console.log(intent);
     if (intent === 'MethodDef') {
       if (params.methodName) {
         var res = docParser.getMethodDetails(params.methodName);
@@ -58,17 +59,23 @@ function replyCallback(bot, message) {
     else if (intent === 'AnalysisChoice') {
       bot.reply(message, reply);
       if (params.url) {
+        //clear the map entry for current user key
         download(params.url).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
          // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
           //if (getIssueCount(body.issues) > 0) {
+            userRuleMap.set(session.user_id, body.issues); //storing 
             console.log(body.issues);
             bot.reply(message, formatIssues(body.issues));
           //}
         });
       }
     }
-    else if (intent === 'AnalysisFeedback') {
-
+    else if (intent === 'AnalysisFeedback') { // & the map contains user data
+      var ruleName = userRuleMap.get(session.user_id)[(params.number==""?params.ordinal:params.number)-1].rule;
+      sonar.getRules(ruleName).then(function(body){
+        bot.reply(message, formatRule(body.rule.htmlDesc) );
+      })
+     
     }
     else {
       bot.reply(message, reply)
@@ -131,3 +138,6 @@ function getIssueCount(issues) {
   }
   return count;
 }
+
+function formatRule(ruleStr){
+  return ruleStr.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");

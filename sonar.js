@@ -42,10 +42,10 @@ var getIssues = function(sessionID) {
   })
 };
 
-var getRules = function(sessionID) {
+var getRules = function(rule) {
   return new Promise(function(resolve,reject){
     request
-    .get(`${urlRoot}/api/rules/show?key=${sessionId}`)
+    .get(`${urlRoot}/api/rules/show?key=${rule}`)
     .end(function(err, res) {
       if (!err) {
         resolve(res.body);
