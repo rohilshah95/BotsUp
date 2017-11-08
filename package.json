@@ -20,6 +20,7 @@
     "request": "^2.83.0",
     "slackbots": "^0.5.1",
     "sleep": "^5.1.1",
-    "superagent": "^3.7.0"
+    "superagent": "^3.7.0",
+    "unescape": "^1.0.1"
   }
 }

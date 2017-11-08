@@ -16,6 +16,7 @@ var sessionID = "";
 function replyCallback(bot, message) {
   session = { "user_id": message.user, "session_id": message.user + getTimeString() }
   sessionID = session.session_id;
+  console.log(message);
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
     //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
