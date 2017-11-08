@@ -5,7 +5,7 @@
 | Deliverable   | Item/Status   |  Issues/Tasks
 | ------------- | ------------  |  ------------
 | **Use Case**      | **Submit a file to the chat bot for analysis and get results**           | [**Story**](https://trello.com/c/Wj98wJAI)
-| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
+| Service      | Api.ai intents integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
 | Service      | Sonarqube service call integration in bot          |  [SQ Integration](https://trello.com/c/1ihoo0cW)
 | Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)

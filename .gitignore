@@ -2,7 +2,9 @@
 node_modules/
 package.json
 package-lock.json
-package.json
-package-lock.json
 to_scan_directory/
 to_scan_directory/test.java
+.analysis/
+package-lock.json
+.vs/
+package-lock.json
