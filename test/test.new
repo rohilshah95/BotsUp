@@ -7,8 +7,6 @@ var docParserPython = require('./doc_parse_python.js');
 var controller = botkit.slackbot({ debug: false });
 var testdl = require('./dltest.js');
 var path = require('path');
-var mkdirp = require('mkdirp');
-
 controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
 var session;
 
@@ -21,20 +19,15 @@ function replyCallback(bot, message) {
   //console.log(message);
   if (message.subtype === 'file_share') {
     var localUrl = message.file.url_private;
-    dest='.analysis/' + sessionID; 
-    mkdirp(dest, function(err) { 
+    //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
 
-    testdl.pDownload(localUrl, (dest+"/"+path.basename(localUrl))).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
+    testdl.pDownload(localUrl, './.analysis/' + sessionID + "/" + path.basename(localUrl)).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
       // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
           //if (getIssueCount(body.issues) > 0) {
             console.log(body.issues);
             bot.reply(message, formatIssues(body.issues));
           //}
     });
-
-    });
-    //when a file is uploaded, then, let solarqube analyze it, then let the bot reply the issues back.
-    
   }
   // block for analyzing code snippets 
   // if message.sbutype = snippet?
