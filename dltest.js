@@ -21,8 +21,8 @@ var pDownload= function (url, dest){
       response.pipe(file);
       file.on('finish', () =>{
         file.close(() => {
-          if(responseSent)  return;
-          responseSent = true;
+          //if(responseSent)  return;
+          //responseSent = true;
           resolve();
         });
       });

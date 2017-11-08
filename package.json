@@ -17,6 +17,7 @@
     "download-file": "^0.1.5",
     "forecast.io": "0.0.9",
     "nock": "^9.0.28",
+    "request": "^2.83.0",
     "slackbots": "^0.5.1",
     "sleep": "^5.1.1",
     "superagent": "^3.7.0"
