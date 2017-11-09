@@ -8,7 +8,6 @@ var password = "admin";
 var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
 // Use server IP instead of localhost if Sonarqube is not deploy on this machine.
 var urlRoot = "http://localhost:9000";
-var rulesOutput=null;
 
 function makeParams(sessionID) {
   var params = "-Dsonar.projectBaseDir=.analysis/" + sessionID + " -Dsonar.projectKey=" + sessionID + " -Dsonar.projectName=" + sessionID + " -Dsonar.sources=.";
