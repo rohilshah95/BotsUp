@@ -17,7 +17,7 @@ function makeParams(sessionID) {
 var analyse = function (sessionID) {
   return new Promise(function (resolve, reject) {
     child_process.exec("sonar-scanner " + makeParams(sessionID), function (error, stdout, stderr) {
-      sleep.sleep(3); //sleeping for 10 seconds to check if webserver responds
+      sleep.sleep(2); //sleeping for 2 seconds to check if webserver responds
       resolve(sessionID);
       if(!error && !stderr){
       }
@@ -40,27 +40,27 @@ var getIssues = function(sessionID) {
       }
     });
   })
-
 };
 
-var rulesRequest = function(rule, callback) {
-  request
-    .get(`${urlRoot}/api/rules/show?key=${rule}`)
+var getRules = function(sessionID) {
+  return new Promise(function(resolve,reject){
+    request
+    .get(`${urlRoot}/api/rules/show?key=${sessionId}`)
     .end(function(err, res) {
       if (!err) {
-        rulesOutput = res.body;
-        exports.rule = rulesOutput;
-        callback(null, rulesOutput);
+        resolve(res.body);
       } else {
-        callback('Error Occurred!');
+        reject(err);
       }
     });
+  })
 };
+
 
 
 module.exports.analyse = analyse;
 module.exports.getIssues = getIssues;
-module.exports.rulesRequest = rulesRequest;
+module.exports.getRules = getRules;
 
 // Mock the request using Nock
 // Returns issues array

@@ -21,8 +21,8 @@ var pDownload= function (url, dest){
       response.pipe(file);
       file.on('finish', () =>{
         file.close(() => {
-          if(responseSent)  return;
-          responseSent = true;
+          //if(responseSent)  return;
+          //responseSent = true;
           resolve();
         });
       });
@@ -36,6 +36,6 @@ var pDownload= function (url, dest){
 
 module.exports.pDownload=pDownload;
 //example
-pDownload('https://files-origin.slack.com/files-pri/T7JRF8TCN-F7VMZJK1N/dltest.js', './test/res.new')
-  .then( ()=> console.log('downloaded file no issues...'))
-  .catch( e => console.error('error while downloading', e));
+// pDownload('https://files-origin.slack.com/files-pri/T7JRF8TCN-F7VMZJK1N/dltest.js', './test/res.new')
+//   .then( ()=> console.log('downloaded file no issues...'))
+//   .catch( e => console.error('error while downloading', e));
