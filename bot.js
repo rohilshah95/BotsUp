@@ -110,6 +110,9 @@ function getAIRes(query) {
 
 function formatIssues(issues) {
   var allIssues = "";
+  if (issues.length==0){
+    return "I found no issues.";
+  }
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
     allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + "_: *" + issues[i].message + "*\n";
   }
@@ -139,4 +142,4 @@ function formatRule(ruleStr) {
 
 function processChain(url, options) {
   return download(url, options).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) })
-} 
+}
