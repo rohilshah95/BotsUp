@@ -38,7 +38,7 @@ function replyCallback(bot, message) {
         bot.reply(message, result)
       }
     }
-    else if (intent === 'AnalysisChoice' || message.subtype === 'file_share') {
+    else if ( message.subtype === 'file_share' || intent === 'AnalysisChoice') {
       userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
       var url = ""
@@ -55,11 +55,10 @@ function replyCallback(bot, message) {
         url = params.url
       }
       processChain(url, options).then(function (body) {
-        // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
-        //if (getIssueCount(body.issues) > 0) {
+     
         userRuleMap.set(session.user_id, body.issues); //storing 
         bot.reply(message, formatIssues(body.issues));
-        //}
+        
       });
     }
     else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
