@@ -38,7 +38,7 @@ function replyCallback(bot, message) {
         bot.reply(message, result)
       }
     }
-    else if ( message.subtype === 'file_share' || intent === 'AnalysisChoice') {
+    else if ( intent === 'AnalysisChoice') {
       userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
       var url = ""
