@@ -55,7 +55,7 @@ function replyCallback(bot, message) {
         bot.reply(message, result)
       }
     }
-    else if (intent === 'AnalysisChoice') {
+    else if (intent === 'AnalysisChoice' && message.subtype != "file_share") {
       userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
       if (params.url) {
@@ -63,7 +63,7 @@ function replyCallback(bot, message) {
         download(params.url).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) }).then(function (body) {
           // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
           //if (getIssueCount(body.issues) > 0) {
-          userRuleMap.set(session.user_id, body.issues); //storing 
+          userRuleMap.set(session.user_id, body.issues); //storing
           console.log(body.issues);
           bot.reply(message, formatIssues(body.issues));
           //}
@@ -116,6 +116,9 @@ function getAIRes(query) {
 
 function formatIssues(issues) {
   var allIssues = "";
+  if (issues.length==0){
+    return "I found no issues.";
+  }
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
     allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + "_: *" + issues[i].message + "*\n";
   }
