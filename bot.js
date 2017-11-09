@@ -28,7 +28,6 @@ function replyCallback(bot, message) {
     if (intent === 'DefMethod') {
       if (params.method_name) {
         var res = docParser.getMethodDetails(params.method_name);
-        console.log(res);
         var result = "";
         if (res == null || res.length == 0) {
           result = "Sorry! I could not find any information related to this";
@@ -59,7 +58,6 @@ function replyCallback(bot, message) {
         // bot.reply(message, "I found " + getIssueCount(body.issues) + " issues");
         //if (getIssueCount(body.issues) > 0) {
         userRuleMap.set(session.user_id, body.issues); //storing 
-        console.log(body.issues);
         bot.reply(message, formatIssues(body.issues));
         //}
       });
