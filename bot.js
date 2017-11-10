@@ -33,8 +33,7 @@ function replyCallback(bot, message) {
     }
     else if(intent === 'Language')
     {
-        console.log("language = " + params.Language + "\tmethodname   " + context[0].parameters.method_name);
-        if(params.Language && context[0].parameters.method_name)
+        if(params.Language && context[0])
         {
             if (params.Language === 'java') {
                 var result = "";
@@ -58,10 +57,6 @@ function replyCallback(bot, message) {
                 }
                 bot.reply(message, result);
             }
-        }
-        else if (params.Language)
-        {
-            bot.reply("I know a bit about " + params.Language + ". Do you have any questions?");
         }
         
     }
