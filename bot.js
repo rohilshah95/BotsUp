@@ -34,8 +34,6 @@ function replyCallback(bot, message) {
       }
     }
     else if (intent === 'AnalysisChoice') {
-      userRuleMap.delete(session.user_id);
-      bot.reply(message, reply);
       var url = ""
       if (message.subtype === 'file_share') {
         url = message.file.url_private;
@@ -49,13 +47,16 @@ function replyCallback(bot, message) {
         options = {};
         url = params.url
       }
+      
+      userRuleMap.delete(session.user_id);
+      bot.reply(message, reply);
       processChain(url, options).then(function (body) {
         console.log(body.issues);
         userRuleMap.set(session.user_id, body.issues); //storing 
         bot.reply(message, formatIssues(body.issues));
 
       }).catch(function(err){
-        bot.reply(message, "Sorry! There was an error during processing");
+        bot.reply(message, "Sorry! I don't know how to interpret that");
         
       });
     }
