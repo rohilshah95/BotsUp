@@ -9,15 +9,13 @@ var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
 // Use server IP instead of localhost if Sonarqube is not deploy on this machine.
 var urlRoot = "http://localhost:9000";
 
-function makeParams(sessionID) {
-  var params = "-Dsonar.projectBaseDir=.analysis/" + sessionID + " -Dsonar.projectKey=" + sessionID + " -Dsonar.projectName=" + sessionID + " -Dsonar.sources=.";
-  return params;
-}
-var analyse = function (sessionID) {
+
+var analyse = function (scanOptions) {
   return new Promise(function (resolve, reject) {
-    child_process.exec("sonar-scanner " + makeParams(sessionID), function (error, stdout, stderr) {
-      sleep.sleep(2); //sleeping for 2 seconds to check if webserver responds
-      resolve(sessionID);
+    child_process.exec("sonar-scanner " + makeParams(scanOptions), function (error, stdout, stderr) {
+      sleep.sleep(5); //sleeping for 2 seconds to check if webserver responds
+      console.log("Scanner resolved with id " + scanOptions.session_id)
+      resolve(scanOptions.session_id);
       if(!error && !stderr){
       }
       else {
@@ -55,7 +53,10 @@ var getRules = function(rule) {
   })
 };
 
-
+function makeParams(scanOptions) {
+  var params = "-Dsonar.projectBaseDir=" + scanOptions.directory + " -Dsonar.projectKey=" + scanOptions.session_id + " -Dsonar.projectName=" + scanOptions.session_id + " -Dsonar.sources=.";
+  return params;
+}
 
 module.exports.analyse = analyse;
 module.exports.getIssues = getIssues;

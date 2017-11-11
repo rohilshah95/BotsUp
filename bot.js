@@ -3,11 +3,9 @@ var ai = require('apiai')(process.env.APIAITOKEN);
 var sonar = require("./sonar.js")
 var botkit = require('botkit');
 var docParser = require('./doc_parse.js');
-var downloader = require('./downloader');
+var download = require('./downloader.js').download;
 var docParserPython = require('./doc_parse_python.js');
 var controller = botkit.slackbot({ debug: false });
-var path = require('path');
-var mkdirp = require('mkdirp');
 var userRuleMap = new Map();
 
 controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
@@ -18,9 +16,6 @@ function replyCallback(bot, message) {
   console.log(message.text);
   session.user_id = message.user;
   session.id = session.user_id + getTimeString();
-  // block for analyzing code snippets
-  // if message.sbutype = snippet?
-  // then use the promise callbacks to process
   getAIRes(cleanString(message.text)).then(function (response) {
     var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
     var intent = response.result.metadata.intentName; // this resolves the intent name from the response
@@ -38,11 +33,10 @@ function replyCallback(bot, message) {
         bot.reply(message, result)
       }
     }
-    else if ( intent === 'AnalysisChoice') {
+    else if (intent === 'AnalysisChoice') {
       userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
       var url = ""
-      var options = {};
       if (message.subtype === 'file_share') {
         url = message.file.url_private;
         options = {
@@ -52,12 +46,16 @@ function replyCallback(bot, message) {
         };
       }
       else if (params.url) {
+        options = {};
         url = params.url
       }
       processChain(url, options).then(function (body) {
-     
+        console.log(body.issues);
         userRuleMap.set(session.user_id, body.issues); //storing 
         bot.reply(message, formatIssues(body.issues));
+
+      }).catch(function(err){
+        bot.reply(message, "Sorry! There was an error during processing");
         
       });
     }
@@ -72,22 +70,6 @@ function replyCallback(bot, message) {
     }
   })
 
-}
-function download(url, options) {
-  options.directory = session.scandir + session.id,
-    options.filename = path.basename(url)
-
-  const downloadPromise = new Promise(function (resolve, reject) {
-    // var success=false;
-    downloader(url, options, function (err) {
-      if (err) {
-        console.log(err);
-        reject(err);
-      }
-    });
-    resolve(session.id);
-  })
-  return downloadPromise;
 }
 
 function getAIRes(query) {
@@ -108,10 +90,10 @@ function getAIRes(query) {
 }
 
 function formatIssues(issues) {
-  var allIssues = "";
-  if (issues.length==0){
+  if (issues.length == 0) {
     return "I found no issues.";
   }
+  var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
     allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + "_: *" + issues[i].message + "*\n";
   }
@@ -140,5 +122,9 @@ function formatRule(ruleStr) {
 }
 
 function processChain(url, options) {
+  console.log(url);
+  options = options ? options : {};
+  options.directory = session.scandir + session.id;
+  options.session_id = session.id;
   return download(url, options).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) })
 }

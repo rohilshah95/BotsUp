@@ -3,63 +3,67 @@ var url = require('url')
 var http = require('http')
 var https = require('https')
 var mkdirp = require('mkdirp')
+var path = require('path');
 
-module.exports = function download(fileURL, options, callback) {
-  if (!fileURL) throw("Need a file url to download")
-
-  if (!callback && typeof options === 'function') {
-    callback = options
-  }
-  options = typeof options === 'object' ? options : {}
+var download = function download(fileUrl, options) {
+  if (!fileUrl) throw ("Need a file url to download")
+  options.filename = path.basename(fileUrl);
   options.timeout = options.timeout || 20000
   options.directory = options.directory ? options.directory : '.'
-  var uri =fileURL.split('/')
-  options.filename = options.filename || uri[uri.length - 1]
-  var path = options.directory + "/" + options.filename
-  options.hostname = url.parse(fileURL).hostname;
-  options.path = url.parse(fileURL).path;
-  if (url.parse(fileURL).protocol === null) {
-    fileURL = 'http://' + fileURL
+  var protocol = url.parse(fileUrl).protocol;
+  var req;
+  if (protocol === null) {
+    fileUrl = 'http://' + fileUrl
     req = http
-  } else if (url.parse(fileURL).protocol === 'https:') {
+  } else if (protocol === 'https:') {
     req = https
   } else {
     req = http
   }
-  var responseSent = false;
-  var request = req.get(options, function(response) {
+  var parsedUrl = url.parse(fileUrl);
+  options.path = parsedUrl.path;
+  options.hostname = parsedUrl.hostname;
 
-    if (response.statusCode) {
-
-      mkdirp(options.directory, function(err) { 
-        if (err) throw err
-        var file = fs.createWriteStream(path);
-        response.pipe(file);
-        file.on('finish', () =>{
-          file.close(() => {
-            if(responseSent)  return;
-            responseSent = true;
+  return new Promise(function (resolve, reject) {
+    var responseSent = false;
+    var request = req.get(options, function (response) {
+      if (responseSent) {
+        console.log("Exiting since response was already sent")
+        return;
+      }
+      else if (response.statusCode == 200) {
+        console.log("Successful response code, so trying to download")
+        mkdirp(options.directory, function (err) {
+          if (err) {
+            console.log(err)
+            reject(err)
+          }
+          var file = fs.createWriteStream(options.directory + "/" + options.filename);
+          response.pipe(file);
+          file.on('finish', () => {
+            file.close(() => {
+              if(responseSent) return;
+              responseSent = true;
+              console.log("Resolving from downloader " + {session_id : options.session_id, directory: options.directory});
+              resolve({session_id : options.session_id, directory: options.directory});
+            });
           });
-        });
+        })
+      } else {
+        console.log("Reject on invalid status code")
+        reject("Invalid status code" + response.statusCode)
+      }
+      request.setTimeout(options.timeout, function () {
+        request.abort()
+        reject("Timeout")
       })
 
-    } else {
-      if (callback) callback(response.statusCode)
-    }
-    response.on("end", function(){
-      if (callback) callback(false, path)
+    }).on('error', function (err) {
+      console.log("Inside on error " + "Response sent?? " + responseSent);
+      if (responseSent) return;
+      responseSent = true;
+      reject(err);
     })
-
-    request.setTimeout(options.timeout, function () {
-      request.abort()
-      callback("Timeout")
-    })
-
-  }).on('error', function(e) {
-    if(responseSent)  return;
-    responseSent = true;
-    if (callback) callback(e)
-
-  })
-
+  });
 }
+module.exports.download = download;
