@@ -4,8 +4,10 @@ var http = require('http')
 var https = require('https')
 var mkdirp = require('mkdirp')
 var path = require('path');
+var decompress = require('decompress');
+const extName = require('ext-name');
 
-var download = function download(fileUrl, options) {
+function download(fileUrl, options) {
   if (!fileUrl) throw ("Need a file url to download")
   options.filename = path.basename(fileUrl);
   options.timeout = options.timeout || 20000
@@ -23,10 +25,11 @@ var download = function download(fileUrl, options) {
   var parsedUrl = url.parse(fileUrl);
   options.path = parsedUrl.path;
   options.hostname = parsedUrl.hostname;
-
-  return new Promise(function (resolve, reject) {
+  const downloadPromise = new Promise(function (resolve, reject) {
+    var extract = false;
     var responseSent = false;
     var request = req.get(options, function (response) {
+      extract = getExtFromMime(response) === 'zip'
       if (responseSent) {
         console.log("Exiting since response was already sent")
         return;
@@ -42,10 +45,19 @@ var download = function download(fileUrl, options) {
           response.pipe(file);
           file.on('finish', () => {
             file.close(() => {
-              if(responseSent) return;
-              responseSent = true;
-              console.log("Resolving from downloader " + {session_id : options.session_id, directory: options.directory});
-              resolve({session_id : options.session_id, directory: options.directory});
+              if (responseSent) return;
+
+              if (extract) {
+                console.log()
+                decompress(options.directory + "/" + options.filename, options.directory).then(() => {
+                  resolve({ session_id: options.session_id, directory: options.directory });
+                });
+              }
+              else {
+                responseSent = true;
+                console.log("Resolving from downloader " + { session_id: options.session_id, directory: options.directory });
+                resolve({ session_id: options.session_id, directory: options.directory });
+              }
             });
           });
         })
@@ -65,5 +77,24 @@ var download = function download(fileUrl, options) {
       reject(err);
     })
   });
+
+
+  return downloadPromise
 }
+
+function getExtFromMime(res) {
+  const header = res.headers['content-type'];
+  console.log(header);
+  if (!header) {
+    console.log("Not header")
+    return null;
+  }
+  const exts = extName.mime(header);
+  if (exts.length !== 1) {
+    console.log("length not 1")
+    return null;
+  }
+  return exts[0].ext;
+};
+
 module.exports.download = download;

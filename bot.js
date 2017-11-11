@@ -51,11 +51,11 @@ function replyCallback(bot, message) {
       userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
       processChain(url, options).then(function (body) {
-        console.log(body.issues);
         userRuleMap.set(session.user_id, body.issues); //storing 
         bot.reply(message, formatIssues(body.issues));
 
       }).catch(function(err){
+        console.log("Error in process chain " + err)
         bot.reply(message, "Sorry! I don't know how to interpret that");
         
       });
@@ -85,7 +85,7 @@ function getAIRes(query) {
       request.on('response', function (response) {
         resolve(response);
       });
-    }).catch(() => { });
+    }).catch((err) => { console.log("Error in response from API AI" + err)});
   request.end();
   return responseFromAI;
 }
