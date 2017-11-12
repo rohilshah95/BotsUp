@@ -26,31 +26,12 @@ var analyse = function (scanOptions) {
 }
 
 var getIssues = function(sessionID) {
-  return new Promise(function(resolve,reject){
-    request
-    .get(`${urlRoot}/api/issues/search?componentKeys=${sessionID}`)
-    .end(function(err, res) {
-      if (!err) {
-        resolve(res.body);
-      } else {
-        reject(err);
-      }
-    });
-  })
+  return request.get(`${urlRoot}/api/issues/search?componentKeys=${sessionID}`)
+
 };
 
 var getRules = function(rule) {
-  return new Promise(function(resolve,reject){
-    request
-    .get(`${urlRoot}/api/rules/show?key=${rule}`)
-    .end(function(err, res) {
-      if (!err) {
-        resolve(res.body);
-      } else {
-        reject(err);
-      }
-    });
-  })
+   return request.get(`${urlRoot}/api/rules/show?key=${rule}`)
 };
 
 function makeParams(scanOptions) {

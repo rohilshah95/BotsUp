@@ -52,9 +52,10 @@ function replyCallback(bot, message) {
 
       userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
-      processChain(url, options).then(function (body) {
-        userRuleMap.set(session.user_id, body.issues); //storing
-        bot.reply(message, formatIssues(body.issues));
+      processChain(url, options).then(function (response) {
+        issuesBody = response.body;
+        userRuleMap.set(session.user_id, issuesBody.issues); //storing
+        bot.reply(message, formatIssues(issuesBody.issues));
 
       }).catch(function (err) {
         console.log("Error in process chain " + err)
@@ -63,8 +64,9 @@ function replyCallback(bot, message) {
       });
     } else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
       var ruleName = userRuleMap.get(session.user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
-      sonar.getRules(ruleName).then(function (body) {
-        bot.reply(message, formatRule(body.rule.htmlDesc));
+      sonar.getRules(ruleName).then(function (response) {
+        ruleBody = response.body;
+        bot.reply(message, formatRule(ruleBody.rule.htmlDesc));
       })
     } else {
       bot.reply(message, reply)
