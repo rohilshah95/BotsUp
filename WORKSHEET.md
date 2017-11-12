@@ -1,18 +1,50 @@
-# Week 1
+# Iteration 2 - Service Milestone
+
+#### Use Case 1
+
+| Deliverable   | Item/Status   |  Issues/Tasks
+| ------------- | ------------  |  ------------
+| **Use Case**      | **Submit a file to the chat bot for analysis and get results**           | [**Story**](https://trello.com/c/Wj98wJAI)
+| Service      | Api.ai intents integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
+| Service      | Sonarqube service call integration in bot          |  [SQ Integration](https://trello.com/c/1ihoo0cW)
+| Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
+| Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)
+
+#### Use Case 2
+
+| Deliverable   | Item/Status   |  Issues/Tasks
+| ------------- | ------------  |  ------------
+| **Use Case**      | **Submit a repository link to the chat bot for analysis and get results**           | [**Story**](https://trello.com/c/Wj98wJAI)
+| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
+| Service      | Sonarqube service call integration in bot          |  [SQ Integration](https://trello.com/c/1ihoo0cW)
+| Alternate Flow      | Unsupported Input File             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
+| Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)
+
+#### Use Case 3
 
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
-| Design       | Update to use cases required        | [Update](https://trello.com/c/1Y2mgxgs)
-| Problem Statement      | Updated          |  --
-| Use Cases     | Updated   |  --
-| Design Sketches    | Updated            |  --
-| Story Board     | Updated      | --
-| Architecture    | Updated        | --
-| Constraints and Guidelines| Updated    | --
+| **Use Case**      | **Query a method or class definition from laguague documentation**           | [**Story**](https://trello.com/c/MB3iZTAW)
+| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
+| Service      | Add support for Python, Javascript |  [Documentation Parser](https://trello.com/c/wYzh34Ib)
+| Alternate Flow      | Method/Class definition not found             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
+| Selenium Tests| Test full flow with service call    | [Testing task](https://trello.com/c/SdpXvI11)
 
-# Week 2
+#### Backlog
 
-## Iteration 1
+* Issue - Analysis Rule information during multiple user access breaks - [#9](https://github.ncsu.edu/rcoutin/BOT/issues/9)
+* ~~Issue - Polling request until analysis is done to get issues~~ - [#8](https://github.ncsu.edu/rcoutin/BOT/issues/8)
+* Issue - Avoiding issues clutter - [#7](https://github.ncsu.edu/rcoutin/BOT/issues/7)
+* Issue - Parsing snippets - [#6](https://github.ncsu.edu/rcoutin/BOT/issues/6)
+* ~~Issue - Uploaded file not went to scanner~~ - [#5](https://github.ncsu.edu/rcoutin/BOT/issues/5)
+* ~~Enhancements - Runner takes too much time to analyse~~ - [#3](https://github.ncsu.edu/rcoutin/BOT/issues/3)
+* ~~Enhancements - Need new folders for each project for analysis~~ - [#4](https://github.ncsu.edu/rcoutin/BOT/issues/4)
+* ~~Issue - Improper responses from bot~~ - [#1](https://github.ncsu.edu/rcoutin/BOT/issues/1)
+* ~~Issue - Bot crashes after tip merge~~ - [#2](https://github.ncsu.edu/rcoutin/BOT/issues/2)
+
+
+
+# Iteration 1 - Bot Milestone - Week 2
 
 #### Use Case 1
 
@@ -45,3 +77,16 @@
 | Subflow      | Return Parsed Description         |  [Documentation Parser](https://trello.com/c/wYzh34Ib)
 | Alternate Flow      | Method/Class definition not found             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 | Selenium Tests| Test full flow (Happy Case)    | [Testing task](https://trello.com/c/SdpXvI11)
+
+
+# Iteration 1 - Bot Milestone - Week 1
+
+| Deliverable   | Item   |  Issues/Tasks
+| ------------- | ------------  |  ------------
+| Design       | Update to use cases required        | [Update](https://trello.com/c/1Y2mgxgs)
+| Problem Statement      | Updated          |  --
+| Use Cases     | Updated   |  --
+| Design Sketches    | Updated            |  --
+| Story Board     | Updated      | --
+| Architecture    | Updated        | --
+| Constraints and Guidelines| Updated    | --
