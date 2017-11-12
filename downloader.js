@@ -35,7 +35,7 @@ function download(fileUrl, options) {
         return;
       }
       else if (response.statusCode == 200) {
-        console.log("Successful response code, so trying to download")
+        console.log("Successful response code, trying to download")
         mkdirp(options.directory, function (err) {
           if (err) {
             console.log(err)
@@ -46,17 +46,16 @@ function download(fileUrl, options) {
           file.on('finish', () => {
             file.close(() => {
               if (responseSent) return;
-
+              var sessionDetails = { session_id: options.session_id, directory: options.directory };
               if (extract) {
-                console.log()
                 decompress(options.directory + "/" + options.filename, options.directory).then(() => {
-                  resolve({ session_id: options.session_id, directory: options.directory });
+                  resolve(sessionDetails);
                 });
               }
               else {
                 responseSent = true;
                 console.log("Resolving from downloader " + { session_id: options.session_id, directory: options.directory });
-                resolve({ session_id: options.session_id, directory: options.directory });
+                resolve(sessionDetails);
               }
             });
           });
@@ -84,14 +83,11 @@ function download(fileUrl, options) {
 
 function getExtFromMime(res) {
   const header = res.headers['content-type'];
-  console.log(header);
   if (!header) {
-    console.log("Not header")
     return null;
   }
   const exts = extName.mime(header);
   if (exts.length !== 1) {
-    console.log("length not 1")
     return null;
   }
   return exts[0].ext;

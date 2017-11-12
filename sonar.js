@@ -1,6 +1,5 @@
 const child_process = require('child_process');
 const request = require('superagent');
-const sleep = require('sleep');
 const urlRoot = "http://localhost:9000";
 
 var analyse = function (scanOptions) {
@@ -16,39 +15,19 @@ var analyse = function (scanOptions) {
     });
   });
 }
-
-var getIssues = function(sessionID) {
-    return request.get(`${urlRoot}/api/ce/component?componentKey=${sessionID}`).retry(1000000, retryCondition )
-            .then(function(){
-              console.log(sessionID);
-              return request.get(`${urlRoot}/api/issues/search?componentKeys=${sessionID}`)
-            })
-}
-
-var retryCondition = (err, res) => {
-  // if(("object" == typeof res) && res.body && res.body.current){
-  //   console.log(res.body.current.status)
-  // }
-  // if(("object" == typeof res) && res.body && res.body.queue){
-  //   console.log(res.body.queue[0].status)
-  // }
-  return !(("object" == typeof res) && res.body && res.body.current && (res.body.current.status === "SUCCESS" || res.body.current.status === "FAILED"))
-
-}
-
-var getRules = function(rule) {
-  return new Promise(function(resolve,reject){
-    request
-    .get(`${urlRoot}/api/rules/show?key=${rule}`)
-    .end(function(err, res) {
-      if (!err) {
-        resolve(res);
-      } else {
-        reject(err);
-      }
-    });
-  })
-}
+/* const getIssues :  Reference to an anonymous function that does the following
+                      1) Poll for a valid anaysis status from sonarqube
+                      2) Returns a promise for the issues response back to the process chain */
+const getIssues = (sessionID) =>  request.get(`${urlRoot}/api/ce/component?componentKey=${sessionID}`).retry(1000000, retryCondition )
+  .then(() =>request.get(`${urlRoot}/api/issues/search?componentKeys=${sessionID}`)
+  )
+/* const getRules : Reference to an anonymous function that returns a promise with the issue rule details back 
+                    to the process chain the AnalysisFeedback activity */
+const getRules = (rule) => request.get(`${urlRoot}/api/rules/show?key=${rule}`)
+  
+/* const retryCondition : Reference to an anonymous function that serves as a callback to superagent.retry() 
+                          It checks if a valid status response from sonarqube is available */
+const retryCondition = (err, res) => !(("object" == typeof res) && res.body && res.body.current && (res.body.current.status === "SUCCESS" || res.body.current.status === "FAILED"))
 
 function makeParams(scanOptions) {
   var params = "-Dsonar.projectBaseDir=" + scanOptions.directory + " -Dsonar.projectKey=" + scanOptions.session_id + " -Dsonar.projectName=" + scanOptions.session_id + " -Dsonar.sources=.";
