@@ -9,11 +9,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "botkit": "^0.5.8",
+    "apiai": "^4.0.3",
+    "botkit": "^0.6.6",
     "browser-launcher": "^1.0.0",
+    "cheerio": "^1.0.0-rc.2",
+    "curl": "^0.1.4",
+    "decompress": "^4.2.0",
     "download-file": "^0.1.5",
+    "ext-name": "^5.0.0",
     "forecast.io": "0.0.9",
-    "slackbots": "^0.5.1",
-    "superagent": "^3.7.0"
+    "mkdirp": "^0.5.1",
+    "nock": "^9.0.28",
+    "request": "^2.83.0",
+    "slackbots": "^1.1.0",
+    "sleep": "^5.1.1",
+    "superagent": "^3.8.1",
+    "unescape": "^1.0.1"
   }
 }
