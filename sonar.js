@@ -13,7 +13,7 @@ const urlRoot = "http://localhost:9000";
 var analyse = function (scanOptions) {
   return new Promise(function (resolve, reject) {
     child_process.exec("sonar-scanner " + makeParams(scanOptions), function (error, stdout, stderr) {
-     // sleep.sleep(5); //sleeping for 2 seconds to check if webserver responds
+      sleep.sleep(5); //sleeping for 2 seconds to check if webserver responds
       console.log("Scanner resolved with id " + scanOptions.session_id)
       resolve(scanOptions.session_id);
       if(!error && !stderr){
