@@ -77,7 +77,7 @@ function replyCallback(bot, message) {
           bot.reply(message, formatIssues(issuesBody.issues));
 
         }).catch(function (err) {
-          console.log("Error in process chain " + err)
+          console.error("Error in process chain " + err)
           bot.reply(message, "Sorry! I don't know how to interpret that");
 
         });
@@ -108,7 +108,7 @@ function getAIRes(query) {
         resolve(response);
       });
     }).catch((err) => {
-    console.log("Error in response from API AI" + err)
+    console.error("Error in response from API AI" + err)
   });
   request.end();
   return responseFromAI;
