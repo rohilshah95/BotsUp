@@ -34,6 +34,7 @@
 
 * Enhancements - Runner takes too much time to analyse - [#3](https://github.ncsu.edu/rcoutin/BOT/issues/3)
 * Enhancements - Need new folders for each project for analysis - [#4](https://github.ncsu.edu/rcoutin/BOT/issues/4)
+* Documentation - Service.md needs to be done - [#5] (https://trello.com/c/UgTH6cdj)
 * ~~Issue - Improper responses from bot~~ - [#1](https://github.ncsu.edu/rcoutin/BOT/issues/1)
 * ~~Issue - Bot crashes after tip merge~~ - [#2](https://github.ncsu.edu/rcoutin/BOT/issues/2)
 
