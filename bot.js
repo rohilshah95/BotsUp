@@ -6,6 +6,8 @@ const sonar = require("./sonar.js")
 const botkit = require('botkit');
 const docParser = require('./doc_parse.js');
 const download = require('./downloader.js').download;
+var snippetFlag = false;
+var snippetMsg = '';
 const controller = botkit.slackbot({
   debug: false
 });
@@ -22,30 +24,41 @@ function replyCallback(bot, message) {
   console.log(message.text);
   session.user_id = message.user;
   session.id = session.user_id + getTimeString();
-
-  // Needs consultation. Snippet works only for one mlanguage for now.
-  if (message.text.includes("```")) {
-    bot.reply(message, "Please wait while I analyse the snippet");
-    snippet.parse(message.text, {
-      directory: session.scandir + session.id,
-      session_id: session.id
-    }).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess)).then(function (response) {
-      var issuesBody   = response.body;
-      userRuleMap.set(session.user_id, issuesBody.issues); //storing
-      bot.reply(message, formatIssues(issuesBody.issues));
-
-    }).catch(function (err) {
-      console.log("Error in process chain " + err)
-      bot.reply(message, "Sorry! I don't know how to interpret that");
-    });;
-  } else {
-    //
+    
     getAIRes(cleanString(message.text)).then(function (response) {
-      var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
-      var intent = response.result.metadata.intentName; // this resolves the intent name from the response
-      var params = response.result.parameters; // this gets the parameters from the response
-      var context = response.result.contexts;
-      if (intent === 'DefMethod') {
+        var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
+        var intent = response.result.metadata.intentName; // this resolves the intent name from the response
+        var params = response.result.parameters; // this gets the parameters from the response
+        var context = response.result.contexts;
+
+        // Needs consultation. Snippet works only for one mlanguage for now.
+        if (message.text.includes("```")) 
+        {
+            snippetFlag = true;
+            snippetMsg = message.text;
+            bot.reply(message, "Which language is this?");
+        }
+        else if(intent === 'SnippetLanguage' && snippetFlag == true)
+        {
+            snippetFlag = false;
+            bot.reply(message, "Please wait while I analyse the snippet");
+            snippet.parse(params.Language, snippetMsg, {
+                directory: session.scandir + session.id,
+                session_id: session.id
+            }).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess)).then(function (response) {
+                var issuesBody = response.body;
+                userRuleMap.set(session.user_id, issuesBody.issues); //storing
+                bot.reply(message, formatIssues(issuesBody.issues));
+
+            }).catch(function (err) {
+                console.log("Error in process chain " + err)
+                bot.reply(message, "Sorry! I don't know how to interpret that");
+            });
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////
+      else if (intent === 'DefMethod') {
         if (params.method_name) {
           bot.reply(message, reply);
         }
@@ -93,7 +106,6 @@ function replyCallback(bot, message) {
     })
   }
 
-}
 
 function getAIRes(query) {
   var request = ai.textRequest(query, {
