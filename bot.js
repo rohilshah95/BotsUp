@@ -1,14 +1,19 @@
-var session = { "scandir": ".analysis/" }
+var session = {
+  "scandir": ".analysis/"
+}
 const ai = require('apiai')(process.env.APIAITOKEN);
 const sonar = require("./sonar.js")
 const botkit = require('botkit');
 const docParser = require('./doc_parse.js');
 const download = require('./downloader.js').download;
-const docParserPython = require('./doc_parse_python.js');
-const controller = botkit.slackbot({ debug: false });
+const controller = botkit.slackbot({
+  debug: false
+});
 var userRuleMap = new Map();
 
-controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
+controller.spawn({
+  token: process.env.SLACKTOKEN,
+}).startRTM();
 
 controller.on('file_share,direct_message,direct_mention', replyCallback);
 
@@ -22,72 +27,16 @@ function replyCallback(bot, message) {
     var params = response.result.parameters; // this gets the parameters from the response
     var context = response.result.contexts;
     if (intent === 'DefMethod') {
-        if (params.method_name) {
-            bot.reply(message, "Which language is this?:/");
+      if (params.method_name) {
+        bot.reply(message, "Which programming language? Supported languages are Java and Python");
       }
-    }
-    else if(intent === 'Language')
-    {
-        if(params.Language && context[0])
-        {
-            if (params.Language === 'java') {
-                var result = "";
-                var res = docParser.getMethodDetails(context[0].parameters.method_name);
-                if (res == null || res.length == 0) {
-                    result = "Sorry! I could not find any information related to this";
-                }
-                else {
-                    result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
-                }
-                bot.reply(message, result);
-            }
-            else if (params.Language === 'python') {
-                var result = "";
-                var res = docParserPython.getMethodDetails(context[0].parameters.method_name);
-                if (res == null || res.length == 0) {
-                    result = "Sorry! I could not find any information related to this";
-                }
-                else {
-                    result = res[0].description;
-                }
-                bot.reply(message, result);
-            }
-        }
-        
-    }
-    else if(intent === 'AllMethods')
-    {
-        if (params.method_name) {
-            method = params.method_name;
-            if (params.Language === 'java')
-            {
-                language = params.Language;
-                var result = "";
-                var res = docParser.getMethodDetails(method);
-                if (res == null || res.length == 0) {
-                    result = "Sorry! I could not find any information related to this";
-                }
-                else {
-                    result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
-                }
-                bot.reply(message, result);
-            }
-            else if (params.Language === 'python')
-            {
-                language = params.Language;
-                var result = "";
-                var res = docParserPython.getMethodDetails(method);
-                if (res == null || res.length == 0) {
-                    result = "Sorry! I could not find any information related to this";
-                }
-                else {
-                    result = res[0].description;
-                }
-                bot.reply(message, result);
-            }
-        }
-    }
-    else if (intent === 'AnalysisChoice') {
+    } else if (intent === 'Language') {
+      bot.reply(message, docParser.getDefinition(params.language, context[0].parameters.method_name));
+
+    } else if (intent === 'AllMethods') {
+      bot.reply(message, docParser.getDefinition(params.language, params.method_name));
+
+    } else if (intent === 'AnalysisChoice') {
       var url = ""
       if (message.subtype === 'file_share') {
         url = message.file.url_private;
@@ -96,31 +45,28 @@ function replyCallback(bot, message) {
             "Authorization": "Bearer " + process.env.SLACKBEARERTOKEN
           },
         };
-      }
-      else if (params.url) {
+      } else if (params.url) {
         options = {};
         url = params.url
       }
-      
+
       userRuleMap.delete(session.user_id);
       bot.reply(message, reply);
       processChain(url, options).then(function (body) {
-        userRuleMap.set(session.user_id, body.issues); //storing 
+        userRuleMap.set(session.user_id, body.issues); //storing
         bot.reply(message, formatIssues(body.issues));
 
-      }).catch(function(err){
+      }).catch(function (err) {
         console.log("Error in process chain " + err)
         bot.reply(message, "Sorry! I don't know how to interpret that");
-        
+
       });
-    }
-    else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
+    } else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
       var ruleName = userRuleMap.get(session.user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
       sonar.getRules(ruleName).then(function (body) {
         bot.reply(message, formatRule(body.rule.htmlDesc));
       })
-    }
-    else {
+    } else {
       bot.reply(message, reply)
     }
   })
@@ -139,7 +85,9 @@ function getAIRes(query) {
       request.on('response', function (response) {
         resolve(response);
       });
-    }).catch((err) => { console.log("Error in response from API AI" + err)});
+    }).catch((err) => {
+    console.log("Error in response from API AI" + err)
+  });
   request.end();
   return responseFromAI;
 }
@@ -181,5 +129,5 @@ function processChain(url, options) {
   options = options ? options : {};
   options.directory = session.scandir + session.id;
   options.session_id = session.id;
-  return download(url, options).then(sess =>  sonar.analyse(sess)).then(sess => sonar.getIssues(sess));
+  return download(url, options).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess));
 }
