@@ -10,6 +10,7 @@ const controller = botkit.slackbot({
   debug: false
 });
 var userRuleMap = new Map();
+const snippet = require("./snippetParse.js");
 
 controller.spawn({
   token: process.env.SLACKTOKEN,
@@ -21,57 +22,76 @@ function replyCallback(bot, message) {
   console.log(message.text);
   session.user_id = message.user;
   session.id = session.user_id + getTimeString();
-  getAIRes(cleanString(message.text)).then(function (response) {
-    var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
-    var intent = response.result.metadata.intentName; // this resolves the intent name from the response
-    var params = response.result.parameters; // this gets the parameters from the response
-    var context = response.result.contexts;
-    if (intent === 'DefMethod') {
-      if (params.method_name) {
-        bot.reply(message, "Which programming language? Supported languages are Java and Python");
+
+  // Needs consultation. Snippet works only for one mlanguage for now.
+  if (message.text.includes("```")) {
+    bot.reply(message, "Please wait while I analyse the snippet");
+    snippet.parse(message.text, {
+      directory: session.scandir + session.id,
+      session_id: session.id
+    }).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess)).then(function (response) {
+      var issuesBody   = response.body;
+      userRuleMap.set(session.user_id, issuesBody.issues); //storing
+      bot.reply(message, formatIssues(issuesBody.issues));
+
+    }).catch(function (err) {
+      console.log("Error in process chain " + err)
+      bot.reply(message, "Sorry! I don't know how to interpret that");
+    });;
+  } else {
+    //
+    getAIRes(cleanString(message.text)).then(function (response) {
+      var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
+      var intent = response.result.metadata.intentName; // this resolves the intent name from the response
+      var params = response.result.parameters; // this gets the parameters from the response
+      var context = response.result.contexts;
+      if (intent === 'DefMethod') {
+        if (params.method_name) {
+          bot.reply(message, reply);
+        }
+      } else if (intent === 'Language') {
+        bot.reply(message, docParser.getDefinition(params.language, context[0].parameters.method_name));
+
+      } else if (intent === 'AllMethods') {
+        bot.reply(message, docParser.getDefinition(params.language, params.method_name));
+
+      } else if (intent === 'AnalysisChoice') {
+        var url = ""
+        if (message.subtype === 'file_share') {
+          url = message.file.url_private;
+          var options = {
+            headers: {
+              "Authorization": "Bearer " + process.env.SLACKBEARERTOKEN
+            },
+          };
+        } else if (params.url) {
+          options = {};
+          url = params.url
+        }
+
+        userRuleMap.delete(session.user_id);
+        bot.reply(message, reply);
+        processChain(url, options).then(function (response) {
+          issuesBody = response.body;
+          userRuleMap.set(session.user_id, issuesBody.issues); //storing
+          bot.reply(message, formatIssues(issuesBody.issues));
+
+        }).catch(function (err) {
+          console.log("Error in process chain " + err)
+          bot.reply(message, "Sorry! I don't know how to interpret that");
+
+        });
+      } else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
+        var ruleName = userRuleMap.get(session.user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
+        sonar.getRules(ruleName).then(function (response) {
+          var ruleBody = response.body;
+          bot.reply(message, formatRule(ruleBody.rule.htmlDesc));
+        })
+      } else {
+        bot.reply(message, reply)
       }
-    } else if (intent === 'Language') {
-      bot.reply(message, docParser.getDefinition(params.language, context[0].parameters.method_name));
-
-    } else if (intent === 'AllMethods') {
-      bot.reply(message, docParser.getDefinition(params.language, params.method_name));
-
-    } else if (intent === 'AnalysisChoice') {
-      var url = ""
-      if (message.subtype === 'file_share') {
-        url = message.file.url_private;
-        options = {
-          headers: {
-            "Authorization": "Bearer " + process.env.SLACKBEARERTOKEN
-          },
-        };
-      } else if (params.url) {
-        options = {};
-        url = params.url
-      }
-
-      userRuleMap.delete(session.user_id);
-      bot.reply(message, reply);
-      processChain(url, options).then(function (response) {
-        issuesBody = response.body;
-        userRuleMap.set(session.user_id, issuesBody.issues); //storing
-        bot.reply(message, formatIssues(issuesBody.issues));
-
-      }).catch(function (err) {
-        console.log("Error in process chain " + err)
-        bot.reply(message, "Sorry! I don't know how to interpret that");
-
-      });
-    } else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
-      var ruleName = userRuleMap.get(session.user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
-      sonar.getRules(ruleName).then(function (response) {
-        ruleBody = response.body;
-        bot.reply(message, formatRule(ruleBody.rule.htmlDesc));
-      })
-    } else {
-      bot.reply(message, reply)
-    }
-  })
+    })
+  }
 
 }
 
