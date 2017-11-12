@@ -1,11 +1,11 @@
 var session = { "scandir": ".analysis/" }
-var ai = require('apiai')(process.env.APIAITOKEN);
-var sonar = require("./sonar.js")
-var botkit = require('botkit');
-var docParser = require('./doc_parse.js');
-var download = require('./downloader.js').download;
-var docParserPython = require('./doc_parse_python.js');
-var controller = botkit.slackbot({ debug: false });
+const ai = require('apiai')(process.env.APIAITOKEN);
+const sonar = require("./sonar.js")
+const botkit = require('botkit');
+const docParser = require('./doc_parse.js');
+const download = require('./downloader.js').download;
+const docParserPython = require('./doc_parse_python.js');
+const controller = botkit.slackbot({ debug: false });
 var userRuleMap = new Map();
 
 controller.spawn({ token: process.env.SLACKTOKEN, }).startRTM();
@@ -127,5 +127,5 @@ function processChain(url, options) {
   options = options ? options : {};
   options.directory = session.scandir + session.id;
   options.session_id = session.id;
-  return download(url, options).then(function (sess) { return sonar.analyse(sess) }).then(function (sess) { return sonar.getIssues(sess) })
+  return download(url, options).then(sess =>  sonar.analyse(sess)).then(sess => sonar.getIssues(sess));
 }

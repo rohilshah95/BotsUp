@@ -1,13 +1,13 @@
-var child_process = require('child_process');
-var request = require('superagent');
-var nock = require('nock');
-var sleep = require('sleep');
+const child_process = require('child_process');
+const request = require('superagent');
+//const nock = require('nock');
+const sleep = require('sleep');
 //var mockData = require("./mockData.json")
-var username = "admin";
-var password = "admin";
-var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
+//const username = "admin";
+//var password = "admin";
+//var auth = "Basic " + new Buffer(username + ":" + password).toString("base64");
 // Use server IP instead of localhost if Sonarqube is not deploy on this machine.
-var urlRoot = "http://localhost:9000";
+const urlRoot = "http://localhost:9000";
 
 
 var analyse = function (scanOptions) {
