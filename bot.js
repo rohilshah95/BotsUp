@@ -20,18 +20,72 @@ function replyCallback(bot, message) {
     var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
     var intent = response.result.metadata.intentName; // this resolves the intent name from the response
     var params = response.result.parameters; // this gets the parameters from the response
+    var context = response.result.contexts;
     if (intent === 'DefMethod') {
-      if (params.method_name) {
-        var res = docParser.getMethodDetails(params.method_name);
-        var result = "";
-        if (res == null || res.length == 0) {
-          result = "Sorry! I could not find any information related to this";
-        }
-        else {
-          result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
-        }
-        bot.reply(message, result)
+        if (params.method_name) {
+            bot.reply(message, "Which language is this?:/");
       }
+    }
+    else if(intent === 'Language')
+    {
+        if(params.Language && context[0])
+        {
+            if (params.Language === 'java') {
+                var result = "";
+                var res = docParser.getMethodDetails(context[0].parameters.method_name);
+                if (res == null || res.length == 0) {
+                    result = "Sorry! I could not find any information related to this";
+                }
+                else {
+                    result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
+                }
+                bot.reply(message, result);
+            }
+            else if (params.Language === 'python') {
+                var result = "";
+                var res = docParserPython.getMethodDetails(context[0].parameters.method_name);
+                if (res == null || res.length == 0) {
+                    result = "Sorry! I could not find any information related to this";
+                }
+                else {
+                    result = res[0].description;
+                }
+                bot.reply(message, result);
+            }
+        }
+        
+    }
+    else if(intent === 'AllMethods')
+    {
+        if (params.method_name) {
+            method = params.method_name;
+            if (params.Language === 'java')
+            {
+                language = params.Language;
+                var result = "";
+                var res = docParser.getMethodDetails(method);
+                if (res == null || res.length == 0) {
+                    result = "Sorry! I could not find any information related to this";
+                }
+                else {
+                    result = res[0].return_type + " " + res[0].method_name + " : " + res[0].description;
+                }
+                bot.reply(message, result);
+            }
+            else if (params.Language === 'python')
+            {
+                language = params.Language;
+                var result = "";
+                var res = docParserPython.getMethodDetails(method);
+                if (res == null || res.length == 0) {
+                    result = "Sorry! I could not find any information related to this";
+                }
+                else {
+                    result = res[0].description;
+                }
+                bot.reply(message, result);
+            }
+        }
     }
     else if (intent === 'AnalysisChoice') {
       var url = ""
