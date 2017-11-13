@@ -131,7 +131,8 @@ function formatIssues(issues) {
   }
   var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
-    allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + "_: *" + issues[i].message + "*\n";
+    
+    allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + " in file "+issues[i].component.split(":").pop()+"_: *" + issues[i].message + "*\n";
   }
   allIssues=allIssues.concat("\n\nFor more information on issues, reply with issue number");
   return allIssues;
