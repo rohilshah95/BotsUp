@@ -35,16 +35,15 @@
 
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
-| **Use Case**      | **Snippet Analysis**           | [**Suggestion**](https://github.ncsu.edu/rcoutin/BOT/issues/6)
+| **Use Case**      | **Snippet Analysis**           | [**Suggestion**](https://trello.com/c/UmgNZgyr)
 | Service      | Support analysis of snippets pasted into the message           |  [Snippet Parser](https://github.ncsu.edu/rcoutin/BOT/issues/6)
 | Alternate Flow      | Method/Class definition not found             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 #### Use Case 5
 
 | Deliverable   | Item   |  Issues/Tasks
 | ------------- | ------------  |  ------------
-| **Use Case**      | **Query a method or class definition from language documentation**           | [**Story**](https://trello.com/c/MB3iZTAW)
-| Service      | Api.ai integration into input parser           |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq)
-| Service      | Add support for Python, Javascript |  [Documentation Parser](https://trello.com/c/wYzh34Ib)
+| **Use Case**      | **Github Repository Analysis**           | [**Story**](https://trello.com/c/BWdIjQQM)
+| Service      | Support for analysing Github Public Repository using either link or archive of repository          |  [Input Parser](https://trello.com/c/H8rhqRmx), [AI Integration](https://trello.com/c/daTExnzq), [Unzipping repositories](https://trello.com/c/BWdIjQQM) 
 | Alternate Flow      | Method/Class definition not found             |  [Exception Handling](https://trello.com/c/LbG7Blsj)
 
 #### Backlog
@@ -52,8 +51,8 @@
 * Issue - Bot crashes when repo link contains token (private repository links) - [#10](https://github.ncsu.edu/rcoutin/BOT/issues/10)
 * Issue - Analysis Rule information during multiple user access breaks - [#9](https://github.ncsu.edu/rcoutin/BOT/issues/9)
 * ~~Issue - Polling request until analysis is done to get issues~~ - [#8](https://github.ncsu.edu/rcoutin/BOT/issues/8)
-* Issue - Avoiding issues clutter - [#7](https://github.ncsu.edu/rcoutin/BOT/issues/7)
-* ~~Issue - Parsing snippets~~ - [#6](https://github.ncsu.edu/rcoutin/BOT/issues/6)
+* Enhancement - Avoiding issues clutter - [#7](https://github.ncsu.edu/rcoutin/BOT/issues/7)
+* ~~Enhancement - Parsing snippets~~ - [#6](https://github.ncsu.edu/rcoutin/BOT/issues/6)
 * ~~Issue - Uploaded file not went to scanner~~ - [#5](https://github.ncsu.edu/rcoutin/BOT/issues/5)
 * ~~Enhancements - Runner takes too much time to analyse~~ - [#3](https://github.ncsu.edu/rcoutin/BOT/issues/3)
 * ~~Enhancements - Need new folders for each project for analysis~~ - [#4](https://github.ncsu.edu/rcoutin/BOT/issues/4)
