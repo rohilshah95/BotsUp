@@ -35,7 +35,7 @@
 * Issue - Analysis Rule information during multiple user access breaks - [#9](https://github.ncsu.edu/rcoutin/BOT/issues/9)
 * ~~Issue - Polling request until analysis is done to get issues~~ - [#8](https://github.ncsu.edu/rcoutin/BOT/issues/8)
 * Issue - Avoiding issues clutter - [#7](https://github.ncsu.edu/rcoutin/BOT/issues/7)
-* Issue - Parsing snippets - [#6](https://github.ncsu.edu/rcoutin/BOT/issues/6)
+* ~~Issue - Parsing snippets~~ - [#6](https://github.ncsu.edu/rcoutin/BOT/issues/6)
 * ~~Issue - Uploaded file not went to scanner~~ - [#5](https://github.ncsu.edu/rcoutin/BOT/issues/5)
 * ~~Enhancements - Runner takes too much time to analyse~~ - [#3](https://github.ncsu.edu/rcoutin/BOT/issues/3)
 * ~~Enhancements - Need new folders for each project for analysis~~ - [#4](https://github.ncsu.edu/rcoutin/BOT/issues/4)

@@ -28,6 +28,5 @@ var parse = function (language, snippet, options) {
         });
     });
 }
-//how to use  parse(snippet, directory to be created, file path) pass (snippet, .sessionID, .sessionID/file.ext)
-//parse('int n', '.testing/','.testing/testing.js');
+//how to use  parse(snippet, directory to be created, file path) pass (language, snippet, directory+sessionID)
 module.exports.parse = parse;
