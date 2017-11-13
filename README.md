@@ -1,4 +1,4 @@
-# BOT
+# BotsUP - A Programming Language Tutor Bot - Service Milestone
 CSC 510 - BotsUP
 
 #### Members:
@@ -8,6 +8,6 @@ Siddhant Shah: sshah14
 Uddhav Bhosle: ubhosle  
 Vijay Hebbar: vhhebbar  
 
-Deliverables:  [Worksheet](https://github.ncsu.edu/rcoutin/BOT/blob/master/WORKSHEET.md), [Screencast](https://youtu.be/7BIn8PoxE1c), [Seleniem Tests](https://github.ncsu.edu/rcoutin/BOT/blob/master/WebTest.java)  
+Deliverables:  [Worksheet](https://github.ncsu.edu/rcoutin/BOT/blob/master/WORKSHEET.md), [Screencast](https://youtu.be/7Ykn8BmevRE), [SERVICE.md](https://github.ncsu.edu/rcoutin/BOT/blob/master/SERVICE.md)  
 
-Mocking: We are using mockData.json for mocking. Nock intercepts the API calls made in sonarRequest.js and nlpRequest.js for Sonarqube Server and api.ai respectively and provides the required mocked data.
+All Use Cases are explained in detail in [SERVICE.md](https://github.ncsu.edu/rcoutin/BOT/blob/master/SERVICE.md) file
