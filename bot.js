@@ -134,7 +134,7 @@ function formatIssues(issues) {
     
     allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + " in file "+issues[i].component.split(":").pop()+"_: *" + issues[i].message + "*\n";
   }
-  allIssues=allIssues.concat("\n\nFor more information on issues, reply with issue number");
+  allIssues=allIssues.concat("\n\n*For more information on issues, reply with issue number*");
   return allIssues;
 }
 
@@ -156,7 +156,7 @@ function getIssueCount(issues) {
 }
 
 function formatRule(ruleStr) {
-  return ruleStr.replace(/<li>/g, "-").replace(/<\/li>/g, "").replace(/<\/ul>/g, "").replace(/<ul>/g, "").replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+  return ruleStr.replace(/<em>/g, "*").replace(/<\/em>/g, "*").replace(/<li>/g, "-").replace(/<code>/g, "`").replace(/<\/code>/g, "`").replace(/<\/li>/g, "").replace(/<\/ul>/g, "").replace(/<ul>/g, "").replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
 }
 
 function processChain(url, options) {
