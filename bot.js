@@ -31,7 +31,6 @@ function replyCallback(bot, message) {
         var params = response.result.parameters; // this gets the parameters from the response
         var context = response.result.contexts;
 
-        // Needs consultation. Snippet works only for one mlanguage for now.
         if (message.text.includes("```")) 
         {
             snippetFlag = true;
@@ -85,7 +84,7 @@ function replyCallback(bot, message) {
         userRuleMap.delete(session.user_id);
         bot.reply(message, reply);
         processChain(url, options).then(function (response) {
-          issuesBody = response.body;
+          var issuesBody = response.body;
           userRuleMap.set(session.user_id, issuesBody.issues); //storing
           bot.reply(message, formatIssues(issuesBody.issues));
 
@@ -134,6 +133,7 @@ function formatIssues(issues) {
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
     allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + "_: *" + issues[i].message + "*\n";
   }
+  allIssues=allIssues.concat("For more information on issues, reply with issue number");
   return allIssues;
 }
 
@@ -155,7 +155,7 @@ function getIssueCount(issues) {
 }
 
 function formatRule(ruleStr) {
-  return ruleStr.replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
+  return ruleStr.replace(/<li>/g, "-").replace(/<\/li>/g, "").replace(/<\/ul>/g, "").replace(/<ul>/g, "").replace(/<h2>/g, "*").replace(/<\/h2>/g, "*").replace(/<pre>/g, "```").replace(/<\/pre>/g, "```").replace(/<p>/g, "\n").replace(/<\/p>/g, "\n");
 }
 
 function processChain(url, options) {
