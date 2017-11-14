@@ -1,6 +1,6 @@
 ## Introduction 
  
-The service implementation of the code training bot consists of three use cases proposed in the [design](https://github.ncsu.edu/rshah8/Design-Milestone) and two additional cases which we thought are nice to have in the application.
+The service implementation of the code training bot consists of three use cases proposed in the [design](https://github.ncsu.edu/rshah8/Design-Milestone/blob/master/DESIGN.md) and two additional cases which we thought are nice to have in the application.
 A video demonstration of functionality of all the cases is available [here](https://youtu.be/7Ykn8BmevRE).
 
 
