@@ -71,6 +71,9 @@ The following measures have been taken to ensure multiple users can use the appl
 All errors in the process chain are redirected to the bot. The bot provides a natural language response when a request cannot be processed. The administrator can review the logs to understand more about an issue.
 
 ## Use Cases
+The use cases are illustrated in the below flow chart - 
+
+![](Flow_Diagram.jpg)
 
 **Use Case 1 - Analysing a source file in a GIT repository**
 
