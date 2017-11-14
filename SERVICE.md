@@ -9,25 +9,34 @@ A video demonstration of functionality of all the cases is available [here](http
 The below component diagram illustrates the application flow and the inter-operation of the modules. 
 ![](UseCaseDiagram.jpg)
 
-
 The implementation comprises of the following APIs and modules - 
 
-#### NodeJS 
+#### Node.js 
+Node.js is an open-source, cross-platform JavaScript run-time environment for executing JavaScript code server-side. We have used Node.js to implement the bot functionality as it is a familiar environment for us and its open source, plugin supporting functionalities are what we were looking for. Node.js allows us to use all the open source modules (botkit, sonarqube and dialogflow) that we require for the smooth functioning of the bot.
 
 #### Botkit
-The botkit NPM module allows simple integration with the slack RealTime Messaging (RTM) API and offers support for almost all the APIs supported by Slack. For the bot to detect messages from users, the following events are being monitored  - Direct_message, Direct_mention, File_share. 
+The botkit NPM module allows simple integration with the slack RealTime Messaging (RTM) API and offers support for almost all the APIs supported by Slack. For the bot to detect messages from users, the following events are being monitored  - Direct_message, Direct_mention, File_share.
 
 #### Dialogflow
 Dialogflow provides AI-powered conversional interfaces that can be easily trained and integrated to any platform. The ‘apiai’ node module has been used to interface with dialogflow.   
-All inputs sent by the user Slack are sent to dialogflow in order to extract an intent from the user’s natural language message. We have created the following intents 
- 
+All inputs sent by the user Slack are sent to dialogflow in order to extract an intent from the user’s natural language message. We have created the following intents:
+
+* **Process Intents** 
+   * GenericAnalysis - This intent handles the conversion that leads the user to sending a GIT url or uploading a source file or providing a code snippet
+   * AnalysisChoice - This intent handles the scenario when the user directly uploads a file or provides a URL.
+   * AnalysisFeedback - This intent handles the natural language ordinals a user might provide to know the details of an issue
+   * DefMethod - This intent is used to intepret a method name in a natural language request
+   * Language - This is used to request for a programming language name in order to process a request
+
+* **Generic Intents** - These intents enrich the conversion with the user.
+   * Greeting - Handles greetings from the user
+   * Help - Handles any help requested by the user
+   * Farewell - Handles goodbye messages
 
 #### SonarQube
 SonarQube is an open source platform for continuous inspection of code quality. It is mainly used to perform automatic reviews with static analysis of code to detect bugs, code smells, and security vulnerabilities on 20+ languages like Java, JavaScript, Python etc. It offers reports and recommendations on any discrepancy it finds on the analysed code.
 
 SonarQube consists of a Scanner and a Server module. The scanner can be invoked on source files. Once the scan completes, the server module can be used to peruse the issues and recommendations. The server provides a WebAPI which we have utilized in this project.
-
-[Source](https://en.wikipedia.org/wiki/SonarQube), [Homepage](https://www.sonarqube.org/)
 
 #### Downloader
 There are several options available in NPM for downloading a file. For our implementation, we require the following features 
@@ -40,21 +49,6 @@ We borrowed these features from several modules and re-worked them into a single
 ## Process Considerations
 
 Below are insights on how some process related requirements were handled.
-
-#### Dialogflow Intents
-These are the intents that trigger a particular process  
-
-**Process Intents** 
-* GenericAnalysis - This intent handles the conversion that leads the user to sending a GIT url or uploading a source file or providing a code snippet
-* AnalysisChoice - This intent handles the scenario when the user directly uploads a file or provides a URL.
-* AnalysisFeedback - This intent handles the natural language ordinals a user might provide to know the details of an issue
-* DefMethod - This intent is used to intepret a method name in a natural language request
-* Language - This is used to request for a programming language name in order to process a request
-
-**Generic Intents** - These intents enrich the conversion with the user.
-* Greeting - Handles greetings from the user
-* Help - Handles any help requested by the user
-* Farewell - Handles goodbye messages
 
 #### Asynchronous Event Handling
 
@@ -119,4 +113,6 @@ See: https://docs.sonarqube.org/display/PLUG/SonarJava\
 ## Future improvements 
 
 ## References
-
+1. [BotKit Repo](https://github.com/howdyai/botkit)
+2. [DialogFlow Repo](https://github.com/dialogflow/dialogflow-nodejs-client)
+3. [SonarQube Wiki](https://en.wikipedia.org/wiki/SonarQube), [SonarQube Homepage](https://www.sonarqube.org/)
