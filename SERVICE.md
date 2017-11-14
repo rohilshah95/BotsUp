@@ -23,28 +23,33 @@ All inputs sent by the user Slack are sent to dialogflow in order to extract an 
  
 
 #### SonarQube
-SonarQube is an open source platform for continuous inspection of code quality to perform automatic reviews with static analysis of code to detect bugs, code smells, and security vulnerabilities on 20+ languages like Java, JavaScript, Python etc. It offers reports and recommendations on any discrepancy it finds on the analysed code
+SonarQube is an open source platform for continuous inspection of code quality. It is mainly used to perform automatic reviews with static analysis of code to detect bugs, code smells, and security vulnerabilities on 20+ languages like Java, JavaScript, Python etc. It offers reports and recommendations on any discrepancy it finds on the analysed code.
 
-It consists of a scanner and a server module. The scanner can be invoked on source files. Once the scan completes, the server module can be used to peruse the issues and recommendations. The server also provides a WebAPI which we have utilized in this project.
+SonarQube consists of a Scanner and a Server module. The scanner can be invoked on source files. Once the scan completes, the server module can be used to peruse the issues and recommendations. The server provides a WebAPI which we have utilized in this project.
 
 [Source](https://en.wikipedia.org/wiki/SonarQube), [Homepage](https://www.sonarqube.org/)
 
 #### Downloader
-There are several options available in NPM for downloading a file. For our requirements, we require the following features 
-* Downloader should return a Promise
-* Downloader should support Authentication headers
+There are several options available in NPM for downloading a file. For our implementation, we require the following features 
+* The Downloader should return a Promise
+* It should support Authentication headers
+* It should infer the file extension by the MIME type.
 
-We borrowed these features from several modules and bundled them into a single downloader module.
+We borrowed these features from several modules and re-worked them into a single downloader module.
 
 ## Process Considerations
+
+Below are insights on how some process related requirements were handled.
 
 #### Dialogflow Intents
 These are the intents that trigger a particular process  
 
-**GenericAnalysis** - This intent handles the conversion that leads the user to sending a GIT url or uploading a source file
-* AnalysisChoice - This intent handles
-* DefMethod - 
-* Language - 
+**Process Intents** 
+* GenericAnalysis - This intent handles the conversion that leads the user to sending a GIT url or uploading a source file or providing a code snippet
+* AnalysisChoice - This intent handles the scenario when the user directly uploads a file or provides a URL.
+* AnalysisFeedback - This intent handles the natural language ordinals a user might provide to know the details of an issue
+* DefMethod - This intent is used to intepret a method name in a natural language request
+* Language - This is used to request for a programming language name in order to process a request
 
 **Generic Intents** - These intents enrich the conversion with the user.
 * Greeting - Handles greetings from the user
