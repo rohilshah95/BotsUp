@@ -6,7 +6,7 @@ A video demonstration of functionality of all the cases is available [here](http
 
 ## Components
 
-The following is the diagram containing major modules and use cases of the project:
+The below component diagram illustrates the application flow and the inter-operation of the modules. 
 ![](UseCaseDiagram.jpg)
 
 
@@ -21,19 +21,6 @@ The botkit NPM module allows simple integration with the slack RealTime Messagin
 Dialogflow provides AI-powered conversional interfaces that can be easily trained and integrated to any platform. The ‘apiai’ node module has been used to interface with dialogflow.   
 All inputs sent by the user Slack are sent to dialogflow in order to extract an intent from the user’s natural language message. We have created the following intents 
  
-#### Process Intents
-These are the intents that trigger a particular process  
-
-**GenericAnalysis** - This intent handles the conversion that leads the user to sending a GIT url or uploading a source file
-* AnalysisChoice - This intent handles
-* DefMethod - 
-* Language - 
-
-**Generic Intents** - These intents enrich the conversion with the user.
-* Greeting - Handles greetings from the user
-* Help - Handles any help requested by the user
-* Farewell - Handles goodbyes
-
 
 #### SonarQube
 SonarQube is an open source platform for continuous inspection of code quality to perform automatic reviews with static analysis of code to detect bugs, code smells, and security vulnerabilities on 20+ languages like Java, JavaScript, Python etc. It offers reports and recommendations on any discrepancy it finds on the analysed code
@@ -51,15 +38,60 @@ We borrowed these features from several modules and bundled them into a single d
 
 ## Process Considerations
 
+#### Dialogflow Intents
+These are the intents that trigger a particular process  
+
+**GenericAnalysis** - This intent handles the conversion that leads the user to sending a GIT url or uploading a source file
+* AnalysisChoice - This intent handles
+* DefMethod - 
+* Language - 
+
+**Generic Intents** - These intents enrich the conversion with the user.
+* Greeting - Handles greetings from the user
+* Help - Handles any help requested by the user
+* Farewell - Handles goodbye messages
+
 #### Asynchronous Event Handling
 
 All the asynchronous operations - downloading, scanning and retrieving are handled using JavaScript Promises. These Promises are chained to make sure they are called one after the other. 
 
-In Sonarqube, there is a small delay between the completion of scan and the availability of the results on the server. Therefore, the results cannot be obtained right after the scan is complete, even while using Promises. Instead, we pol the server’s web api for the status of the scan. Once a valid status is available, we can start retrieving the results
+In Sonarqube, there is a small delay between the completion of scan and the availability of the results on the server. Therefore, the results cannot be obtained right after the scan is complete, even while using Promises. Instead, we pol the server’s web api for the status of the scan. Once a valid status is available, we can start retrieving the results.
 
 #### Session Handling
 
-The following measures have been taken to ensure multiple users can use the application without conflicts.- A session ID is generated using the User Id value from Slack and a unique timestamp. The Slack User ID value is used as a session Id for Dialogflow API calls to prevent any intent conflicts between multiple users. All downloads and scans take place in separate directories that are named after the session ID.
+The following measures have been taken to ensure multiple users can use the application without conflicts.- A session ID is generated using the User Id value from Slack and a unique timestamp. The Slack User Id value is used as a session Id for Dialogflow API calls to prevent any intent conflicts between multiple users. All downloads and scans take place in separate directories that are named after the session Id. Additionally, each SonarQube scan instance is invoked with the current user’s session Id
+
+#### Error Handling
+
+
+
+## Use Cases
+
+**Use Case 1 - Analysing a source file in a GIT repository**
+
+The user can directly provide a Git URL to the bot. He can also talk to the bot to ‘analyze code’ or ‘analyze the code from a Git repository’; the conversion will lead to the user entering the Git URL. The downloader module will then download the file and place it in the appropriate session directory, the Sonarqube scanner scans the source files and the bot produces the results. The user can now enter the issue number to know more about an issue. 
+
+
+**Use Case 2 - Analysing a source file**
+
+This is similar to Use Case 1; the user can directly upload a file to Slack to trigger a scan or can converse with the bot and upload the file. The subsequent operations are exactly the same as Use Case 1.
+
+**Use Case 3 - Requesting for method definitions**
+
+A user can request for method definitions via natural language. For example - ‘what does toString mean’ or ‘explain hashCode in Java’. The bot will request for a language name when required. Based on the intent returned by Dialogflow for these sentences, the document parser module is invoked. It scans the language documentation files and returns the result.
+
+**Additional Use Cases**
+
+These are additional features that further improve the functionality of the bot. 
+
+**Use Case 4 - Analyzing zip archives**
+
+A user can upload or point to a URL of a zip archive; typically this can be a clone of a Git repository. Once the zip archive is downloaded, it is extracted in the session directory and the scan takes place.
+
+**Use Case 5 - Analyzing code snippets**
+
+Normally, a user can use Slack’s snippet feature to submit code. This type of a submission is treated as a file upload by Slack. Due to the API limitation on Slack, a user, other than the bot owner, cannot upload a file to the bot as a direct message. To overcome this limitation, a user can submit code within triple backticks (``` code ```) to trigger a scan. Once the scan completes, issues are displayed as expected.
+
 
 ## Assumptions
 
