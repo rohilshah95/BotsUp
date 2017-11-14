@@ -73,7 +73,7 @@ All errors in the process chain are redirected to the bot. The bot provides a na
 ## Use Cases
 The use cases are illustrated in the below flow chart - 
 
-![](Flow_Diagram.jpg)
+![](Flow_Diagram.svg)
 
 **Use Case 1 - Analysing a source file in a GIT repository**
 
