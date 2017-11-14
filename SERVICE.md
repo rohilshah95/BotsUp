@@ -58,9 +58,9 @@ These are the intents that trigger a particular process
 
 #### Asynchronous Event Handling
 
-All the asynchronous operations - downloading, scanning and retrieving are handled using JavaScript Promises. These Promises are chained to make sure they are called one after the other. 
+All the asynchronous operations - downloading, scanning and retrieving results are handled using JavaScript Promises. These Promises are chained to make sure asynchronous operations are called one after the other. 
 
-In Sonarqube, there is a small delay between the completion of scan and the availability of the results on the server. Therefore, the results cannot be obtained right after the scan is complete, even while using Promises. Instead, we pol the server’s web api for the status of the scan. Once a valid status is available, we can start retrieving the results.
+In Sonarqube, there is a small delay between the completion of scan and the availability of the results on the server. Therefore, the results cannot be obtained right after the scan is complete, even while using Promises. Instead, we poll the server’s web api for the status of the scan. Once a valid status is available, we can start retrieving the results.
 
 #### Session Handling
 
@@ -68,7 +68,7 @@ The following measures have been taken to ensure multiple users can use the appl
 
 #### Error Handling
 
-
+All errors in the process chain are redirected to the bot. The bot provides a natural language response when a request cannot be processed. The administrator can review the logs to understand more about an issue.
 
 ## Use Cases
 
