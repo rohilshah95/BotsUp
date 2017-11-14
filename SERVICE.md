@@ -103,7 +103,7 @@ Normally, a user can use Slack’s snippet feature to submit code. This type of 
 
 ## Limitations 
 
-The following are the limitations of the bot which we have found during our development. These limitations do not limit the bot from its main functions to a great extent and allow the bot to work as expected.
+The following are the limitations of the bot which we have found during our development. These limitations do not constrain the bot from its main functions to a great extent and allows the user to get work done using the bot.
 
 * Slack cannot authorize the bot to download files on Direct Message. Hence, files uploaded on direct message to the bot will not be downloaded, and hence, won’t be analysed (unless you are the owner of the bot). In order to make the bot analyse files, you must send the file on any of the slack channel where the bot is a member, along with @”bot_name” in the description of the file.
 * Sonarqube does not scan projects having multiple java files without their binaries (.class files). This can be overcome in future using the mvn sonar:sonar command, but is not in the scope of the current project. 
