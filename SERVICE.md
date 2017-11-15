@@ -89,7 +89,7 @@ These are additional features that further improve the functionality of the bot.
 
 **Use Case 4 - Analyzing code snippets**
 
-Normally, a user can use Slack’s snippet feature to submit code. This type of a submission is treated as a file upload by Slack. Due to the API limitation on Slack, a user, other than the bot owner, cannot upload a file to the bot as a direct message. To overcome this limitation, a user can submit code within triple backticks (``` code ```) to trigger a scan. Once the scan completes, issues are displayed as expected.
+Normally, a user can use Slack’s snippet feature to submit code. This type of a submission is treated as a file upload by Slack. Due to the API limitation on Slack, a user, other than the bot owner, cannot upload a file to the bot as a direct message. To overcome this limitation, a user can submit code around triple backticks (```) to trigger a scan. Once the scan completes, issues are displayed as expected.
 
 **Use Case 5 - Analyzing zip archives**
 
