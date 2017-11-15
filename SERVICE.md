@@ -86,13 +86,13 @@ A user can request for method definitions via natural language. For example - �
 
 These are additional features that further improve the functionality of the bot. 
 
-**Use Case 4 - Analyzing zip archives**
-
-A user can upload or point to a URL of a zip archive; typically this can be a clone of a Git repository. Once the zip archive is downloaded, it is extracted in the session directory and the scan takes place.
-
-**Use Case 5 - Analyzing code snippets**
+**Use Case 4 - Analyzing code snippets**
 
 Normally, a user can use Slack’s snippet feature to submit code. This type of a submission is treated as a file upload by Slack. Due to the API limitation on Slack, a user, other than the bot owner, cannot upload a file to the bot as a direct message. To overcome this limitation, a user can submit code within triple backticks (``` code ```) to trigger a scan. Once the scan completes, issues are displayed as expected.
+
+**Use Case 5 - Analyzing zip archives**
+
+A user can upload or point to a URL of a zip archive; typically this can be a clone of a Git repository. Once the zip archive is downloaded, it is extracted in the session directory and the scan takes place.
 
 
 ## Assumptions
@@ -100,7 +100,7 @@ Normally, a user can use Slack’s snippet feature to submit code. This type of 
 
 ## Limitations 
 
-The following are the limitations of the bot which we have found during our development. These limitations do not constrain the bot from its main functions to a great extent and allows the user to get work done using the bot.
+The following are the limitations of the bot which we have found during our development. These limitations do not constrain the bot from its main functions to a great extent and allows the user to get what is expected from the bot.
 
 * Slack cannot authorize the bot to download files on Direct Message. Hence, files uploaded on direct message to the bot will not be downloaded, and hence, won’t be analysed (unless you are the owner of the bot). In order to make the bot analyse files, you must send the file on any of the slack channel where the bot is a member, along with @”bot_name” in the description of the file.
 * Sonarqube does not scan projects having multiple java files without their binaries (.class files). This can be overcome in future using the mvn sonar:sonar command, but is not in the scope of the current project. 
@@ -111,6 +111,9 @@ See: https://docs.sonarqube.org/display/PLUG/SonarJava\
 
 
 ## Future improvements 
+
+* For Java projects (having multiple java files), we could have Maven builds performed by the bot using `mvn sonar:sonar` command which builds the java project, analyses the binaries and gives us the reports on the SonarQube server. This was not implemented as the command does not take in SessionIDs as a parameter. Need to find some work around for this. Currently this feature is out of scope for the Service Milestone.
+* The bot can show all the issues in a file. However, we are displaying only the first 10 issues to the user to avoid clutter. In this case, we could sort the issues in the order of severity and then display the top 10 most severe issues in the given file(s). Current Scenario in Service Milestone: 10 Issues in the order of line numbers are displayed.
 
 ## References
 1. [BotKit Repo](https://github.com/howdyai/botkit)
