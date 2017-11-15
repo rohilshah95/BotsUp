@@ -1,3 +1,4 @@
+# Service Milestone
 ## Introduction 
  
 The service implementation of the code training bot consists of three use cases proposed in the [design](https://github.ncsu.edu/rshah8/Design-Milestone/blob/master/DESIGN.md) and two additional cases which we thought are nice to have in the application.
@@ -94,10 +95,6 @@ Normally, a user can use Slack’s snippet feature to submit code. This type of 
 
 A user can upload or point to a URL of a zip archive; typically this can be a clone of a Git repository. Once the zip archive is downloaded, it is extracted in the session directory and the scan takes place.
 
-
-## Assumptions
-
-
 ## Limitations 
 
 The following are the limitations of the bot which we have found during our development. These limitations do not constrain the bot from its main functions to a great extent and allows the user to get what is expected from the bot.
@@ -119,3 +116,4 @@ See: https://docs.sonarqube.org/display/PLUG/SonarJava\
 1. [BotKit Repo](https://github.com/howdyai/botkit)
 2. [DialogFlow Repo](https://github.com/dialogflow/dialogflow-nodejs-client)
 3. [SonarQube Wiki](https://en.wikipedia.org/wiki/SonarQube), [SonarQube Homepage](https://www.sonarqube.org/)
+4. [File Downloader](https://www.npmjs.com/package/download-file)
