@@ -101,7 +101,7 @@ The following are the limitations of the bot which we have found during our deve
 
 * Slack cannot authorize the bot to download files on Direct Message. Hence, files uploaded on direct message to the bot will not be downloaded, and hence, won’t be analysed (unless you are the owner of the bot). In order to make the bot analyse files, you must send the file on any of the slack channel where the bot is a member, along with @”bot_name” in the description of the file.
 * Sonarqube does not scan projects having multiple java files without their binaries (.class files). This can be overcome in future using the mvn sonar:sonar command, but is not in the scope of the current project. 
-See: https://docs.sonarqube.org/display/PLUG/SonarJava\
+See [documentation](https://docs.sonarqube.org/display/PLUG/SonarJava).
 * Documentation module tells you the description of basic functions. Conceptual knowledge is not expected. The Documentation module supports only Java and Python functions for now.
 * The bot only gives out the first 10 issues to avoid long messages in chat window. This is not a limitation but we thought it is better to mention this here. In order to access the other issues in the files, the user will need to solve the first 10 issues and then send the code for analysis again (for this milestone).
 * Performance of the bot might be impacted when multiple users try to analyse their code/projects simultaneously. Both the project outputs will be queued and displayed when both operations are over. This is because javascript is not multithreaded.
