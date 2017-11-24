@@ -16,6 +16,7 @@ const snippet = require("./snippetParse.js");
 
 controller.spawn({
   token: process.env.SLACKTOKEN,
+  retry: true,
 }).startRTM();
 
 controller.on('file_share,direct_message,direct_mention', replyCallback);
@@ -24,14 +25,14 @@ function replyCallback(bot, message) {
   console.log(message.text);
   session.user_id = message.user;
   session.id = session.user_id + getTimeString();
-    
+
     getAIRes(cleanString(message.text)).then(function (response) {
         var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
         var intent = response.result.metadata.intentName; // this resolves the intent name from the response
         var params = response.result.parameters; // this gets the parameters from the response
         var context = response.result.contexts;
 
-        if (message.text.includes("```")) 
+        if (message.text.includes("```"))
         {
             snippetFlag = true;
             snippetMsg = message.text;
@@ -131,7 +132,7 @@ function formatIssues(issues) {
   }
   var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
-    
+
     allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + " in file "+issues[i].component.split(":").pop()+"_: *" + issues[i].message + "*\n";
   }
   allIssues=allIssues.concat("\n\n*For more information on issues, reply with issue number*");
