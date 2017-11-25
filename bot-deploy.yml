@@ -1,17 +1,15 @@
 ---
 
-# Hosts need to be configured yet
-- hosts: deploy_app
-  sudo: yes
+# Hosts need to be configured yet -- Check this out first
+- hosts: nodes
+  become: yes
 
 
   vars:
-    - homeDir: # Configure home directory
+    - homeDir: home # Configure our home directory
     - appDir : app
     - repo: bot
-    - account: # Configure account name
-    - privateKey: # Configure private key
-
+  
 
   tasks:
   - name: Install Packages
@@ -25,12 +23,49 @@
   - name: Create APP Directory
     file: path={{homeDir}}/{{appDir}} state=directory
 
-  - name: Copy Private Key
-    copy: src={{privateKey}} dest={{homeDir}} mode=0600
+  # - name: ensure required packages are installed for Java 7
+  #   apt: name=$item state=latest update_cache=yes
+  #   with_items:
+  #     - python-software-properties
 
-  - name: Git Clone Repo
-    git: repo=git@github.com:{{account}}/{{repo}}.git dest={{homeDir}}/{{appDir}} update=yes force=yes accept_hostkey=yes key_file={{homeDir}}/id_rsa
-    register: git_finished
+  # - name: Add Java repository to sources
+  #   action: apt_repository repo='ppa:webupd8team/java'
+
+  # - name: Autoaccept license for Java
+  #   action: shell echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+ 
+  # - name: Update APT package cache
+  #   action: apt update_cache=yes
+
+  # - name: Install Java 8
+  #   action: apt pkg=oracle-java8-installer state=latest install_recommends=yes
+
+  # - name: Set Java 8 Env
+  #   action: apt pkg=oracle-java8-set-default state=latest install_recommends=yes
+
+  - name: Install forever
+    npm: name=forever global=yes state=present
+    become: yes
+
+  - name: Get root previlige
+    command: sudo su
+
+  - name: Set map count
+    command: sysctl -w vm.max_map_count=262144
+
+  - name: Set maximum file size
+    command: sysctl -w fs.file-max=65536
+
+  # - name: Set upper limit
+  #   command: ulimit -n 65536
+
+  - name: Clone repo
+    git:
+      repo: git@github.ncsu.edu:rcoutin/BOT.git
+      dest: /home/vagrant/BOT
+      key_file: code/Playbooks/id_rsa
+      accept_hostkey: yes
+      force: yes
 
   - name: Running NPM install
     npm: path={{homeDir}}/{{appDir}}/backened
