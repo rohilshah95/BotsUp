@@ -68,19 +68,19 @@
       force: yes
 
   - name: Running NPM install
-    npm: path={{homeDir}}/{{appDir}}/backened
+    npm: path={{homeDir}}/{{appDir}}
     register: npm_finished
     when: git_finished.changed
 
   # Stop the application if previous instance is running
   - name: Stop APP
     sudo_user: ubuntu
-    command: pm2 stop app chdir={{homeDir}}/{{appDir}}/backened
+    command: pm2 stop app chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
 
   - name: Start APP
     sudo_user: ubuntu
-    command: pm2 start index.js --name app chdir={{homeDir}}/{{appDir}}/backened
+    command: pm2 start index.js --name app chdir={{homeDir}}/{{appDir}}
     ignore_errors: yes
     when: npm_finished.changed
 
