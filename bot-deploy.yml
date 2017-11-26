@@ -64,28 +64,28 @@
   - name: Download Sonar Qube
     unarchive:
       src: https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.7.zip
-      dest: ./
+      dest: /
       remote_src: yes
 
   - name: Fix Sonarqube permissions
-    file: path=./sonarqube-6.7 owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
+    file: path=/sonarqube-6.7 owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
 
   - name: start sonar Sonarqube
-    command: ./sonarqube-6.7/bin/linux-x86-64/sonar.sh start
+    command: /sonarqube-6.7/bin/linux-x86-64/sonar.sh start
     become: yes
     become_user: "{{ansible_ssh_user}}"
 
   - name: Download and start Sonar Runner
     unarchive:
       src: https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778-linux.zip
-      dest: ./
+      dest: /
       remote_src: yes
 
   - name: Fix Sonar runner permissions
-    file: path=./sonar-scanner-3.0.3.778-linux owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
+    file: path=/sonar-scanner-3.0.3.778-linux owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
 
-  - name: Symlink sonnar Runner #needs work someone fix it
-    command: sudo ln -s ./sonar-scanner-3.0.3.778-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
+  - name: Symlink sonnar Runner 
+    command: sudo ln -sv /sonar-scanner-3.0.3.778-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
 
   - name: Get root previlige
     command: sudo su
