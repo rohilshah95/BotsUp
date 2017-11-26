@@ -18,9 +18,6 @@
       - git
       - curl
 
-  - name: Ensure collaborators SSH keys are installed
-    authorized_key: user={{ansible_user}} key=https://github.com/rohilshah95.keys
-
   - name: Create APP Directory
     file: path={{home}}/{{app}} state=directory
 
@@ -44,24 +41,12 @@
     npm: name=forever global=yes state=present
     become: yes
 
-  - name: Get root previlige
-    command: sudo su
 
-
-
-  - name: Set map count
-    command: sysctl -w vm.max_map_count=262144
-
-  - name: Set maximum file size
-    command: sysctl -w fs.file-max=65536
-
-  # - name: Set upper limit
-  #   command: ulimit -n 65536
 
   # - name: send key to remote deploy user
   #   copy: src=/home/vagrant/code/id_rsa dest=~/home/priv_key owner=root group=root mode=0600
   #
-  - name: Clone repo
+  - name: Clone repo #make repo public
     git:
       repo: git@github.ncsu.edu:rcoutin/BOT.git
       dest: home/app
@@ -90,7 +75,29 @@
     become: yes
     become_user: "{{ansible_ssh_user}}"
 
-  # #- name: Download and start Sonar Runner
+  - name: Download and start Sonar Runner
+    unarchive:
+      src: https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778-linux.zip
+      dest: ./
+      remote_src: yes
+
+  - name: Fix Sonar runner permissions
+    file: path=./sonar-scanner-cli-3.0.3.778-linux owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
+
+  - name: Symlink sonnar Runner #needs work someone fix it
+    command: sudo ln -s ./sonar-scanner-3.0.3.778-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
+
+  - name: Get root previlige
+    command: sudo su
+
+  - name: Set map count
+    command: sysctl -w vm.max_map_count=262144
+
+  - name: Set maximum file size
+    command: sysctl -w fs.file-max=65536
+
+  # - name: Set upper limit
+  #   command: ulimit -n 65536
   #
   # # Stop the application if previous instance is running
   #
