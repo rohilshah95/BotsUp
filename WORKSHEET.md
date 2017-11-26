@@ -1,3 +1,19 @@
+# Iteration 3 - Deploy Milestone
+
+| Deliverable   | Item/Status   |  Issues/Tasks
+| ------------- | ------------  |  ------------
+| **Task**      | **Deploy Bot using configuration management tools**           | [**Module**](https://trello.com/c/h5X2kfRp)
+| Service      | Ansible Playbook to install the bot           |  [Deploy](https://trello.com/c/h5X2kfRp)
+| Service      | Ansible Playbook to install Sonarqube API          |  [SQ Integration](https://trello.com/c/n47AyBE4)
+
+#### Backlog
+
+* Issue - Bot crashes when repo link contains token (private repository links) - [#10](https://github.ncsu.edu/rcoutin/BOT/issues/10)
+* Issue - Analysis Rule information during multiple user access breaks - [#9](https://github.ncsu.edu/rcoutin/BOT/issues/9)
+* Enhancement - Avoiding issues clutter - [#7](https://github.ncsu.edu/rcoutin/BOT/issues/7)
+
+
+
 # Iteration 2 - Service Milestone
 
 **Added more use cases as per expert's (professor/TA) suggestion**
