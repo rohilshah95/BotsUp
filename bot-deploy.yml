@@ -1,15 +1,12 @@
 ---
-
-# Hosts need to be configured yet -- Check this out first
 - hosts: nodes
   become: yes
 
-
   vars:
-    - homeDir: home # Configure our home directory
-    - appDir : app
+    - home: home # Configure our home directory
+    - app : app
     - repo: bot
-  
+
 
   tasks:
   - name: Install Packages
@@ -20,26 +17,25 @@
       - git
       - curl
 
-  - name: Create APP Directory
-    file: path={{homeDir}}/{{appDir}} state=directory
+  - name: Ensure collaborators SSH keys are installed
+    authorized_key: user={{ansible_user}} key=https://github.com/rohilshah95.keys
 
-  # - name: ensure required packages are installed for Java 7
-  #   apt: name=$item state=latest update_cache=yes
-  #   with_items:
-  #     - python-software-properties
+  - name: Create APP Directory
+    file: path={{home}}/{{app}} state=directory
+
 
   # - name: Add Java repository to sources
   #   action: apt_repository repo='ppa:webupd8team/java'
-
+  #
   # - name: Autoaccept license for Java
   #   action: shell echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
- 
+  #
   # - name: Update APT package cache
   #   action: apt update_cache=yes
-
+  #
   # - name: Install Java 8
   #   action: apt pkg=oracle-java8-installer state=latest install_recommends=yes
-
+  #
   # - name: Set Java 8 Env
   #   action: apt pkg=oracle-java8-set-default state=latest install_recommends=yes
 
@@ -50,6 +46,8 @@
   - name: Get root previlige
     command: sudo su
 
+
+
   - name: Set map count
     command: sysctl -w vm.max_map_count=262144
 
@@ -59,30 +57,48 @@
   # - name: Set upper limit
   #   command: ulimit -n 65536
 
+  - name: send key to remote deploy user
+    copy: src=/home/vagrant/code/id_rsa dest=home/priv_key owner=root group=545 mode=0600
+
   - name: Clone repo
     git:
       repo: git@github.ncsu.edu:rcoutin/BOT.git
-      dest: /home/vagrant/BOT
-      key_file: code/Playbooks/id_rsa
-      accept_hostkey: yes
-      force: yes
+      dest: home/app
+      #key_file: ../priv_key
+      #accept_hostkey: yes
+      #force: yes
+    become_user: root
 
   - name: Running NPM install
-    npm: path={{homeDir}}/{{appDir}}/backened
-    register: npm_finished
-    when: git_finished.changed
+    command: npm install
+    args:
+      chdir: home/app
+    become: yes
+
+  - name: Download Sonar Qube
+    unarchive:
+      src: https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.7.zip
+      dest: ./
+      remote_src: yes
+
+  - name: Fix Sonarqube permissions
+    file: path=./sonarqube-6.7 owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
+
+  - name: start sonar Sonarqube
+    command: ./sonarqube-6.7/bin/linux-x86-64/sonar.sh start
+    become: yes
+    become_user: "{{ansible_ssh_user}}"
+
+  #- name: Download and start Sonar Runner
 
   # Stop the application if previous instance is running
-  - name: Stop APP
-    sudo_user: ubuntu
-    command: pm2 stop app chdir={{homeDir}}/{{appDir}}/backened
-    ignore_errors: yes
 
   - name: Start APP
-    sudo_user: ubuntu
-    command: pm2 start index.js --name app chdir={{homeDir}}/{{appDir}}/backened
+    command: forever start bot.js
+    args:
+      chdir: home/app
     ignore_errors: yes
-    when: npm_finished.changed
-
-
-    
+    environment:
+      SLACKTOKEN: xoxb-256030778066-hLqLl1wd5d92C3fnP498P8lk
+      APIAITOKEN: 537ae875863040a4b0cedac8a087dc8d
+      SLACKBEARERTOKEN: xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38
