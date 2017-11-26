@@ -55,9 +55,7 @@ function replyCallback(bot, message) {
                 bot.reply(message, "Sorry! I don't know how to interpret that");
             });
         }
-        ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////
       else if (intent === 'DefMethod') {
         if (params.method_name) {
           bot.reply(message, reply);
@@ -103,6 +101,9 @@ function replyCallback(bot, message) {
       } else {
         bot.reply(message, reply)
       }
+    }).catch(function (error) {
+        console.log(JSON.parse(error.responseBody).status.errorDetails);
+        bot.reply(message, JSON.parse(error.responseBody).status.errorDetails)
     })
   }
 
@@ -113,15 +114,14 @@ function getAIRes(query) {
   });
   const responseFromAI = new Promise(
     function (resolve, reject) {
-      request.on('error', function (error) {
-        reject(error);
-      });
-      request.on('response', function (response) {
-        resolve(response);
-      });
-    }).catch((err) => {
-    console.error("Error in response from API AI" + err)
-  });
+        request.on('error', function (error) {
+            console.log(error);
+            reject(error);
+        });
+        request.on('response', function (response) {
+            resolve(response);
+        });
+    });
   request.end();
   return responseFromAI;
 }
