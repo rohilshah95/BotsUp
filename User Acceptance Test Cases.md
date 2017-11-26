@@ -101,7 +101,7 @@ Pre-condition: User has access to slack, logs into slack and accesses the chat b
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
-| 2 | Upload a zip file or a raw GitHub link (in the format of codeload.github.com/...)to zip file for static code analysis. | Zip file or GitHub link to zip file  | Receive issues from the bot if they exist in the file.
+| 2 | Upload a zip file or a raw GitHub link (in the format of codeload.github.com/...) to zip file for static code analysis. | Zip file or GitHub link to zip file  | Receive issues from the bot if they exist in the file.
 | 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
