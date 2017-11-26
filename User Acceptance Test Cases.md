@@ -17,7 +17,7 @@ Test designed by: BotsUp Team
 
 Test designed date: 11/26/2017
 
-Pre-condition: User has access to slack, logs into slack and accesses the chat bot window.
+Pre-condition: User has access to slack, logs into slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel) and accesses the chat bot window .
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -96,7 +96,7 @@ Test designed by: BotsUp Team
 
 Test designed date: 11/26/2017
 
-Pre-condition: User has access to slack, logs into slack and accesses the chat bot window.
+Pre-condition: User has access to slack, logs into slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel) and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
