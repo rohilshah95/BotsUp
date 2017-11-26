@@ -23,7 +23,7 @@ Pre-condition: User has access to slack, logs into slack and accesses the chat b
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
 | 2 | Provide a source file for static code analysis. | Java, javascript or python source file | Receive issues from the bot if they exist in the file.
-| 3 | Click on a particular issue to know more. | Issue number | Receive detailed information about a particular issue.
+| 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
 Post-condition: You will have received static code analysis of your source file.
@@ -49,7 +49,7 @@ Pre-condition: User has access to slack, logs into slack and accesses the chat b
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
 | 2 | Provide a GitHub link for static code analysis. | Link to a file on GitHub  | Receive issues from the bot if they exist in the file.
-| 3 | Click on a particular issue to know more. | Issue number | Receive detailed information about a particular issue.
+| 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
 Post-condition: You will have received static code analysis of your provided GitHub link.
@@ -101,7 +101,7 @@ Pre-condition: User has access to slack, logs into slack and accesses the chat b
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
 | 2 | Provide a zip file or GitHub link to zip file for static code analysis. | Zip file or GitHub link to zip file  | Receive issues from the bot if they exist in the file.
-| 3 | Click on a particular issue to know more. | Issue number | Receive detailed information about a particular issue.
+| 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
 Post-condition: You will have received static code analysis of your provided zip file or GitHub link to zip file.
@@ -127,7 +127,7 @@ Pre-condition: User has access to slack, logs into slack and accesses the chat b
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
 | 2 | Provide a code snippet for static code analysis. | Code Snippet  | Receive issues from the bot if they exist in the file.
-| 3 | Click on a particular issue to know more. | Issue number | Receive detailed information about a particular issue.
+| 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
 Post-condition: You will have received static code analysis of your provided code snippet.
