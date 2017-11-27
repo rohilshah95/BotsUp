@@ -68,7 +68,7 @@ What we mean by deploy-ready is that there are certain steps before running the 
 
 ## 4. Adding Slack and APIAI tokens
 
-   Create a bot on Slack and get the API token of the Slack bot to authorize the application. Add it to the playbook [bot-deploy.yml](bot-deploy.yml) in the `SLACKTOKEN` entry.
+   Create an app on Slack, add a bot user and get the API token of the Slack bot to authorize the application. Add it to the playbook [bot-deploy.yml](bot-deploy.yml) in the `SLACKTOKEN` entry.
 
     Also, we need to give the slack bot certain permissions to read and write files which have been uploaded to it. We provide file:read and file:write permissions to the bot so that the bot can access the files we upload to it. Create the token and add it to the playbook in the `SLACKBEARERTOKEN` entry.
 
