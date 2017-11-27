@@ -83,7 +83,7 @@
   - name: Fix Sonar runner permissions
     file: path=/sonar-scanner-3.0.3.778-linux owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
 
-  - name: Symlink sonnar Runner 
+  - name: Symlink Sonar Runner 
     command: sudo ln -sv /sonar-scanner-3.0.3.778-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
 
   - name: Get root previlige

@@ -98,7 +98,7 @@ function replyCallback(bot, message) {
 
         }).catch(function (err) {
           console.error("Error in process chain " + err)
-          bot.reply(message, "Sorry! I don't know how to interpret that");
+          bot.reply(message, "Sorry! I don't know how to interpret that.");
 
         });
       } else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data

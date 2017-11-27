@@ -47,7 +47,7 @@ function download(fileUrl, options) {
             file.close(() => {
               if (responseSent) return;
               var sessionDetails = { session_id: options.session_id, directory: options.directory };
-              if (extract) {
+              if (extract)  {
                 decompress(options.directory + "/" + options.filename, options.directory).then(() => {
                   resolve(sessionDetails);
                 });
