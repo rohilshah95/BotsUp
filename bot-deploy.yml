@@ -1,5 +1,5 @@
 ---
-- hosts: nodes
+- hosts: #_Name_of_node_in_inventory_#
   become: yes
 
   vars:
@@ -18,42 +18,39 @@
       - git
       - curl
 
+# Create environment for bot
+
   - name: Create APP Directory
     file: path={{home}}/{{app}} state=directory
 
+  - name: Add Java repository to sources
+    action: apt_repository repo='ppa:webupd8team/java'
+  
+  - name: Autoaccept license for Java
+    action: shell echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+  
+  - name: Update APT package cache
+    action: apt update_cache=yes
+  
+  - name: Install Java 8
+    action: apt pkg=oracle-java8-installer state=latest install_recommends=yes
+  
+  - name: Set Java 8 Env
+    action: apt pkg=oracle-java8-set-default state=latest install_recommends=yes
 
-  # - name: Add Java repository to sources
-  #   action: apt_repository repo='ppa:webupd8team/java'
-  #
-  # - name: Autoaccept license for Java
-  #   action: shell echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-  #
-  # - name: Update APT package cache
-  #   action: apt update_cache=yes
-  #
-  # - name: Install Java 8
-  #   action: apt pkg=oracle-java8-installer state=latest install_recommends=yes
-  #
-  # - name: Set Java 8 Env
-  #   action: apt pkg=oracle-java8-set-default state=latest install_recommends=yes
+# Installing packages
 
   - name: Install forever
     npm: name=forever global=yes state=present
     become: yes
 
-
-
-  # - name: send key to remote deploy user
-  #   copy: src=/home/vagrant/code/id_rsa dest=~/home/priv_key owner=root group=root mode=0600
-  #
-  - name: Clone repo #make repo public
+# Repository link - You cannot clone the git repo if the ssh public key of the machine you are cloning the repo into is not present in the Git Setting (More info: )
+  - name: Clone repo
     git:
-      repo: git@github.ncsu.edu:rcoutin/BOT.git
+      repo: git@github.ncsu.edu:rcoutin/BOT.git       
       dest: home/app
       key_file: /home/{{ansible_user}}/.ssh/id_rsa
       accept_hostkey: yes
-  #     #force: yes
-    #become: no
 
   - name: Running NPM install
     command: npm install
@@ -69,6 +66,8 @@
 
   - name: Fix Sonarqube permissions
     file: path=/sonarqube-6.7 owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
+
+# Starting Sonarqube
 
   - name: start sonar Sonarqube
     command: /sonarqube-6.7/bin/linux-x86-64/sonar.sh start
@@ -98,15 +97,15 @@
 
   # - name: Set upper limit
   #   command: ulimit -n 65536
-  #
-  # # Stop the application if previous instance is running
-  #
+
+# Starting App
+
   - name: Start APP
     command: forever start bot.js
     args:
       chdir: home/app
     ignore_errors: yes
     environment:
-      SLACKTOKEN: xoxb-256030778066-hLqLl1wd5d92C3fnP498P8lk
-      APIAITOKEN: 537ae875863040a4b0cedac8a087dc8d
-      SLACKBEARERTOKEN: xoxp-256865299430-256034721060-256170554661-e9e93acfc3251d0d547cc9ca00ef1a38
+      SLACKTOKEN: #_Your_Slack_Bot_Token_#
+      APIAITOKEN: #_Your_Trained_APIAI_Token_#
+      SLACKBEARERTOKEN: #_Your_Slack_Authentication_Token_#
