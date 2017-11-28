@@ -8,12 +8,12 @@ Siddhant Shah: sshah14
 Uddhav Bhosle: ubhosle  
 Vijay Hebbar: vhhebbar  
 
-Deliverables:  [Worksheet](WORKSHEET.md), [Screencast](), [Deployment Script](bot-deploy.yml)
+Deliverables:  [Worksheet](WORKSHEET.md), [Screencast](), [Deployment Script](bot-deploy.yml), [Acceptance Testing Steps](AcceptanceTesting.md)
 
 [Steps to deploy](deploymentSteps.md)
 
 # Credentials
-The following is the credentials to test our bot.
+The following are the credentials to test our bot.
 
 ```
 URL: bots-up.slack.com
