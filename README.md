@@ -11,3 +11,14 @@ Vijay Hebbar: vhhebbar
 Deliverables:  [Worksheet](WORKSHEET.md), [Screencast](), [Deployment Script](bot-deploy.yml)
 
 [Steps to deploy](deploymentSteps.md)
+
+# Credentials
+The following is the credentials to test our bot.
+
+```
+URL: bots-up.slack.com
+Username: botsup.ta@gmail.com
+Password: ta.account
+```
+
+App Name: botsup
