@@ -8,7 +8,7 @@ Siddhant Shah: sshah14
 Uddhav Bhosle: ubhosle  
 Vijay Hebbar: vhhebbar  
 
-Deliverables:  [Worksheet](WORKSHEET.md), [Screencast](), [Deployment Script](bot-deploy.yml), [Acceptance Testing Steps](AcceptanceTesting.md)
+Deliverables:  [Worksheet](WORKSHEET.md), [Screencast](https://youtu.be/WX6Hpg616Fc), [Deployment Script](bot-deploy.yml), , [Acceptance Testing Steps](AcceptanceTesting.md)
 
 [Steps to deploy](deploymentSteps.md)
 
