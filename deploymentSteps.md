@@ -52,7 +52,8 @@ Once you have ansible installed, make an inventory file having the following con
   [node]
   #VCL_IP# ansible_ssh_user=#unityid#
   ```
-      
+   Here, `#VCL_IP#` is to be replaced by the IP address of the VCL machine that has been created, and `#unityid#` is to be replaced by the login ID of the user (in this case, the unity ID).
+   
    This will run the ansible playbook on the node (The VCL machine) specified in the inventory.
 
 ## 4. Adding Slack and APIAI tokens
