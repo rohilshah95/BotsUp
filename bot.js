@@ -33,10 +33,10 @@ controller.spawn({
 controller.on('file_share,direct_message,direct_mention', replyCallback);
 
 function replyCallback(bot, message) {
-  session.user_id = message.user;
-  session.id = session.user_id + getTimeString();
+  var user_id = message.user;
+  var localSessionId = user_id + getTimeString();
     
-    getAIRes(cleanString(message.text)).then(function (response) {
+    getAIRes({query:cleanString(message.text) , user_id:user_id}).then(function (response) {
         var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
         var intent = response.result.metadata.intentName; // this resolves the intent name from the response
         var params = response.result.parameters; // this gets the parameters from the response
@@ -53,11 +53,11 @@ function replyCallback(bot, message) {
             snippetFlag = false;
             bot.reply(message, "Please wait while I analyse the snippet");
             snippet.parse(params.Language, snippetMsg, {
-                directory: session.scandir + session.id,
-                session_id: session.id
+                directory: session.scandir + localSessionId,
+                session_id: localSessionId
             }).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess)).then(function (response) {
                 var issuesBody = response.body;
-                userRuleMap.set(session.user_id, issuesBody.issues); //storing
+                userRuleMap.set(user_id, issuesBody.issues); //storing
                 bot.reply(message, formatIssues(issuesBody.issues));
 
             }).catch(function (err) {
@@ -77,6 +77,8 @@ function replyCallback(bot, message) {
 
       } else if (intent === 'AnalysisChoice') {
         var url = ""
+
+
         if (message.subtype === 'file_share') {
           url = message.file.url_private;
           var options = {
@@ -88,12 +90,13 @@ function replyCallback(bot, message) {
           options = {};
           url = params.url
         }
-
-        userRuleMap.delete(session.user_id);
+        options.directory = session.scandir + localSessionId;
+       options.session_id = localSessionId;
+        userRuleMap.delete(user_id);
         bot.reply(message, reply);
         processChain(url, options).then(function (response) {
           var issuesBody = response.body;
-          userRuleMap.set(session.user_id, issuesBody.issues); //storing
+          userRuleMap.set(user_id, issuesBody.issues); //storing
           bot.reply(message, formatIssues(issuesBody.issues));
 
         }).catch(function (err) {
@@ -101,8 +104,8 @@ function replyCallback(bot, message) {
           bot.reply(message, "Sorry! I don't know how to interpret that.");
 
         });
-      } else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
-        var ruleName = userRuleMap.get(session.user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
+      } else if (intent === 'AnalysisFeedback' && userRuleMap.get(user_id) != null) { // & the map contains user data
+        var ruleName = userRuleMap.get(user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
         sonar.getRules(ruleName).then(function (response) {
           var ruleBody = response.body;
           bot.reply(message, formatRule(ruleBody.rule.htmlDesc));
@@ -117,9 +120,9 @@ function replyCallback(bot, message) {
   }
 
 
-function getAIRes(query) {
-  var request = ai.textRequest(query, {
-    sessionId: session.user_id
+function getAIRes(inputData) {
+  var request = ai.textRequest(inputData.query, {
+    sessionId: inputData.user_id
   });
   const responseFromAI = new Promise(
     function (resolve, reject) {
@@ -170,8 +173,8 @@ function formatRule(ruleStr) {
 
 function processChain(url, options) {
   options = options ? options : {};
-  options.directory = session.scandir + session.id;
-  options.session_id = session.id;
+ // options.directory = session.scandir + session.id;
+  //options.session_id = session.id;
   return download(url, options).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess));
 }
 
