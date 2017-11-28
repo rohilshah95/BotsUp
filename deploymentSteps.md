@@ -17,7 +17,7 @@ More information about SonarQube requirements [here](https://docs.sonarqube.org/
 
 What we mean by deploy-ready is that there are certain steps before running the playbook that needs to be done manually.
 
-**1. Generating ssh keys of the environment and adding it to the Git Repo needed to be cloned**  
+1. Generating ssh keys of the environment and adding it to the Git Repo needed to be cloned  
     As we are cloning Git Repo in our ansible playbook to deploy the application, the ssh public key of the machine you are cloning it into needs to be added to the GitHub settings. The following are the steps to do so, Run the command on the VCL environment:    
 
 	```user@virtualenv$ ssh-keygen```
@@ -30,7 +30,7 @@ What we mean by deploy-ready is that there are certain steps before running the 
 
 	Now the GitHub repo can be cloned.
 
-**2. Generating ssh keys of the configuration management server and adding it to VCL to run ansible playbook**
+2. Generating ssh keys of the configuration management server and adding it to VCL to run ansible playbook
     As we are running the ansible playbook from a Configuration Management Server (ansible deployed on say a vagrant env), we need to authorize this configuration management server to connect to the VCL environment. This can be achieved by creating the ssh public key of the configuration management server and adding it to VCL using the following commands:
 
     ```user@ansible$ ssh-keygen```
