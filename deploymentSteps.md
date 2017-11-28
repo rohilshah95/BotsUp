@@ -1,15 +1,15 @@
-# Steps to deploy bot
+# Steps to deploy the bot
 CSC 510 - BotsUP
 
 To deploy the bot, follow the steps below:
 
-## 1. Create an enviroment
+## 1. Create an environment
 
-Create a environment to deploy the bot. As we found it convenient to use VCL, the steps below work best on the "Ubuntu 16.04 LTS Base" environment present on VCL, which already has the latest packages installed and also has 2GB RAM. We assume you are using the same. 
+Create an environment to deploy the bot. As we found it convenient to use VCL, the steps below work best on the "Ubuntu 16.04 LTS Base" environment present on VCL, which already has the latest packages installed and also has 2GB RAM. We assume you are using the same. 
 
 Note: The bot does get deployed on vagrant boxes (trusty64) as well. Though we feel the VCL environment could do better as it meets the minimum requirements our static analysis tool needs.
 
-Minimum Requirements for the static analyis tool Sonarqube that the deployment script does not handle:
+Minimum Requirements for the static analysis tool Sonarqube that the deployment script does not handle:
 - Minimum 2GB RAM (3 GB recommended). 
 More information about SonarQube requirements [here](https://docs.sonarqube.org/display/SONAR/Requirements).
 
@@ -17,7 +17,7 @@ More information about SonarQube requirements [here](https://docs.sonarqube.org/
 
 What we mean by deploy-ready is that there are certain steps before running the playbook that needs to be done manually.
 
-1. Generating ssh keys of the environment and adding it to the Git Repo needed to be cloned**  
+**1. Generating ssh keys of the environment and adding it to the Git Repo needed to be cloned**  
     As we are cloning Git Repo in our ansible playbook to deploy the application, the ssh public key of the machine you are cloning it into needs to be added to the GitHub settings. The following are the steps to do so, Run the command on the VCL environment:    
 
 	```user@virtualenv$ ssh-keygen```
@@ -30,7 +30,7 @@ What we mean by deploy-ready is that there are certain steps before running the 
 
 	Now the GitHub repo can be cloned.
 
-2. Generating ssh keys of the configuration management server and adding it to VCL to run ansible playbook
+**2. Generating ssh keys of the configuration management server and adding it to VCL to run ansible playbook**
     As we are running the ansible playbook from a Configuration Management Server (ansible deployed on say a vagrant env), we need to authorize this configuration management server to connect to the VCL environment. This can be achieved by creating the ssh public key of the configuration management server and adding it to VCL using the following commands:
 
     ```user@ansible$ ssh-keygen```
