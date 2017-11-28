@@ -110,7 +110,10 @@ function replyCallback(bot, message) {
       } else {
         bot.reply(message, reply)
       }
-    })
+    }).catch(function (error) {
+      console.log(JSON.parse(error.responseBody).status.errorDetails);
+      bot.reply(message, JSON.parse(error.responseBody).status.errorDetails)
+  })
   }
 
 
@@ -126,9 +129,7 @@ function getAIRes(query) {
       request.on('response', function (response) {
         resolve(response);
       });
-    }).catch((err) => {
-    console.error("Error in response from API AI" + err)
-  });
+    });
   request.end();
   return responseFromAI;
 }
