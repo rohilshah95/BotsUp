@@ -1,4 +1,4 @@
-# BotsUP - A Programming Language Tutor Bot - Service Milestone
+# BotsUP - A Programming Language Tutor Bot - Deploy Milestone
 CSC 510 - BotsUP
 
 #### Members:
@@ -15,10 +15,10 @@ Deliverables:  [Worksheet](WORKSHEET.md), [Screencast](https://youtu.be/WX6Hpg6
 # Credentials
 The following are the credentials to test our bot.
 
-```
-URL: bots-up.slack.com
-Username: botsup.ta@gmail.com
+
+URL: https://bots-up.slack.com/  
+Username: botsup.ta@gmail.com  
 Password: ta.account
-```
+
 
 App Name: botsup
