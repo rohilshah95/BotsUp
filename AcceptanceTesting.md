@@ -2,22 +2,13 @@
 
 ### User Acceptance Test Cases
 
-#### Use Case 1
-Test Case ID: 001
+#### Test Case 1
 
-Test Priority: High
+**Title**: Perform code analysis on source file. 
 
-Module Name: BotsUp Use Case 1
+Description: This test case verifies if the bot performs static code analysis on an uploaded source file and returns the list of issues if any.
 
-Test Title: Perform code analysis on source file. 
-
-Description: Check if the bot performs static code analysis on source file.
-
-Test designed by: BotsUp Team
-
-Test designed date: 11/26/2017
-
-Pre-condition: User has access to slack, logs into slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel) and accesses the chat bot window .
+Pre-condition: User has access to slack, logs into slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel and mention the bot using '@') and accesses the chat bot window .
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -26,51 +17,34 @@ Pre-condition: User has access to slack, logs into slack as the admin (due to li
 | 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
-Post-condition: You will have received static code analysis of your source file.
+Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
-#### Use Case 2
-Test Case ID: 002
+#### Test Case 2
 
-Test Priority: High
+Title: Perform code analysis on provided GitHub link. 
 
-Module Name: BotsUp Use Case 2
+Description: This test case verifies if the bot performs static code analysis on the provided GitHub link and displays issues
 
-Test Title: Perform code analysis on provided GitHub link. 
-
-Description: Check if the bot performs static code analysis on provided GitHub link.
-
-Test designed by: BotsUp Team
-
-Test designed date: 11/26/2017
-
-Pre-condition: User has access to slack, logs into slack and accesses the chat bot window.
+Pre-condition: User has access to slack, logs into Slack and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
-| 2 | Provide a GitHub link (in the format of raw.githubusercontent.com/..... ) for static code analysis. | Link to a file on GitHub  | Receive issues from the bot if they exist in the file.
+| 2 | Provide a GitHub link for static code analysis. | Link to a file on GitHub  | Receive issues from the bot if they exist in the file.
 | 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
-Post-condition: You will have received static code analysis of your provided GitHub link.
+\* The Github link needs to be the raw direct link to the source file (typically, raw.githubusercontent.com/.....)  
 
+Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
-#### Use Case 3
-Test Case ID: 003
+#### Test Case 3
 
-Test Priority: High
+Title: Request method definitions 
 
-Module Name: BotsUp Use Case 3
+Description: This test verifies if the bot can display definitions for a method in Java or Python.
 
-Test Title: Look up the documentation for details of methods in the given languages (Java and Python). 
-
-Description: Check if the bot can lookup any method in Java or Python.
-
-Test designed by: BotsUp Team
-
-Test designed date: 11/26/2017
-
-Pre-condition: User has access to slack, logs into slack and accesses the chat bot window.
+Pre-condition: User has access to Slack, logs into Slack and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -81,56 +55,39 @@ Pre-condition: User has access to slack, logs into slack and accesses the chat b
 
 Post-condition: You will have received detailed information about a particular method from the documentation.
 
-#### Use Case 4
-Test Case ID: 004
+#### Test Case 4
 
-Test Priority: High
+Title: Perform code analysis on ZIP archives
 
-Module Name: BotsUp Use Case 4
-
-Test Title: Perform code analysis on provided zip file or GitHub link to zip file. 
-
-Description: Check if the bot performs static code analysis on provided zip file or GitHub link to zip file.
-
-Test designed by: BotsUp Team
-
-Test designed date: 11/26/2017
+Description: This test verifies if the bot performs static code analysis on an uploaded ZIP file or GitHub link to zip file, and displays issues
 
 Pre-condition: User has access to slack, logs into slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel) and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
-| 2 | Upload a zip file or a raw GitHub link (in the format of codeload.github.com/...) to zip file for static code analysis. | Zip file or GitHub link to zip file  | Receive issues from the bot if they exist in the file.
+| 2 | Upload a zip file or a GitHub link* for static code analysis. | Zip file or GitHub link to zip file  | Receive issues from the bot if they exist in the file.
 | 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
-Post-condition: You will have received static code analysis of your provided zip file or GitHub link to zip file.
+\* The Github link needs to be the raw direct link to the repo's zip file (typically, codeload.github.com/...)  
 
-#### Use Case 5
-Test Case ID: 005
+Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
-Test Priority: High
+#### Test Case 5
 
-Module Name: BotsUp Use Case 5
+Title: Perform code analysis on a code snippet. 
 
-Test Title: Perform code analysis on provided code snippet. 
-
-Description: Check if the bot performs static code analysis on provided code snippet.
-
-Test designed by: BotsUp Team
-
-Test designed date: 11/26/2017
+Description: This test is to verify if the bot performs static code analysis on a code snippet and displays issues.
 
 Pre-condition: User has access to slack, logs into slack and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
 | 1 | Send a greeting to the bot. | "Hi" | Receive an appropriate greeting as response from the bot.
-| 2 | Provide a code snippet for static code analysis. | Code Snippet  | Receive issues from the bot if they exist in the file.
+| 2 | Provide a code snippet (between \`\`\` tag) for static code analysis. | Code Snippet  | Receive issues from the bot if they exist in the file.
 | 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
-Post-condition: You will have received static code analysis of your provided code snippet.
-
+Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
