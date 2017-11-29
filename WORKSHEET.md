@@ -8,7 +8,7 @@
 
 #### Backlog
 
-* ~~Deploying sonarqube problems~~ - [#11](https://github.ncsu.edu/rcoutin/BOT/issues/10)
+* ~~Deploying sonarqube problems~~ - [#11](https://github.ncsu.edu/rcoutin/BOT/issues/11)
 * ~~Issue - Bot crashes when repo link contains token (private/enterprise repository links) - doesnt crash now (won't fix: Refer link  to issue for more info)~~ - [#10](https://github.ncsu.edu/rcoutin/BOT/issues/10)
 * ~~Issue - Analysis Rule information during multiple user access breaks~~ - [#9](https://github.ncsu.edu/rcoutin/BOT/issues/9)
 * ~~Enhancement - Avoiding issues clutter~~ - [#7](https://github.ncsu.edu/rcoutin/BOT/issues/7)
