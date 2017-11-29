@@ -1,14 +1,13 @@
-## Project Name: BotsUp
+## User Acceptance Test Cases
+Team Name: BotsUp
 
-### User Acceptance Test Cases
-
-#### Test Case 1
+### Test Case 1
 
 **Title**: Perform code analysis on source file. 
 
-Description: This test case verifies if the bot performs static code analysis on an uploaded source file and returns the list of issues if any.
+**Description**: This test case verifies if the bot performs static code analysis on an uploaded source file and returns the list of issues if any.
 
-Pre-condition: User has access to slack, logs into slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel and mention the bot using '@') and accesses the chat bot window .
+**Pre-conditions**: User has access to Slack, logs into Slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel and mention the bot using '@') and accesses the chat bot window .
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -17,15 +16,15 @@ Pre-condition: User has access to slack, logs into slack as the admin (due to li
 | 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
-Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
+**Post-conditions**: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
-#### Test Case 2
+### Test Case 2
 
-Title: Perform code analysis on provided GitHub link. 
+**Title**: Perform code analysis on provided GitHub link. 
 
-Description: This test case verifies if the bot performs static code analysis on the provided GitHub link and displays issues
+**Description**: This test case verifies if the bot performs static code analysis on the provided GitHub link and displays issues
 
-Pre-condition: User has access to slack, logs into Slack and accesses the chat bot window.
+**Pre-conditions**: User has access to Slack, logs into Slack and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -36,15 +35,15 @@ Pre-condition: User has access to slack, logs into Slack and accesses the chat b
 
 \* The Github link needs to be the raw direct link to the source file (typically, raw.githubusercontent.com/.....)  
 
-Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
+**Post-conditions**: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
-#### Test Case 3
+### Test Case 3
 
-Title: Request method definitions 
+**Title**: Request method definitions 
 
-Description: This test verifies if the bot can display definitions for a method in Java or Python.
+**Description**: This test verifies if the bot can display definitions for a method in Java or Python.
 
-Pre-condition: User has access to Slack, logs into Slack and accesses the chat bot window.
+**Pre-conditions**: User has access to Slack, logs into Slack and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -53,15 +52,15 @@ Pre-condition: User has access to Slack, logs into Slack and accesses the chat b
 | 3 | Provide the language to the bot. | Java or Python |  Receive details about the povided method in the provided language.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
-Post-condition: You will have received detailed information about a particular method from the documentation.
+**Post-conditions**: The bot provides detailed information about a particular method from the documentation.
 
-#### Test Case 4
+### Test Case 4
 
-Title: Perform code analysis on ZIP archives
+**Title**: Perform code analysis on ZIP archives
 
-Description: This test verifies if the bot performs static code analysis on an uploaded ZIP file or GitHub link to zip file, and displays issues
+**Description**: This test verifies if the bot performs static code analysis on an uploaded ZIP file or GitHub link to the ZIP file, and displays issues
 
-Pre-condition: User has access to slack, logs into slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel) and accesses the chat bot window.
+**Pre-conditions**: User has access to Slack, logs into Slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel) and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -72,15 +71,15 @@ Pre-condition: User has access to slack, logs into slack as the admin (due to li
 
 \* The Github link needs to be the raw direct link to the repo's zip file (typically, codeload.github.com/...)  
 
-Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
+**Post-conditions**: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
-#### Test Case 5
+### Test Case 5
 
-Title: Perform code analysis on a code snippet. 
+**Title**: Perform code analysis on a code snippet. 
 
-Description: This test is to verify if the bot performs static code analysis on a code snippet and displays issues.
+**Description**: This test is to verify if the bot performs static code analysis on a code snippet and displays issues.
 
-Pre-condition: User has access to slack, logs into slack and accesses the chat bot window.
+**Pre-conditions**: User has access to Slack, logs into Slack and accesses the chat bot window.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -89,5 +88,5 @@ Pre-condition: User has access to slack, logs into slack and accesses the chat b
 | 3 | Provide a particular issue number to know more about it. | Issue number | Receive detailed information about a particular issue.
 | 4 | Send a farewell message to the bot. | "Bye" |  Receive an appropriate farewell as response from the bot.
 
-Post-condition: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
+**Post-conditions**: Code analysis is performed and a list of issues is shown to the user with the option to get more details about any particular issue.
 
