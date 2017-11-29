@@ -22,7 +22,6 @@
     "nock": "^9.0.28",
     "request": "^2.83.0",
     "slackbots": "^1.1.0",
-    "sleep": "^5.1.1",
     "superagent": "^3.8.1",
     "unescape": "^1.0.1"
   }
