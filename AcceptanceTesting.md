@@ -5,9 +5,11 @@ Team Name: BotsUp
 
 **Title**: Perform code analysis on source file. 
 
-**Description**: This test case verifies if the bot performs static code analysis on an uploaded source file and returns the list of issues if any.
+**Description**: This test case verifies if the bot performs static code analysis on an uploaded source file and returns the list of issues if any.  
+Note: This test case is also relevant when a user sends a snippet using Slack's snippet feature.
 
-**Pre-conditions**: User has access to Slack, logs into Slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel and mention the bot using '@') and accesses the chat bot window .
+**Pre-conditions**: User has access to Slack, logs into Slack and accesses the bot via a channel or direct message.  
+Note: Due to limitations in the Slack API, only the admin can upload files as a direct message; other users should upload the file to a channel by mentioning the bot using '@'.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
@@ -60,7 +62,9 @@ Team Name: BotsUp
 
 **Description**: This test verifies if the bot performs static code analysis on an uploaded ZIP file or GitHub link to the ZIP file, and displays issues
 
-**Pre-conditions**: User has access to Slack, logs into Slack as the admin (due to limitations of Slack API only the admin can upload files as a direct message and every other user has to upload the file to a channel) and accesses the chat bot window.
+**Pre-conditions**: 
+User has access to Slack, logs into Slack and accesses the bot via a channel or direct message.  
+Note: Due to limitations in the Slack API, only the admin can upload files as a direct message; other users should upload the file to a channel by mentioning the bot using '@'.
 
 | Step  | Test Steps  | Test Data  | Expected Result 
 | ------------- | ------------  |  ------------ | ----------
