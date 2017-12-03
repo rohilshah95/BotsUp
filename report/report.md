@@ -9,13 +9,12 @@ Siddhant Shah: sshah14
 Uddhav Bhosle: ubhosle  
 Vijay Hebbar: vhhebbar  
   
-# The problem   
-### Problem Statement:  
+# Problem Statement:  
 People new to programming or skilled programmers learning new languages can come across many problems while coding. These problems act as impediments to their learning process. The code could be riddled with bugs like null pointer exceptions, vulnerabilities, duplicated code, spaghetti code and deviations from coding standards. These issues cause headaches when developing an application or merely programming for the sake of it. Early and efficient detection of these problems is a growing need for any software development project. With novice programmers who might not be familiar with the syntax and/or programming basics and protocols, there are increased chances of bugs. Also, they are not familiar with the functions and rules of the language and are thus bound to get stuck finding solutions to things that an experienced person might find trivial.
-Hence an interactive tool is needed that goes through the bugs individually and provides tips and solutions to them that can help simplify and enhance the processes of both programming and learning to program for the new coders. With such a tool they will not get stuck in problems or due to lack of certain knowledge about the programming language.    
+Hence there arises a need for a tool that goes through the bugs individually and provides tips and solutions to solve them, making the programmers code complaint to coding standards. With such a tool the programmers will find it easy to exactly know what is wrong with their own code without having to research (in theory) about the kind of bugs they are facing due to lack of knowledge about the programming language.    
 
 # Features   
-The interactive chat-bot is capable of answers questions related to the documentation of the particular programming language that the user is using. Below we can see the bot helping in method definitions for a particular language.  
+The interactive chat-bot is capable of answering questions related to the documentation of the particular programming language that the user is using. Below we can see the bot helping in method definitions for a particular language.  
 ![](documentation.png)  
     
 Here we see that the user asked for the definition of a method. However, he did not mention the language for which the method is requested. Hence the bot asked the user which language he is talking about. On getting the language the bot maps to the database of that language and searches for the necessary method. If found it replies with the what the method does, otherwise it tells the user that it could not find any information. Here the bot replied with what the java method does.    
@@ -40,7 +39,7 @@ Now, what if the user wants to analyze his whole project?! He can give the whole
   
 All these features help in the better understanding of one's code and the programming language used. These will help novice programmers learn to code without being intimidated and using the interactive bot just like a person helping with the code.
    
-# Reflection on development process and project.   
+# Development   
 While starting with the project we had a vague idea of how the bot must function and what needs to be done for its development. We decided on making a bot using the Slack platform. Our initial plan was something like this   
 ![](initialArch.png)    
 Initially, we were not sure as to which API to use for the code analysis. Also finding an API service that provided support for a wide range of languages was an issue. But over time we finalized on using the SonarQube API which provided support for a wide range of programming languages and also provided functionalities like static code analysis, efficient processing of requests,  the severity of issues to name a few. This API formed the core functionality provider for our bot.   
