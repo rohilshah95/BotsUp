@@ -34,7 +34,7 @@ Here the user provided a link to a raw file in GitHub having a python code. The 
 It may happen that the user is unsure of a part of his code. He doesn't want the bot to analyze his whole file, he can also give it a code snippet, that is, only the part of the code he wants to analyze. The bot will analyze it and give back results and the conversation can be continued as in the above cases.
 ![](snippet.png)     
 
-Now, what if the user wants to analyze his whole project?! He can give the whole zipped project folder or a link to his GitHub repository. The bot will download and analyze the entire project and give the results of its analyses. The most severe issues from the project are displayed which will help the user to learn more about the bugs or solve them.
+Now, what if the user wants to analyze his whole project? He can give the whole zipped project folder or a link to his GitHub repository. The bot will download and analyze the entire project and give the results of its analyses. The most severe issues from the project are displayed which will help the user to learn more about the bugs or solve them.
 ![](repo.png)    
   
 All these features help in the better understanding of one's code and the programming language used. These will help novice programmers learn to code without being intimidated and using the interactive bot just like a person helping with the code.
@@ -62,7 +62,7 @@ While working on building the bot we came across many hurdles that needed to be 
 # Limitations and Future Work
 One of the limitations of the bot is the limited number of languages supported are few. We will need to work on the scalability of the bot so that it can gracefully support a large number of languages.   
    
-One of the limitations of Slack is that only the admin user can upload files. This is a severe limitation as it prevents other users from accessing some of the crucial functionalities of the bot. The bot can be redesigned on a platform that allows all users the same rights so that they can access all the functionalities of the bot or at least those functionalities that are intended for them.   
+One of the limitations of Slack is that only the admin user can upload files to a direct message, the rest, all have to upload the files to a common channel. This is a severe limitation as it prevents other users from accessing some of the crucial functionalities of the bot. The bot can be redesigned on a platform that allows all users the same rights so that they can access all the functionalities of the bot or at least those functionalities that are intended for them.   
     
 One of the problems in SonarQube API is that it cannot analyze two or more java files together if we don't provide the class files along with them. This prevents and restricts users and is a pain as users have to compile and create class files first in order to check their code.   
 Other drawbacks of this API are that it may provide issues that may be irrelevant to a user and actually not make the code any better if solved. To solve it, we need to create a mechanism for the bot to figure out whether the issues are really necessary ones and display them only if they can improve the overall code quality.   
