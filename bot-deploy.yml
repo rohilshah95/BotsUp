@@ -1,0 +1,112 @@
+---
+- hosts: #_Name_of_node_in_inventory_#
+  become: yes
+
+  vars:
+    - home: home # Configure our home directory
+    - app : app
+    - repo: bot
+
+
+
+  tasks:
+  - name: Install Packages
+    apt: name={{ item }} update_cache=yes state=latest
+    with_items:
+      - npm
+      - nodejs-legacy
+      - git
+      - curl
+
+# Create environment for bot
+
+  - name: Create APP Directory
+    file: path={{home}}/{{app}} state=directory
+
+  - name: Add Java repository to sources
+    action: apt_repository repo='ppa:webupd8team/java'
+  
+  - name: Autoaccept license for Java
+    action: shell echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+  
+  - name: Update APT package cache
+    action: apt update_cache=yes
+  
+  - name: Install Java 8
+    action: apt pkg=oracle-java8-installer state=latest install_recommends=yes
+  
+  - name: Set Java 8 Env
+    action: apt pkg=oracle-java8-set-default state=latest install_recommends=yes
+
+# Installing packages
+
+  - name: Install forever
+    npm: name=forever global=yes state=present
+    become: yes
+
+# Repository link - You cannot clone the git repo if the ssh public key of the machine you are cloning the repo into is not present in the Git Setting (More info: )
+  - name: Clone repo
+    git:
+      repo: git@github.ncsu.edu:rcoutin/BOT.git       
+      dest: home/app
+      key_file: /home/{{ansible_user}}/.ssh/id_rsa
+      accept_hostkey: yes
+      version: deploy
+
+  - name: Running NPM install
+    command: npm install
+    args:
+      chdir: home/app
+    become: yes
+
+  - name: Download Sonar Qube
+    unarchive:
+      src: https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-6.7.zip
+      dest: /
+      remote_src: yes
+
+  - name: Fix Sonarqube permissions
+    file: path=/sonarqube-6.7 owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
+
+# Starting Sonarqube
+
+  - name: start sonar Sonarqube
+    command: /sonarqube-6.7/bin/linux-x86-64/sonar.sh start
+    become: yes
+    become_user: "{{ansible_ssh_user}}"
+
+  - name: Download and start Sonar Runner
+    unarchive:
+      src: https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778-linux.zip
+      dest: /
+      remote_src: yes
+
+  - name: Fix Sonar runner permissions
+    file: path=/sonar-scanner-3.0.3.778-linux owner="{{ansible_user}}" mode=0775 state=directory recurse=yes
+
+  - name: Symlink Sonar Runner 
+    command: sudo ln -sv /sonar-scanner-3.0.3.778-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
+
+  - name: Get root previlige
+    command: sudo su
+
+  - name: Set map count
+    command: sysctl -w vm.max_map_count=262144
+
+  - name: Set maximum file size
+    command: sysctl -w fs.file-max=65536
+
+  # - name: Set upper limit
+  #   command: ulimit -n 65536
+
+# Starting App
+
+  - name: Start APP
+    command: forever start bot.js
+    args:
+      chdir: home/app
+    ignore_errors: yes
+    environment:
+      SLACKTOKEN: #_Your_Slack_Bot_Token_#
+      APIAITOKEN: #_Your_Trained_APIAI_Token_#
+      SLACKBEARERTOKEN: #_Your_Slack_Authentication_Token_#

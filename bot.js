@@ -6,26 +6,37 @@ const sonar = require("./sonar.js")
 const botkit = require('botkit');
 const docParser = require('./doc_parse.js');
 const download = require('./downloader.js').download;
+const snippet = require("./snippetParse.js");
+
 var snippetFlag = false;
 var snippetMsg = '';
 const controller = botkit.slackbot({
   debug: false
 });
 var userRuleMap = new Map();
-const snippet = require("./snippetParse.js");
+
+var SevEnum = {
+  properties: {
+    "BLOCKER": {name: "blocker", value: 1},
+    "CRITICAL": {name: "critical", value: 2},
+    "MAJOR": {name: "major", value: 3},
+    "MINOR": {name: "minor", value: 4},
+    "INFO": {name: "info", value: 5}
+  }
+};
 
 controller.spawn({
   token: process.env.SLACKTOKEN,
+  retry: true
 }).startRTM();
 
 controller.on('file_share,direct_message,direct_mention', replyCallback);
 
 function replyCallback(bot, message) {
-  console.log(message.text);
-  session.user_id = message.user;
-  session.id = session.user_id + getTimeString();
+  var user_id = message.user;
+  var localSessionId = user_id + getTimeString();
     
-    getAIRes(cleanString(message.text)).then(function (response) {
+    getAIRes({query:cleanString(message.text) , user_id:user_id}).then(function (response) {
         var reply = response.result.fulfillment.speech; // this is a generic response returned by the bot
         var intent = response.result.metadata.intentName; // this resolves the intent name from the response
         var params = response.result.parameters; // this gets the parameters from the response
@@ -42,11 +53,11 @@ function replyCallback(bot, message) {
             snippetFlag = false;
             bot.reply(message, "Please wait while I analyse the snippet");
             snippet.parse(params.Language, snippetMsg, {
-                directory: session.scandir + session.id,
-                session_id: session.id
+                directory: session.scandir + localSessionId,
+                session_id: localSessionId
             }).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess)).then(function (response) {
                 var issuesBody = response.body;
-                userRuleMap.set(session.user_id, issuesBody.issues); //storing
+                userRuleMap.set(user_id, issuesBody.issues); //storing
                 bot.reply(message, formatIssues(issuesBody.issues));
 
             }).catch(function (err) {
@@ -54,9 +65,6 @@ function replyCallback(bot, message) {
                 bot.reply(message, "Sorry! I don't know how to interpret that");
             });
         }
-        ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /////////////////////////////////////////
       else if (intent === 'DefMethod') {
         if (params.method_name) {
           bot.reply(message, reply);
@@ -69,6 +77,8 @@ function replyCallback(bot, message) {
 
       } else if (intent === 'AnalysisChoice') {
         var url = ""
+
+
         if (message.subtype === 'file_share') {
           url = message.file.url_private;
           var options = {
@@ -80,21 +90,22 @@ function replyCallback(bot, message) {
           options = {};
           url = params.url
         }
-
-        userRuleMap.delete(session.user_id);
+        options.directory = session.scandir + localSessionId;
+       options.session_id = localSessionId;
+        userRuleMap.delete(user_id);
         bot.reply(message, reply);
         processChain(url, options).then(function (response) {
           var issuesBody = response.body;
-          userRuleMap.set(session.user_id, issuesBody.issues); //storing
+          userRuleMap.set(user_id, issuesBody.issues); //storing
           bot.reply(message, formatIssues(issuesBody.issues));
 
         }).catch(function (err) {
           console.error("Error in process chain " + err)
-          bot.reply(message, "Sorry! I don't know how to interpret that");
+          bot.reply(message, "Sorry! I don't know how to interpret that.");
 
         });
-      } else if (intent === 'AnalysisFeedback' && userRuleMap.get(session.user_id) != null) { // & the map contains user data
-        var ruleName = userRuleMap.get(session.user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
+      } else if (intent === 'AnalysisFeedback' && userRuleMap.get(user_id) != null) { // & the map contains user data
+        var ruleName = userRuleMap.get(user_id)[(params.number == "" ? params.ordinal : params.number) - 1].rule;
         sonar.getRules(ruleName).then(function (response) {
           var ruleBody = response.body;
           bot.reply(message, formatRule(ruleBody.rule.htmlDesc));
@@ -102,13 +113,16 @@ function replyCallback(bot, message) {
       } else {
         bot.reply(message, reply)
       }
-    })
+    }).catch(function (error) {
+      console.log(JSON.parse(error.responseBody).status.errorDetails);
+      bot.reply(message, JSON.parse(error.responseBody).status.errorDetails)
+  })
   }
 
 
-function getAIRes(query) {
-  var request = ai.textRequest(query, {
-    sessionId: session.user_id
+function getAIRes(inputData) {
+  var request = ai.textRequest(inputData.query, {
+    sessionId: inputData.user_id
   });
   const responseFromAI = new Promise(
     function (resolve, reject) {
@@ -118,21 +132,20 @@ function getAIRes(query) {
       request.on('response', function (response) {
         resolve(response);
       });
-    }).catch((err) => {
-    console.error("Error in response from API AI" + err)
-  });
+    });
   request.end();
   return responseFromAI;
 }
 
-function formatIssues(issues) {
+function formatIssues(unsortedIssues) {
+  issues = sortIssuesSeverity(unsortedIssues);
   if (issues.length == 0) {
     return "I found no issues.";
   }
   var allIssues = "";
   for (var i = 0; i < (issues.length > 10 ? 10 : issues.length); i++) {
-    
-    allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + " in file "+issues[i].component.split(":").pop()+"_: *" + issues[i].message + "*\n";
+      allIssues = allIssues + "_Issue " + (i + 1) + (issues[i].line ? " on line number " + issues[i].line : "") + " in file "+issues[i].component.split(":").pop()+"_: *" + issues[i].message + "*\n";
+ 
   }
   allIssues=allIssues.concat("\n\n*For more information on issues, reply with issue number*");
   return allIssues;
@@ -147,7 +160,6 @@ function cleanString(text) {
 }
 
 function getIssueCount(issues) {
-  console.log(issues.length);
   var count = 0
   if (!issues || issues.length > 0) {
     count = issues.length;
@@ -160,9 +172,24 @@ function formatRule(ruleStr) {
 }
 
 function processChain(url, options) {
-  console.log(url);
   options = options ? options : {};
-  options.directory = session.scandir + session.id;
-  options.session_id = session.id;
+ // options.directory = session.scandir + session.id;
+  //options.session_id = session.id;
   return download(url, options).then(sess => sonar.analyse(sess)).then(sess => sonar.getIssues(sess));
+}
+
+function sortIssuesSeverity(issues){
+
+ return issues.sort(function(a,b){
+   if (SevEnum.properties[a.severity].value > SevEnum.properties[b.severity].value ){
+        return 1;
+   }
+   else if (SevEnum.properties[a.severity].value < SevEnum.properties[b.severity].value ){
+        return -1;
+    }
+    else {
+      return 0;
+    }
+  });
+
 }
