@@ -1,4 +1,4 @@
-# BotsUP - A Programming Language Tutor Bot - Report Milestone
+# BotsUP - A Programming Language Tutor Bot
 CSC 510 - BotsUP
 
 #### Members:
