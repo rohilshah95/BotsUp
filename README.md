@@ -16,40 +16,40 @@ Hence there arises a need for a tool that goes through the bugs individually and
 
 # Features   
 The interactive chat-bot is capable of answering questions related to the documentation of the particular programming language that the user is using. Below we can see the bot helping in method definitions for a particular language.  
-![](documentation.png)  
+![](/report/documentation.png)  
     
 Here we see that the user asked for the definition of a method. However, he did not mention the language for which the method is requested. Hence the bot asked the user which language he is talking about. On getting the language the bot maps to the database of that language and searches for the necessary method. If found it replies with the what the method does, otherwise it tells the user that it could not find any information. Here the bot replied with what the java method does.    
 
 The chat-bot checks for bugs in the code and purveys the issues to the user. The user can further interact with the bot for particular issues for which the bot gives the user the required solutions. The user can provide the code to the bot in various forms that are best suited for this application.   
 He can provide the bot with a code file. Such files are stored in their programming language extensions and hence help the bot know the language for which it has to run the analysis.
-![](upload1.png)   
-![](upload2.png)  
+![](/report/upload1.png)   
+![](/report/upload2.png)  
   
 Here the user uploaded a java file with to be analyzed. The bot successfully analyzed the file and got all the issues in it. It then sorts the issues in decreasing order of severity and displayed the 10 most severe issues. The user then went ahead and typed '2' to know more about the issue number 2. To this, the bot gave a detailed explanation of the issue along with examples of compliant and noncompliant codes. As the user solves the top issues, he can re-upload the file to get more of the remaining issues.   
  
 The user may be working on a platform like GitHub, which is supported by the bot. He can simply give a link to the raw file in GitHub and the bot downloads and analyzes the code to give issues if any. Then again the user may proceed to learn about some specific issues if need be.
-![](github.png)    
+![](/report/github.png)    
    
 Here the user provided a link to a raw file in GitHub having a python code. The bot analyzed it and gave the issues and the user continued with the specific issue for which he wanted more information. He can get more information on any issue any number of times.   
    
 It may happen that the user is unsure of a part of his code. He doesn't want the bot to analyze his whole file, he can also give it a code snippet, that is, only the part of the code he wants to analyze. The bot will analyze it and give back results and the conversation can be continued as in the above cases.
-![](snippet.png)     
+![](/report/snippet.png)     
 
 Now, what if the user wants to analyze his whole project? He can give the whole zipped project folder or a link to his GitHub repository. The bot will download and analyze the entire project and give the results of its analyses. The most severe issues from the project are displayed which will help the user to learn more about the bugs or solve them.
-![](repo.png)    
+![](/report/repo.png)    
   
 All these features help in the better understanding of one's code and the programming language used. These will help novice programmers learn to code without being intimidated and using the interactive bot just like a person helping with the code.
    
 # Development   
 While starting with the project we had a vague idea of how the bot must function and what needs to be done for its development. We decided on making a bot using the Slack platform. Our initial plan was something like this   
-![](initialArch.png)    
+![](/report/initialArch.png)    
 Initially, we were not sure as to which API to use for the code analysis. Also finding an API service that provided support for a wide range of languages was an issue. But over time we finalized on using the SonarQube API which provided support for a wide range of programming languages and also provided functionalities like static code analysis, efficient processing of requests,  the severity of issues to name a few. This API formed the core functionality provider for our bot.   
 Offering support for various definitions of methods, classes etc for languages was one of the important functions which our initial design did not do justice to.   
     
 Coming to the providing natural language support and a humanoid feeling to the conversation we had to use the DialogFlow API(formally known as, api.ai).
 
 From this rough idea, we went on to the refined design of our bot, which is this
-![](finalArch.jpg)     
+![](/report/finalArch.jpg)     
 Now we had finalized the SonarQube API and designed the interface in our middleware that would interact with the API to give the required analysis. Over the period of our project, we refined the use cases and added use cases to our project. These use cases denoted the various ways a user could interact with the bot and also provided an idea of what must be programmed in the bot.    
    
 One such use cases were to analyze codes and projects from GitHub. Hence we had to set up the interface between GitHub and the bot so that the bot can access the GitHub files.   
